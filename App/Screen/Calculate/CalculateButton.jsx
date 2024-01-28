@@ -8,7 +8,7 @@ const CalculateButton = () => {
   const handlePress = () => {
     // Navigate to CalculateScreen when the button is pressed
     //navigation.navigate("CalculateScreen");
-    navigation.navigate("LogInScreen");
+    navigation.navigate("CalculateScreen");
   };
 
   return (

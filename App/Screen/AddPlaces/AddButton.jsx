@@ -6,12 +6,12 @@ import AddDetailScreen from "./AddDetail";
 const AddButton = () => {
   const navigation = useNavigation();
 
-  const handlePress = () => {
+  const handleAddDetailPress = () => {
     navigation.navigate("AddDetailScreen");
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handlePress}>
+    <TouchableOpacity style={styles.container} onPress={handleAddDetailPress}>
       <Text style={styles.text}>ยืนยันสถานที่</Text>
     </TouchableOpacity>
   );
