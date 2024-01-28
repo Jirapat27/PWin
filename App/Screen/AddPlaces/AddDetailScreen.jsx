@@ -11,7 +11,9 @@ export default function AddDetailScreen() {
       <View style={styles.head}>
         <Text style={styles.title}>เพิ่มสถานที่ตั้ง</Text>
       </View>
-
+    <View style={styles.body}>
+      <AddDetail></AddDetail>
+    </View>
       <View style={styles.headerContainer}>
 
         <View style={styles.buttomContainer}>
@@ -35,8 +37,6 @@ const styles = StyleSheet.create({
       marginTop: 50,
       flexDirection: 'row',
       justifyContent: 'center',
-  
-   
     },
     
     head:{
