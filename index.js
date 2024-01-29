@@ -19,24 +19,21 @@ export default function AppIndex() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="CalculateScreen" component={CalculateScreen} />
-        <Stack.Screen name="AddDetailScreen" component={AddDetailScreen} />
-        <Stack.Screen
-          name="AddPlaceScreen"
+        <Stack.Screen name="HomeScreen" 
+          component={HomeScreen} />
+        <Stack.Screen name="CalculateScreen"
+          component={CalculateScreen} />
+        <Stack.Screen name="AddDetailScreen"
+          component={AddDetailScreen} />
+        <Stack.Screen name="AddPlaceScreen"
           component={AddPlaceScreen}
-          screenOptions={{
-            headerShown: true,
-          }}
-        />
+          screenOptions={{ headerShown: true, }} />
         <Stack.Screen name="LogInScreen"
           component={LogInScreen}
-          screenOptions={{
-            headerShown: true,
-          }}
-        /> 
+          screenOptions={{ headerShown: true, }}/> 
         <Stack.Screen name="SignUpScreen" 
-        component={SignUpScreen} screenOptions={{headerShown: true,}} />
+          component={SignUpScreen} 
+          screenOptions={{ headerShown: true, }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
