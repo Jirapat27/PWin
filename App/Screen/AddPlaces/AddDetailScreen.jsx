@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     container: {
       width: "100%",
       height: "100%",
+      backgroundColor: "white"
     },
     title: {
       fontSize: 20,
@@ -37,13 +38,11 @@ const styles = StyleSheet.create({
       marginTop: 50,
       flexDirection: 'row',
       justifyContent: 'center',
-  
-   
     },
-    
     head:{
       flexDirection: 'row',
       justifyContent:'center',
+      backgroundColor: "#EFEFEF",
     },
     headerContainer: {
       position: "absolute",

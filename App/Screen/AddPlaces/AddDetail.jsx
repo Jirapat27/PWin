@@ -50,8 +50,7 @@ export default function AddDetail() {
       <Text style={styles.label}>รีวิว</Text>
       <View style={styles.starsContainer}>
         <Stars
-          half={true}
-          default={2.5}
+          default={3}
           update={(val) => { setRating(val); }}
           spacing={4}
           starSize={40}
@@ -79,19 +78,21 @@ export default function AddDetail() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    height: "67%",
+    height: "70%",
   },
   label: {
-    fontSize: 32,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
   },
   input: {
+    fontSize: 16,
+    fontWeight: "bold",
     borderWidth: 2,
     borderColor: "#FF9A62",
     borderRadius: 4,
     padding: 8,
-    marginBottom: 16,
+    marginBottom: 24,
   },
   imageContainer: {
     borderWidth: 2,
@@ -111,12 +112,9 @@ const styles = StyleSheet.create({
   imagePlaceholder: {
     width: 80,
     height: 80,
-    color: "#888",
+    opacity: 0.3,
   },
   starsContainer: {
     alignSelf: "flex-start",
-  },
-  star: {
-
   },
 });

@@ -29,7 +29,7 @@ const AddDetailButton = () => {
     },
     text: {
       color: "#fff",
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: "600",
     },
   });
