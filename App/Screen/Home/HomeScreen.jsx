@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 import AppMapView from "./AppMapView";
 import { StatusBar } from "expo-status-bar";
@@ -19,15 +19,18 @@ export default function HomeScreen() {
           <CalculateButton onPress={() => console.log(">>กดปุ่ม คำนวณ<<")} />
           <AddPlaceButton onPress={() => console.log(">>กดปุ่ม เพิ่ม<<")} />
         </View>
-        <View style={styles.buttomContainer}>
+        
+      </View>
+      
+      <AppMapView />
+      <View style={styles.buttomContainer}>
           <NearButton onPress={() => console.log(">>กดปุ่ม ใกล้สุด<<")} />
         </View>
-      </View>
-      <AppMapView />
       <StatusBar style="auto" />
     </View>
   );
 }
+//const { height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -48,6 +51,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     flexDirection: "row",
     justifyContent: "center",
+    //bottom: height * 70,
     marginTop: 750,
     width: "100%",
   },

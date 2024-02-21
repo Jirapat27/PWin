@@ -52,12 +52,14 @@ export default function App() {
   }
 
   return (
+    <UserLocationContext.Provider
+     value={{ location, setLocation }}>
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <UserLocationContext.Provider value={{ location, setLocation }}>
         <AppIndex />
-      </UserLocationContext.Provider>
-      <StatusBar style="auto" />
+        <StatusBar style="auto" />
     </View>
+    </UserLocationContext.Provider>
+      
   );
 }
 

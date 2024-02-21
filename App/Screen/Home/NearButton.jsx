@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     alignItems: "center",
-    width: 120,
-    height: 50,
+    width: 125,
+    height: 59,
   },
   text: {
     color: "#fff",
     fontSize: 24,
-    fontWeight: "600",
+    fontFamily: 'BaiJamjuree-SemiBold',
   },
 });
 

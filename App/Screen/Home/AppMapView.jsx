@@ -1,40 +1,39 @@
-import { View, Text, Image, StyleSheet } from "react-native";
 import React, { useContext } from "react";
+import { View, StyleSheet } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewStyle from "./../../Utils/MapViewStyle.json";
 import { UserLocationContext } from "../../Context/UserLocationContext";
 
-export default function AppMapView() {
-  const { location, setLocation } = useContext(UserLocationContext);
+export default function AppMapView({ initialRegion, onRegionChangeComplete }) {
+  const { location } = useContext(UserLocationContext);
+
+  const defaultRegion = {
+    latitude: 13.651325176901599,
+    longitude: 100.49643743453701,
+
+  };
+
+  const region = location
+    ? {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.02,
+      }
+    : initialRegion || defaultRegion;
+
   return (
-    <View>
+    <View style={styles.container}>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         customMapStyle={MapViewStyle}
-        region={{
-          /* latitude: location?.latitude,
-          longitude: location?.longtitude,
-          latitudeDelta: 13.707686, 
-          longtitudeDelta: 100.375140, */
-          latitude: 13.7563,
-          longitude: 100.5018,
-          latitudeDelta: 0.04, 
-          longtitudeDelta: 0.05
-        }}
-        /*showsUserLocation*/
+        region={region}
+        onRegionChangeComplete={onRegionChangeComplete} // Pass the callback here
       >
-        <Marker
-          coordinate={{
-            latitude: location?.latitude || 13.707686, // Default to 0 if latitude is undefined
-            longitude: location?.longitude || 100.375140, // Default to 0 if longitude is undefined
-          }}
-        >
-          <Image
-            source={require("./../../../assets/images/Win-Mark.png")}
-            style={{ width: 60, height: 60 }}
-          />
-        </Marker>
+        {location && (
+          <Marker coordinate={{ latitude: location.latitude, longitude: location.longitude }} />
+        )}
       </MapView>
     </View>
   );

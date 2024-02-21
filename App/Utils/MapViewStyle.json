@@ -60,9 +60,10 @@
   },
   {
     "featureType": "poi.business",
+    "elementType": "labels.icon",
     "stylers": [
       {
-        "visibility": "off"
+        "color": "#cca1d9"
       }
     ]
   },
@@ -182,4 +183,5 @@
       }
     ]
   }
+  
 ]
