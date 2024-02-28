@@ -4,7 +4,6 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 
-
 import * as Location from "expo-location";
 import { UserLocationContext } from "./App/Context/UserLocationContext";
 
@@ -60,35 +59,3 @@ export default function App() {
     </View>
   );
 }
-
-/*   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <UserLocationContext.Provider value={{ location, setLocation }}>
-        <HomeScreen>
-        </HomeScreen>
-      </UserLocationContext.Provider>
-      <StatusBar style="auto" />
-    </View>
-  );
-} */
-/* return (
-  <NavigationContainer>
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <UserLocationContext.Provider value={{ location, setLocation }}>
-        <Stack.Navigator initialRouteName="HomeTest">
-          <Stack.Screen name="HomeTest" component={HomeTest} options={{ headerShown: true }} />
-          <Stack.Screen name="CalculateScreen" component={CalculateScreen} />
-        </Stack.Navigator>
-      </UserLocationContext.Provider>
-    </View>
-  </NavigationContainer>
-);} */
-
-/* const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-}); */

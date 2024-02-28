@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 
 const NearButton = ({ onPress }) => {
@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     alignItems: "center",
-
     width: 125,
     height: 59,
   },
