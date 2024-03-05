@@ -13,7 +13,7 @@ const AddPlaceButton = () => {
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
       <Image
-        source={require('./../../../assets/images/Plus.png')} // Update with the actual path to your image
+        source={require('./../../../assets/images/Plus.png')} 
         style={styles.image}
       />
 

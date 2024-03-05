@@ -3,12 +3,21 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import AddDetailScreen from "./AddDetail";
 
-const AddButton = () => {
+const AddButton = ({onPress, lat, long}) => {
   const navigation = useNavigation();
 
   const handleAddDetailPress = () => {
-    navigation.navigate("AddDetailScreen");
+
+    // console.log('lat ',lat + " and "+long);
+    navigation.navigate("AddDetailScreen", {
+      latitude: lat,
+      longitude: long,
+    });
+
+  
   };
+
+
 
   return (
     <TouchableOpacity style={styles.container} onPress={handleAddDetailPress}>

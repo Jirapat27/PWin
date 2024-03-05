@@ -8,6 +8,7 @@ import AddPlaceScreen from "./App/Screen/AddPlaces/AddPlaceScreen";
 import LogInScreen from "./App/Screen/Login/LogInScreen";
 import SignUpScreen from "./App/Screen/Login/SignUpScreen";
 import AddDetailScreen from "./App/Screen/AddPlaces/AddDetailScreen";
+
 const Stack = createStackNavigator();
 
 export default function AppIndex() {

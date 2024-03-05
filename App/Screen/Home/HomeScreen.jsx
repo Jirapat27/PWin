@@ -7,25 +7,28 @@ import SearchBar from "./SearchBar";
 import NearButton from "./NearButton";
 import CalculateButton from "../Calculate/CalculateButton";
 import AddPlaceButton from "../AddPlaces/AddPlaceButton";
+import SheetButton from "./ButtomSheet/SheetButton";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        
         <Header />
         <SearchBar />
         <View style={styles.rightButton}>
           <CalculateButton onPress={() => console.log(">>กดปุ่ม คำนวณ<<")} />
           <AddPlaceButton onPress={() => console.log(">>กดปุ่ม เพิ่ม<<")} />
+          {/* <SheetButton onPress={() => console.log(">>กดปุ่ม Sheets<<")}  /> */}
         </View>
-        
       </View>
-      
+
       <AppMapView />
       <View style={styles.buttomContainer}>
-          <NearButton onPress={() => console.log(">>กดปุ่ม ใกล้สุด<<")} />
-        </View>
+        <NearButton onPress={() => console.log(">>กดปุ่ม ใกล้สุด<<")} />
+      </View>
+
+{/*         <BottomSheet/> */}
+
       <StatusBar style="auto" />
     </View>
   );

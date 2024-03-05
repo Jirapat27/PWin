@@ -5,7 +5,19 @@ import AddDetailButton from "./AddDetailButton";
 import { StatusBar } from "expo-status-bar";
 import AddDetail from "./AddDetail";
 
-export default function AddDetailScreen() {
+
+export default function AddDetailScreen({ route, navigation }) {
+  const { latitude, longitude } = route.params;
+  console.log("test revice data ",latitude, longitude) 
+
+/*  สมมุติกรณีทำใส่database 
+    let data = {
+    namePlace: 'this.name',
+    descerption:'this.desp',
+    latitude:latitude,
+    longitude:longitude
+  } */
+
   return (
     <View style={styles.container}>
       <View style={styles.head}>

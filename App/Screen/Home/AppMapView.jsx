@@ -28,12 +28,13 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete }) {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         customMapStyle={MapViewStyle}
-        region={region}
+        /* region={region} */
         onRegionChangeComplete={onRegionChangeComplete} // Pass the callback here
+        showsUserLocation followsUserLocation
       >
-        {location && (
+{/*         {location && (
           <Marker coordinate={{ latitude: location.latitude, longitude: location.longitude }} />
-        )}
+        )} */}
       </MapView>
     </View>
   );
