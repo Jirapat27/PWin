@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, Image, Alert, View, StyleSheet, BackHandler } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, push, set } from 'firebase/database';
-import { db } from '../../../firebaseConfig';
+import { db, storage } from '../../../firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
 
@@ -71,6 +71,9 @@ export default function AddPlaceScreen() {
         });
 
         console.log('เพิ่มสถานที่สำเร็จ');
+        
+        // Now you can use newPlaceKey to reference the newly added place
+        console.log('Newly added place key:', newPlaceKey);
 
         // Show success popup
         showSuccessPopup();
