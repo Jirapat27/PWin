@@ -13,16 +13,16 @@ const ForgetPasswordScreen = () => {
   const handleResetPasswordPress = async () => {
     try {
       if (!email) {
-        Alert.alert('Error', 'Please enter your email address');
+        Alert.alert('เกิดข้อผิดพลาด', 'กรุณากรอกที่อยู่อีเมล');
         return;
       }
 
       await sendPasswordResetEmail(auth, email);
 
-      Alert.alert('Success', 'An email with a password reset link has been sent to your email address. Please check your inbox.');
+      Alert.alert('สำเร็จ', 'อีเมลพร้อมลิ้งค์สำหรับการเปลี่ยนรหัสผ่านถูกส่งเรียบร้อย. กรุณาเช็คกล่องข้อความของคุณ.');
     } catch (error) {
-      console.error('Error while resetting password:', error.message);
-      Alert.alert('Error', `Password reset failed: ${error.message}`);
+      console.error('เกิดข้อผิดพลาดระหว่างการรีเซ็ตรหัสผ่าน:', error.message);
+      Alert.alert('เกิดข้อผิดพลาด', `รีเซ้ตรหัสผ่านไม่สำเร็จ: ${error.message}`);
     }
   };
 
@@ -33,18 +33,18 @@ const ForgetPasswordScreen = () => {
           <Image source={CloseImage} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.header}>Forgot Password</Text>
+      <Text style={styles.header}>ลืมรหัสผ่าน</Text>
       <Text style={styles.instructions}>
-        Enter your email address below. We'll send you an email with a link to reset your password.
+      กรอกที่อยู่อีเมลตรงนี้ เราจะส่งอีเมลพร้อมลิ้งค์สำหรับการเปลี่ยนรหัสผ่านให้คุณ
       </Text>
       <TextInput
         style={styles.inputContainer}
-        placeholder="Email Address"
+        placeholder="ที่อยู่อีเมล"
         placeholderTextColor="#B0B0B0"
         onChangeText={(input) => setEmail(input)}
       />
       <TouchableOpacity style={styles.resetButton} onPress={handleResetPasswordPress}>
-        <Text style={styles.resetButtonText}>Reset Password</Text>
+        <Text style={styles.resetButtonText}>รีเซ็ตรหัสผ่าน</Text>
       </TouchableOpacity>
       <KeyboardAvoidingView
         style={{ flex: 1, marginTop: 70, alignItems: 'center', paddingHorizontal: 30, fontFamily: 'BaiJamjuree-Medium' }}
