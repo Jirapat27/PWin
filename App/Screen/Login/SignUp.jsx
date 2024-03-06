@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '../../../firebaseConfig';
-import { ref, set, child } from "firebase/database";
+import { ref, set } from "firebase/database";
 import { useNavigation } from "@react-navigation/native";
 import CloseImage from "../../../assets/images/Close.png";
 import Logo from "../../../assets/images/Logo.png";
@@ -44,11 +44,12 @@ const SignUp = () => {
       const user = userCredential.user;
   
       // Store additional user information in the database
-      const userPath = child(ref(db), 'users/' + user.uid); // Use child to specify the user-specific path
+      const userPath = ref(db, 'users/' + user.uid); // Use ref to specify the user-specific path
       const additionalUserInfo = {
         uid: user.uid,
         username: username,
-      };
+        email: email,
+      }
   
       await set(userPath, additionalUserInfo);
   
@@ -106,6 +107,12 @@ const SignUp = () => {
         onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
       />
       <Text style={styles.subtext}>รหัสผ่านต้องมีความยาว 8-12 ตัวอักษร</Text>
+        <Text style={styles.logInSentence}>
+        มีบัญชี PWin แล้ว? {' '}
+        <Text style={styles.logInText} onPress={handleLogInPress}>
+        เข้าสู่ระบบ
+        </Text>
+      </Text>
       {error && <Text style={styles.errorMessage}>{error}</Text>}
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
@@ -191,6 +198,16 @@ const styles = StyleSheet.create({
   },
   close:{
     alignSelf:'flex-end',
+  },
+  logInText: {
+    marginLeft: 10,
+    color: '#7B7B7B',
+    textDecorationLine: 'underline',
+  },
+  logInSentence: {
+    fontSize:16,
+    color:'#B0B0B0',
+    fontFamily: 'BaiJamjuree-Bold',
   },
 });
 
