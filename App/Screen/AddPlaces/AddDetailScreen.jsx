@@ -3,7 +3,8 @@ import { ScrollView, Text, TextInput, TouchableOpacity, Image, Alert, View, Styl
 import * as ImagePicker from 'expo-image-picker';
 import { ref, push, set } from 'firebase/database';
 import { db } from '../../../firebaseConfig';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { StatusBar } from "expo-status-bar";
 
 export default function AddPlaceScreen() {
   const [placeName, setPlaceName] = useState('');
@@ -12,16 +13,20 @@ export default function AddPlaceScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  const { latitude, longitude } = route.params;
+  console.log("test receive data ", latitude, longitude) 
+
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        console.error('คำขอในการเข้าถึงคลังข้อมูลถูกปฎิเสธ');
+      if (status !== "granted") {
+        console.error("คำขอในการเข้าถึงคลังข้อมูลถูกปฎิเสธ");
       }
     })();
   }, []);
-
-  const navigation = useNavigation();
 
   useEffect(() => {
     const backAction = () => {
@@ -61,6 +66,8 @@ export default function AddPlaceScreen() {
           name: placeName,
           description: description || '',
           images: images,
+          latitude: latitude,
+          longitude: longitude,
         });
 
         console.log('เพิ่มสถานที่สำเร็จ');
@@ -80,16 +87,16 @@ export default function AddPlaceScreen() {
   const showConfirmationPopup = () => {
     return new Promise((resolve) => {
       Alert.alert(
-        'ยืนยันการบันทึก',
-        'คุณแน่ใจหรือว่าต้องการทำรายการนี้?',
+        "ยืนยันการบันทึก",
+        "คุณแน่ใจหรือว่าต้องการทำรายการนี้?",
         [
           {
-            text: 'ยกเลิก',
+            text: "ยกเลิก",
             onPress: () => resolve(false),
-            style: 'cancel',
+            style: "cancel",
           },
           {
-            text: 'ยืนยัน',
+            text: "ยืนยัน",
             onPress: () => resolve(true),
           },
         ],
@@ -99,13 +106,13 @@ export default function AddPlaceScreen() {
   };
 
   const showSuccessPopup = () => {
-    Alert.alert('Success', 'เพิ่มสถานที่สำเร็จ', [
+    Alert.alert("Success", "เพิ่มสถานที่สำเร็จ", [
       {
-        text: 'OK',
+        text: "OK",
         onPress: () => {
           // Reset the state variables after successful submission
-          setPlaceName('');
-          setDescription('');
+          setPlaceName("");
+          setDescription("");
           setImages([]);
 
           // Navigate to HomeScreen.js
@@ -117,23 +124,24 @@ export default function AddPlaceScreen() {
 
   const handleAddImage = async () => {
     try {
-      if (images.length = 6) {
-        Alert.alert('สามารถเพิ่มรูปภาพได้เพียงแค่ 6 รูปเท่านั้น');
+      if (images.length >= 6) {
+        Alert.alert("สามารถเพิ่มรูปภาพได้เพียงแค่ 6 รูปเท่านั้น");
         return;
       }
-
+  
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
-
+  
       if (!result.canceled) {
+        // Use the assets array instead of uri
         setImages([...images, result.assets[0].uri]);
       }
     } catch (error) {
-      console.error('เกิดข้อผิดพลาดระหว่างการเลือกรูปภาพ:', error);
+      console.error("เกิดข้อผิดพลาดระหว่างการเลือกรูปภาพ:", error);
     }
   };
 
@@ -148,30 +156,43 @@ export default function AddPlaceScreen() {
       <View style={styles.head}>
         <Text style={styles.title}>เพิ่มสถานที่ตั้ง</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>ชื่อสถานที่*</Text>
-        <TextInput style={styles.input} placeholder="ชื่อสถานที่.." value={placeName} onChangeText={(text) => setPlaceName(text)} />
+      <Text style={styles.label}>ชื่อสถานที่*</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="ชื่อสถานที่.."
+        value={placeName}
+        onChangeText={(text) => setPlaceName(text)}
+      />
 
-        <Text style={styles.label}>คำอธิบาย</Text>
-        <TextInput style={{ ...styles.input, textAlignVertical: 'top' }} placeholder="ใส่คำอธิบาย.." multiline numberOfLines={4} value={description} onChangeText={(text) => setDescription(text)} />
+      <Text style={styles.label}>คำอธิบาย</Text>
+      <TextInput
+        style={{ ...styles.input, textAlignVertical: "top" }}
+        placeholder="ใส่คำอธิบาย.."
+        multiline
+        numberOfLines={4}
+        value={description}
+        onChangeText={(text) => setDescription(text)}
+      />
 
-        <Text style={styles.label}>เพิ่มรูปภาพ</Text>
-        <View style={styles.imageContainer}>
-          {images.map((uri, index) => (
-            <View key={index} style={styles.imageItem}>
-              <Image source={{ uri }} style={styles.image} />
-              <TouchableOpacity onPress={() => handleRemoveImage(index)} style={styles.removeButton}>
-                {/* Replace the Image with Text */}
-                <Text style={styles.removeButtonText}>ลบ</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
-          {images.length <= 6 && (
-            <TouchableOpacity onPress={handleAddImage}>
-              <Image source={require('./../../../assets/images/AddImage.png')} style={styles.imagePlaceholder}></Image>
+      <Text style={styles.label}>เพิ่มรูปภาพ</Text>
+      <View style={styles.imageContainer}>
+        {images.map((uri, index) => (
+          <View key={index} style={styles.imageItem}>
+            <Image source={{ uri }} style={styles.image} />
+            <TouchableOpacity onPress={() => handleRemoveImage(index)} style={styles.removeButton}>
+              {/* Replace the Image with Text */}
+              <Text style={styles.removeButtonText}>ลบ</Text>
             </TouchableOpacity>
-          )}
-        </View>
+          </View>
+        ))}
+        {images.length <= 6 && (
+          <TouchableOpacity onPress={handleAddImage}>
+            <Image
+              source={require("./../../../assets/images/AddImage.png")}
+              style={styles.imagePlaceholder}
+            ></Image>
+          </TouchableOpacity>
+        )}
       </View>
 
       <TouchableOpacity style={styles.addButton} onPress={handleAddDetail}>
@@ -180,6 +201,7 @@ export default function AddPlaceScreen() {
 
       {loading && <Text>Loading...</Text>}
       {error && <Text style={styles.errorText}>{error}</Text>}
+      <StatusBar style="auto" />
     </ScrollView>
   );
 }
@@ -191,19 +213,19 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
   input: {
     borderWidth: 2,
-    borderColor: '#FF9A62',
+    borderColor: "#FF9A62",
     borderRadius: 4,
     padding: 8,
     marginBottom: 16,
   },
   imageContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginBottom: 16,
   },
   imageItem: {
@@ -231,22 +253,22 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   addButton: {
-    backgroundColor: '#FF8A48',
+    backgroundColor: "#FF8A48",
     height: 54,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 12,
-    marginTop: 'auto',
+    marginTop: "auto",
   },
   addButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontFamily: 'BaiJamjuree-Bold',
+    fontFamily: "BaiJamjuree-Bold",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginTop: 10,
-    fontFamily: 'BaiJamjuree-Regular',
+    fontFamily: "BaiJamjuree-Regular",
   },
   head: {
     flexDirection: 'row',
@@ -254,7 +276,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
     marginTop: 50,
     flexDirection: 'row',

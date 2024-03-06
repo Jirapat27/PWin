@@ -2,15 +2,20 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const AddButton = () => {
+const AddButton = ({onPress, lat, long}) => {
   const navigation = useNavigation();
 
-  const handleAddDetailScreenPress = () => {
-    navigation.navigate("AddDetailScreen");
+  const handleAddDetailPress = () => {
+
+    // console.log('lat ',lat + " and "+long);
+    navigation.navigate("AddDetailScreen", {
+      latitude: lat,
+      longitude: long,
+    });
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleAddDetailScreenPress}>
+    <TouchableOpacity style={styles.container} onPress={handleAddDetailPress}>
       <Text style={styles.text}>ยืนยันสถานที่</Text>
     </TouchableOpacity>
   );
@@ -30,7 +35,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 24,
     fontWeight: "600",
-    fontFamily: "BaiJamjuree-Bold"
   },
 });
 

@@ -4,32 +4,36 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewStyle from "./../../Utils/MapViewStyle.json";
 import { UserLocationContext } from "../../Context/UserLocationContext";
 
-export default function AppMapView() {
+export default function AppMapView({ initialRegion, onRegionChangeComplete }) {
   const { location } = useContext(UserLocationContext);
 
   const defaultRegion = {
     latitude: 13.651325176901599,
     longitude: 100.49643743453701,
-    latitudeDelta: 0.04,
-    longitudeDelta: 0.05,
   };
 
+  const region = location
+    ? {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.02,
+      }
+    : initialRegion || defaultRegion;
+
   return (
-    <View>
+    <View style={styles.container}>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         customMapStyle={MapViewStyle}
-        region={
-              defaultRegion
-              }
+        /* region={region} */
+        onRegionChangeComplete={onRegionChangeComplete} // Pass the callback here
+        showsUserLocation followsUserLocation
       >
-        <Marker
-          coordinate={{
-            latitude: defaultRegion.latitude,
-            longitude: defaultRegion.longitude,
-          }}
-        />
+{/*         {location && (
+          <Marker coordinate={{ latitude: location.latitude, longitude: location.longitude }} />
+        )} */}
       </MapView>
     </View>
   );

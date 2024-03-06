@@ -1,24 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, BackHandler } from 'react-native';
+import { View, Text, BackHandler, StyleSheet, handlePress, Image } from "react-native";
+import React, { useState, useEffect } from "react";
 import AppMapView from "../Home/AppMapView";
 import AddButton from "./AddButton";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from '@react-navigation/native';
+
+const latitudeDelta = 0.04;
+const longitudeDelta = 0.05;
 
 export default function AddPlaceScreen() {
 
   const [region, setRegion] = useState({
     latitude: 13.651325176901599,
     longitude: 100.49643743453701,
-    latitudeDelta: 0.04,
-    longitudeDelta: 0.05,
+    latitudeDelta,
+    longitudeDelta,
   });
+
+  const [latitude, setLatitude] = useState(region.latitude);
+  const [longitude, setLongitude] = useState(region.longitude);
 
   const onChangeValue = (newRegion) => {
     const { latitude, longitude } = newRegion;
     console.log(newRegion);
     console.log("Latitude:", latitude);
     console.log("Longitude:", longitude);
+    setLatitude(latitude);
+    setLongitude(longitude);
     setRegion(newRegion);
   };
 
@@ -37,7 +45,7 @@ export default function AddPlaceScreen() {
 
     return () => backHandler.remove();
   }, [navigation]);
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.head}>
@@ -49,12 +57,12 @@ export default function AddPlaceScreen() {
         onRegionChangeComplete={onChangeValue}
       />
       <View style={styles.buttomContainer}>
-        <AddButton onPress={() => console.log(">>กดปุ่ม ยืนยันสถานที่<<")} />
+        <AddButton onPress={handlePress} lat={latitude} long = {longitude} />
       </View>
       <View style={styles.pinposition}>
         <Image
           style={styles.pin}
-          source={require("../../../assets/images/MapPin.png")}
+          source={require("./../../../assets/images/MapPin.png")}
         />
       </View>
       <StatusBar style="auto" />
@@ -82,12 +90,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     marginTop: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
-  head:{
-    flexDirection: 'row',
-    justifyContent:'center',
+  head: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
   headerContainer: {
     position: "absolute",
