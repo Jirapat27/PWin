@@ -14,7 +14,12 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
   const navigation = useNavigation();
+
+  const handleLogInPress = () => {
+    navigation.navigate('LogInScreen');
+  };
   const signUp = async () => {
     try {
       setError(null); // Clear any previous error
