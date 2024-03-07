@@ -11,12 +11,14 @@ import AppIndex from "./index";
 
 SplashScreen.preventAutoHideAsync();
 export default function App() {
+
   const [fontsLoaded] = useFonts({
     "BaiJamjuree-Medium": require("./assets/fonts/BaiJamjuree-Medium.ttf"),
     "BaiJamjuree-Bold": require("./assets/fonts/BaiJamjuree-Bold.ttf"),
     "BaiJamjuree-Regular": require("./assets/fonts/BaiJamjuree-Regular.ttf"),
     "BaiJamjuree-SemiBold": require("./assets/fonts/BaiJamjuree-SemiBold.ttf"),
   });
+
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
