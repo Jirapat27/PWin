@@ -58,7 +58,7 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete }) {
             key={index}
             coordinate={{ latitude: place.latitude, longitude: place.longitude }}
             title={place.name}
-            description={place.description}
+            description={`Latitude: ${place.latitude}, Longitude: ${place.longitude}`}
             // Use the imported image as marker icon
             image={markerWin}
           />
