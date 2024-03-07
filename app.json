@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "PWin-App",
+    "slug": "PWin-App",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyAO1Ne2CHMLgMd6bncyGiHMA8SrZtqxA9c"
+        }
+      }
+          
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow P'Win App to use your location."
+        }
+      ]
+    ]
+  }
+}
