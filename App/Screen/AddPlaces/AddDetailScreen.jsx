@@ -17,7 +17,6 @@ export default function AddPlaceScreen() {
   const route = useRoute();
 
   const { latitude, longitude } = route.params;
-  console.log("test received data ", latitude, longitude) 
 
   useEffect(() => {
     (async () => {

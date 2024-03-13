@@ -1,17 +1,23 @@
 import React from "react";
+import { useEffect } from "react";
 import { StyleSheet,  Text,  View,  Image,  TouchableOpacity,  TouchableWithoutFeedback,  Dimensions,  ScrollView } from "react-native";
 
 const { width: windowWidth } = Dimensions.get("window");
 const gap = 10;
 
-export default function BottomSheets({ marker, onClose }) {
+export default function BottomSheets({ sheetPlaces, onClose }) {
+  useEffect(() => {
+    if(sheetPlaces){
+      console.log(sheetPlaces,"btt")
+    }
+  },[sheetPlaces])
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>ซอยพุทธบูชา 44</Text>
+      <Text style={styles.label}>{sheetPlaces.name}</Text>
 
       <View>
         <Text style={styles.normalText}>
-          อยู่ปากซอยอยพุทธบูชา 44 ใกล้กับเซเว่น ข้างๆตีกสามชั้น
+          {sheetPlaces.description}
         </Text>
         <View style={styles.rowButton}>
           <TouchableOpacity style={styles.buttonDirec}>

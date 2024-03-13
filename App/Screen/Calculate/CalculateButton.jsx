@@ -10,7 +10,7 @@ const CalculateButton = () => {
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleCalculatePress}>
+    <TouchableOpacity  style={styles.container} onPress={handleCalculatePress}>
       <Image
         source={require('./../../../assets/images/Price.png')}
         style={styles.image}
