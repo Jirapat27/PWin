@@ -23,7 +23,7 @@ const LogIn = () => {
     try {
       // Check if username or email is empty
       if (!userInput) {
-        Alert.alert('Error', 'จำเป็นต้องใส่ ชื่อผู้ใช้ หรือ ที่อยู่อีเมล');
+        Alert.alert('Error', 'จำเป็นต้องใส่ ที่อยู่อีเมล');
         return;
       }
 
@@ -57,10 +57,10 @@ const LogIn = () => {
       </TouchableOpacity>
     </View>
     <Text style={styles.header}>ลงชื่อเข้าใช้</Text>
-    <Text style={[styles.name, { textAlign: 'left' }]}>ชื่อผู้ใช้</Text>
+    <Text style={[styles.name, { textAlign: 'left' }]}>ที่อยู่อีเมล</Text>
     <TextInput
       style={styles.inputContainer}
-      placeholder="ที่อยู่อีเมล หรือ ชื่อผู้ใช้"
+      placeholder="ที่อยู่อีเมล"
       placeholderTextColor="#B0B0B0"
       onChangeText={(input) => setUserInput(input)}
     />

@@ -21,12 +21,18 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete }) {
         if (data) {
           const placesArray = Object.values(data);
           setPlaces(placesArray);
+        } else {
+          console.log(data,"nodata");
         }
       });
     };
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(places)
+  },[places]);
 
   const defaultRegion = {
     latitude: 13.651325176901599,
@@ -41,7 +47,10 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete }) {
     latitudeDelta: 0.01,
     longitudeDelta: 0.02,
   } : initialRegion || defaultRegion;
-
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const toggleBottomSheet = () => {
+    setShowBottomSheet(!showBottomSheet);
+  };
   return (
     <View style={styles.container}>
       <MapView
@@ -59,12 +68,13 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete }) {
             coordinate={{ latitude: place.latitude, longitude: place.longitude }}
             title={place.name}
             description={`Latitude: ${place.latitude}, Longitude: ${place.longitude}`}
-            // Use the imported image as marker icon
+            onPress={toggleBottomSheet}
             image={markerWin}
           />
         ))}
       </MapView>
     </View>
+    
   );
 }
 
