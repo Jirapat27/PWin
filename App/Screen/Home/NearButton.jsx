@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 
-const NearButton = ({ onPress }) => {
+export default function NearButton({ onPress }) {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.text}>ใกล้ที่สุด</Text>
@@ -26,5 +26,3 @@ const styles = StyleSheet.create({
     fontFamily: "BaiJamjuree-SemiBold",
   },
 });
-
-export default NearButton;

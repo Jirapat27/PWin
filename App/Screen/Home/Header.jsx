@@ -1,8 +1,7 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 
 export default function Header() {
-    const {user} = useState();
   return (
 
     <View style={styles.container}>

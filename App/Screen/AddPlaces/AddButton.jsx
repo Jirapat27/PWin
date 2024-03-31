@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const AddButton = ({onPress, lat, long}) => {
+export default function AddButton ({onPress, lat, long}) {
   const navigation = useNavigation();
 
   const handleAddDetailPress = () => {
@@ -37,5 +37,3 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
-
-export default AddButton;

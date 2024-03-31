@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import Logo from '../../../assets/images/Logo.png'; // Update with the actual path to your logo
 
-const LandingPage = () => {
+export default function LandingPage() {
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -37,5 +37,3 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 });
-
-export default LandingPage;

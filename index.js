@@ -6,6 +6,7 @@ import HomeScreen from "./App/Screen/Home/HomeScreen";
 import LandingPage from "./App/Screen/LandingPage/LandingPage";
 import CalculateScreen from "./App/Screen/Calculate/CalculateScreen";
 import AddPlaceScreen from "./App/Screen/AddPlaces/AddPlaceScreen";
+import AddPics from "./App/Screen/AddPlaces/AddPics";
 import LogInScreen from "./App/Screen/Login/LogInScreen";
 import SignUpScreen from "./App/Screen/Login/SignUpScreen";
 import ForgetPasswordScreen from "./App/Screen/Login/ForgetPasswordScreen";
@@ -30,6 +31,8 @@ export default function AppIndex() {
           component={AddDetailScreen} />
         <Stack.Screen name="AddPlaceScreen"
           component={AddPlaceScreen} />
+        <Stack.Screen name="AddPics"
+          component={AddPics} />
         <Stack.Screen name="LogInScreen"
           component={LogInScreen}/> 
         <Stack.Screen name="SignUpScreen" 

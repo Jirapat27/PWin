@@ -2,7 +2,7 @@ import { Image, TouchableOpacity, StyleSheet } from "react-native";
 import React from 'react';
 import { useNavigation } from "@react-navigation/native";
 
-const CalculateButton = () => {
+export default function CalculateButton() {
   const navigation = useNavigation();
 
   const handleCalculatePress = () => {
@@ -38,5 +38,3 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
 });
-
-export default CalculateButton;
