@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, Image, Alert, View, StyleSheet, BackHandler } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { ref, push, set } from 'firebase/database';
-import { db, storage } from '../../../firebaseConfig';
+import { storageRef, uploadBytes, storage, getDownloadURL } from '../../../firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
 
@@ -41,39 +40,36 @@ export default function AddDetailScreen() {
   const handleAddDetail = async () => {
     try {
       setError(null);
-
+  
       // Check if any required field is empty
       if (!placeName || images.length === 0) {
         Alert.alert('Warning', 'กรุณากรอกข้อมูลให้ครบ');
         return;
       }
-
+  
       const confirmed = await showConfirmationPopup();
-
+  
       if (confirmed) {
         setLoading(true);
-
-        // Create a new reference for the "MarkWin/places" node
-        const placesRef = ref(db, 'MarkWin/');
-
-        // Generate a unique key for the new place
-        const newPlaceChildRef = push(placesRef);
-        const newPlaceKey = newPlaceChildRef.key;
-
-        // Set the data for the new place
-        await set(newPlaceChildRef, {
-          name: placeName,
-          description: description || '',
-          images: images,
-          latitude: latitude,
-          longitude: longitude,
+  
+        // Generate a unique filename for each image
+        const promises = images.map(async (image) => {
+          const filename = image.substring(image.lastIndexOf('/') + 1);
+          const storageRefChild = storageRef(storage, `/images/${filename}`);
+          const response = await fetch(image);
+          const blob = await response.blob();
+          await uploadBytes(storageRefChild, blob);
+          return await getDownloadURL(storageRefChild); // Await here
         });
-
+  
+        const imageURLs = await Promise.all(promises);
+  
+        console.log('Uploaded images:', imageURLs);
+  
+        // Now you can use imageURLs to store in the database
+  
         console.log('เพิ่มสถานที่สำเร็จ');
-        
-        // Now you can use newPlaceKey to reference the newly added place
-        console.log('Newly added place key:', newPlaceKey);
-
+  
         // Show success popup
         showSuccessPopup();
       }
@@ -182,7 +178,6 @@ export default function AddDetailScreen() {
           <View key={index} style={styles.imageItem}>
             <Image source={{ uri }} style={styles.image} />
             <TouchableOpacity onPress={() => handleRemoveImage(index)} style={styles.removeButton}>
-              {/* Replace the Image with Text */}
               <Text style={styles.removeButtonText}>ลบ</Text>
             </TouchableOpacity>
           </View>

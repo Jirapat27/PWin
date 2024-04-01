@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue } from "firebase/database"; // Adjusted imports for database
+import { getDatabase, ref as databaseRef, onValue } from "firebase/database";
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore'; // Import Timestamp from Firestore
+import { getFirestore } from 'firebase/firestore';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import ref separately
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
@@ -21,5 +22,6 @@ const auth = initializeAuth(app, {
 });
 const db = getDatabase(app);
 const firestore = getFirestore(app);
+const storage = getStorage(app); 
 
-export { auth, db, firestore, ref, onValue }; // Exporting ref and onValue for database operations
+export { auth, db, firestore, databaseRef, onValue, storage, uploadBytes, storageRef, getDownloadURL };
