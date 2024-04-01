@@ -6,7 +6,7 @@ import { db, storage } from '../../../firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
 
-export default function AddPlaceScreen() {
+export default function AddDetailScreen() {
   const [placeName, setPlaceName] = useState('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState([]);
