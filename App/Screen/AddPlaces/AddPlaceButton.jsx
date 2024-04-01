@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../firebaseConfig';
 
-const AddPlaceButton = () => {
+export default function AddPlaceButton() {
   const navigation = useNavigation();
   const [user, setUser] = useState(null); 
 
@@ -77,5 +77,3 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-
-export default AddPlaceButton;

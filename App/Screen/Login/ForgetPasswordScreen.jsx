@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import CloseImage from "../../../assets/images/Close.png";
 import Logo from "../../../assets/images/Logo.png";
 
-const ForgetPasswordScreen = () => {
+export default function ForgetPasswordScreen() {
   const [email, setEmail] = useState('');
   const navigation = useNavigation();
 
@@ -114,5 +114,3 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   }
 });
-
-export default ForgetPasswordScreen;

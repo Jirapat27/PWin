@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../../firebaseConfig';
 import { signOut } from 'firebase/auth';
 
-const LogoutButton = () => {
+export default function LogoutButton() {
   const navigation = useNavigation();
 
   const handleLogoutPress = async () => {
@@ -47,5 +47,3 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
 });
-
-export default LogoutButton;
