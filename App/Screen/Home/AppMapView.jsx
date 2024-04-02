@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet, Dimensions, Animated, TouchableOpacity, PanResponder } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import MapViewStyle from './../../Utils/MapViewStyle.json';
+import MapViewStyle from '../../Utils/MapViewStyle.json';
 import { UserLocationContext } from '../../Context/UserLocationContext';
 import { ref, onValue } from 'firebase/database';
 import { db } from '../../../firebaseConfig';

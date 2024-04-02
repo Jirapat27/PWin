@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, Image, View, StyleSheet } from "react-native";
-import AppMapView from "../Home/AppMapView";
+import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
 import { StatusBar } from "expo-status-bar";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react/cjs/react.development";
 import { UserLocationContext } from "../../Context/UserLocationContext";
 
-const ChoosePlace = () => {
+const ChoosePlace = ({onMarkerPress }) => {
   const navigation = useNavigation();
 
   const { location, setLocation } = useContext(UserLocationContext);
@@ -17,11 +17,11 @@ const ChoosePlace = () => {
 
   const handlePress = () => {
     navigation.navigate("ChooseWin", {
-      latDestination: region.latitude,
-      longDestination: region.longitude,
+      destinationLat: region.latitude,
+      destinationLong: region.longitude,
     });
   };
-
+  const [selectedMarker, setSelectedMarker] = useState(null);
   useEffect(() => {
     if (searchLocation) {
       setLocation({
@@ -35,18 +35,20 @@ const ChoosePlace = () => {
     latitude: searchLocation?.latitude,
     longitude: searchLocation?.longitude,
   };
-  const [region, setRegion] = useState(initialRegion);
 
+  const [region, setRegion] = useState(initialRegion);
 
   const onChangeValue = (newRegion) => {
     const { latitude, longitude } = newRegion;
-    console.log(newRegion);
-    console.log("Latitude:", latitude);
-    console.log("Longitude:", longitude);
-    setRegion(newRegion);
-    console.log("newRegion:", newRegion);
+    console.log("Desired Destination's Latitude:", latitude);
+    console.log("Desired Destination's Longitude:", longitude);
+    // console.log(newRegion);
+    // setRegion(newRegion);
+    // console.log("newRegion:", newRegion);
   };
-
+  const handleMarkerPress = (data) => {
+    setSelectedMarker(data);
+  };
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -73,9 +75,13 @@ const ChoosePlace = () => {
           ></GooglePlacesAutocomplete>
         </View>
 
-        <AppMapView
-          initialRegion={region}
-          onRegionChangeComplete={onChangeValue}
+        <AppMapView_MarkOnly
+            onMarkerPress={handleMarkerPress} 
+            initialRegion={region}
+            onRegionChangeComplete={newRegion => {
+              onChangeValue(newRegion);
+              setRegion(newRegion);
+            }}
         />
         <View style={styles.pinposition}>
           <Image
@@ -97,6 +103,7 @@ const ChoosePlace = () => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   buttomContainer: {
     position: "absolute",

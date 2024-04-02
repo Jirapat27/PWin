@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import MapViewDirections from "react-native-maps-directions";
 import { StatusBar } from "expo-status-bar";
-import AppMapView from "../Home/AppMapView";
-
+import AppMapView_Calculate from "../Home/AppMapView_Calculate";
 
 const origin = {
   latitude: 13.70306780417351,
@@ -15,31 +14,37 @@ const destination = {
   longitude: 100.39550872519612,
 };
 const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
-export default function CalculateScreen() {
+export default function CalculateScreen({onMarkerPress }) {
 
   const navigation = useNavigation();
   const route = useRoute();
-  const { latDestination, longDestination } = route.params;
+  const { destinationLat, destinationLong, placeLat, placeLong,place } = route.params;
   const handlePress = () => {
     navigation.navigate("HomeScreen");
   };
-  //cheack passdata form Destination
-  console.log("latDestination:" ,{latDestination});
-  console.log("longDestination:" ,{longDestination});
-
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  console.log("Confirmed Destination's Latitude:" ,destinationLat);
+  console.log("Confirmed Destination's Longitude:" ,destinationLong);
+  console.log("Confirmed Place's Latitude:" ,placeLat);
+  console.log("Confirmed Place's Longitude:" ,placeLong);
+  const handleMarkerPress = (data) => {
+    setSelectedMarker(data);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.head}>
         <Text style={styles.title}>คำนวณราคา</Text>
-        <Text style={styles.title}>
-          จาก: <Text style={styles.subtitle}>โลตัส บ้านสวนธน</Text>
-        </Text>
+        {place && <Text style={styles.title}>
+          จาก: <Text style={styles.subtitle}>{place.name}</Text>
+        </Text>}
         <Text style={styles.title}>
           ถึง: <Text style={styles.subtitle}>ตำแหน่งปลายทาง</Text>
         </Text>
       </View>
 
-      <AppMapView
+      <AppMapView_Calculate
+      onMarkerPress={handleMarkerPress} 
+      place={place}
       >
         <MapViewDirections
           origin={origin}
@@ -49,7 +54,7 @@ export default function CalculateScreen() {
           strokeColor="hotpink"
           optimizeWaypoints={true}
         />
-      </AppMapView>
+      </AppMapView_Calculate >
 
       <View style={styles.buttomContainer}>
         <View style={styles.leftSide}>
@@ -71,6 +76,7 @@ export default function CalculateScreen() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
@@ -90,20 +96,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "BaiJamjuree-Regular",
   },
-  containerConfirm: {
-    flexDirection: "column",
-    backgroundColor: "#FF9A62",
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    width: 320,
-    height: 55,
-  },
-  text: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "600",
-  },
   container: {
     width: "100%",
     height: "100%",
@@ -117,7 +109,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     top: 50,
   },
-
   head: {
     flexDirection: "column",
     alignItems: "center",
@@ -143,5 +134,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 30,
+  },
+  containerConfirm: {
+    flexDirection: "column",
+    backgroundColor: "#FF9A62",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    width: 320,
+    height: 55,
+  },
+  text: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "600",
   },
 });

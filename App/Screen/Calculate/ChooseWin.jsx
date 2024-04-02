@@ -1,29 +1,52 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  View,
-  StyleSheet,
-} from "react-native";
-import AppMapView from "../Home/AppMapView";
+import { Text, TextInput, TouchableOpacity, Image, View, StyleSheet, } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useContext } from "react/cjs/react.development";
 import { UserLocationContext } from "../../Context/UserLocationContext";
+
+import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
 const ChooseWin = () => {
   const navigation = useNavigation();
 
   const { location, setLocation } = useContext(UserLocationContext);
   const [searchLocation, setSearchLocation] = useState(null);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
-  const handlePress = () => {
-    navigation.navigate("CalculateScreen", {});
+  useEffect(() => {
+    console.log("selectedMarker",selectedMarker);
+  },[selectedMarker]);
+
+  const handleMarkerPress = (data) => {
+    setSelectedMarker(data);
   };
+  const route = useRoute();
+
+  // Extract latitude and longitude from route params
+  const { destinationLat, destinationLong, placeLat, placeLong } = route.params;
+  
+  const handlePress = () => {
+    const data = {
+      destinationLat: destinationLat,
+      destinationLong: destinationLong,
+      placeLat: selectedMarker.latitude,
+      placeLong: selectedMarker.longitude,
+      place: selectedMarker
+    }
+    console.log(data);
+    navigation.navigate("CalculateScreen", data);
+    
+  };
+
+  useEffect(() => {
+    console.log("Destination's Latitude:", destinationLat);
+    console.log("Destination's Longitude:", destinationLong);
+    // You can use Destination's latitude and longitude here as needed
+  }, [destinationLat, destinationLong]);
+
   useEffect(() => {
     if (searchLocation) {
       setLocation({
@@ -58,7 +81,7 @@ const ChooseWin = () => {
           ></GooglePlacesAutocomplete>
         </View>
 
-        <AppMapView />
+        <AppMapView_MarkOnly onMarkerPress={handleMarkerPress}/>
 
         <View style={styles.buttomContainer}>
           <TouchableOpacity
@@ -74,6 +97,7 @@ const ChooseWin = () => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   buttomContainer: {
     position: "absolute",
