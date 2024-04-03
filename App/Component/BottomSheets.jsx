@@ -35,7 +35,7 @@ export default function BottomSheets({ sheetPlaces, onClose }) {
               {sheetPlaces?.images?.map((imageUrl, index) => (
                 <Image
                   key={index}
-                  source={{ uri: imageUrl.startsWith('file://') ? imageUrl : 'file://' + imageUrl }}
+                  source={{ uri: imageUrl }}
                   style={styles.image}
                 />
               ))}
