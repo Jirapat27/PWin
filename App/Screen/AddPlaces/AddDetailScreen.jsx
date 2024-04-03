@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, Image, Alert, View, StyleSheet, BackHandler } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { storageRef, uploadBytes, storage, getDownloadURL } from '../../../firebaseConfig';
+import { ref, push, set} from 'firebase/database';
+import { storageRef, uploadBytes, storage, getDownloadURL, db } from '../../../firebaseConfig';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
 
@@ -13,9 +14,9 @@ export default function AddDetailScreen() {
   const [error, setError] = useState(null);
 
   const navigation = useNavigation();
-  const route = useRoute();
+  const route = useRoute(); // Use useRoute hook to access route params
 
-  const { latitude, longitude } = route.params;
+  const { latitude, longitude } = route.params; // Destructure latitude and longitude from route params
 
   useEffect(() => {
     (async () => {
@@ -52,7 +53,6 @@ export default function AddDetailScreen() {
       if (confirmed) {
         setLoading(true);
   
-        // Generate a unique filename for each image
         const promises = images.map(async (image) => {
           const filename = image.substring(image.lastIndexOf('/') + 1);
           const storageRefChild = storageRef(storage, `/images/${filename}`);
@@ -66,9 +66,21 @@ export default function AddDetailScreen() {
   
         console.log('Uploaded images:', imageURLs);
   
-        // Now you can use imageURLs to store in the database
+        // After successfully uploading images to Storage, store imageURLs in the database
+        const placesRef = ref(db, 'MarkWin/');
+        const newPlaceChildRef = push(placesRef);
+        const newPlaceKey = newPlaceChildRef.key;
+  
+        await set(newPlaceChildRef, {
+          name: placeName,
+          description: description || '',
+          images: imageURLs, // Store the image URLs
+          latitude: latitude,
+          longitude: longitude,
+        });
   
         console.log('เพิ่มสถานที่สำเร็จ');
+        console.log('Newly added place key:', newPlaceKey);
   
         // Show success popup
         showSuccessPopup();
