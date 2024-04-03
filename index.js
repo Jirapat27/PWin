@@ -43,6 +43,8 @@ export default function AppIndex() {
           component={CommentForm}/>
         <Stack.Screen name="Comment"
           component={Comment}/>
+        <Stack.Screen name="Report"
+          component={Report}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
