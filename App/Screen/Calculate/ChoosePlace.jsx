@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, Image, View, StyleSheet } from "react-native";
 import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
-import AppMapView_Calculate from "../Home/AppMapView_Calculate";
 import { StatusBar } from "expo-status-bar";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,7 +8,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react/cjs/react.development";
 import { UserLocationContext } from "../../Context/UserLocationContext";
-import AppMapView_Calculate from "../Home/AppMapView_Calculate";
 
 const ChoosePlace = ({onMarkerPress }) => {
   const navigation = useNavigation();
@@ -77,8 +75,8 @@ const ChoosePlace = ({onMarkerPress }) => {
           ></GooglePlacesAutocomplete>
         </View>
 
-        <AppMapView_Calculate
-            //onMarkerPress={handleMarkerPress} 
+        <AppMapView_MarkOnly
+            onMarkerPress={handleMarkerPress} 
             initialRegion={region}
             onRegionChangeComplete={newRegion => {
               onChangeValue(newRegion);
