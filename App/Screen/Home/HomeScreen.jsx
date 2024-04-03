@@ -6,8 +6,7 @@ import Header from "./Header";
 import SearchBar from "./SearchBar";
 import NearButton from "./NearButton";
 import CalculateButton from "../Calculate/CalculateButton";
-import AddPlaceButton from "../AddPlaces/AddPlaceButton"; 
-import AddPicsButton from "../AddPlaces/AddPicsButton"; 
+import AddPlaceButton from "../AddPlaces/AddPlaceButton";
 import LogOutButton from "../Login/LogOut";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -23,7 +22,6 @@ export default function HomeScreen() {
             <CalculateButton onPress={() => console.log(">>กดปุ่ม คำนวณ<<")} />
             <AddPlaceButton onPress={() => console.log(">>กดปุ่ม เพิ่ม<<")} />
             <LogOutButton onPress={() => console.log(">>กดปุ่ม ออกจากบัญชี<<")} />
-            <AddPicsButton onPress={() => console.log(">>กดปุ่ม เพิ่มรูป<<")} />
           </View>
         </View>
         <AppMapView  />
