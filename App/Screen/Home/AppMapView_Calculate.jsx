@@ -3,10 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewStyle from '../../Utils/MapViewStyle.json';
 import { UserLocationContext } from '../../Context/UserLocationContext';
-import { ref, onValue } from 'firebase/database';
-import { db } from '../../../firebaseConfig';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import markerWin from './../../../assets/images/Win-Mark.png';
+// import { ref, onValue } from 'firebase/database';
+// import { db } from '../../../firebaseConfig';
 
 export default function AppMapView_Calculate({ initialRegion, onRegionChangeComplete, onMarkerPress,place }) {
   const { location } = useContext(UserLocationContext);
@@ -19,8 +19,8 @@ export default function AppMapView_Calculate({ initialRegion, onRegionChangeComp
     fetchData();
   }, []);
   const [places, setPlaces] = useState([]);
-  const [places_lat, setplaces_lat] = useState(null);
-  const [places_long, setplaces_long] = useState(null);
+  // const [places_lat, setplaces_lat] = useState(null);
+  // const [places_long, setplaces_long] = useState(null);
 
   const defaultRegion = {
     latitude: 13.651325176901599,
