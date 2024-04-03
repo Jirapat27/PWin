@@ -11,8 +11,8 @@ import markerWin from './../../../assets/images/Win-Mark.png';
 export default function AppMapView_MarkOnly({ initialRegion, onRegionChangeComplete, onMarkerPress }) {
   const { location } = useContext(UserLocationContext);
   const [places, setPlaces] = useState([]);
-  const [places_lat, setplaces_lat] = useState(null);
-  const [places_long, setplaces_long] = useState(null);
+  // const [places_lat, setplaces_lat] = useState(null);
+  // const [places_long, setplaces_long] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       const placesRef = ref(db, 'MarkWin/');
