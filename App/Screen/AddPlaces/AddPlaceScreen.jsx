@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   pinposition: {
-    top: "50%",
-    left: "50%",
+    top: "56%",
+    left: "49.7%",
     marginLeft: -24,
     marginTop: -48,
     position: "absolute",
