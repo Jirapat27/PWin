@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../../firebaseConfig';
 import { signOut } from 'firebase/auth';
@@ -9,12 +9,26 @@ export default function LogoutButton() {
 
   const handleLogoutPress = async () => {
     try {
+      // Check if user is authenticated
+      if (!auth.currentUser) {
+        // Show alert if user is not logged in
+        Alert.alert('ไม่มีการออกจากระบบ', 'คุณยังไม่ได้เข้าสู่ระบบ');
+        return;
+      }
+
+      // Logout if user is authenticated
       await signOut(auth);
+      // Show success message using Alert
+      Alert.alert('ออกจากระบบสำเร็จ', 'คุณได้ออกจากระบบเรียบร้อยแล้ว');
       // Navigate to the login screen or any other screen as needed
       navigation.navigate('HomeScreen');
     } catch (error) {
-      console.error('Error during logout:', error.message);
-      // Handle logout failure as needed
+      console.error('เกิดข้อผิดพลาดในขณะที่ออกจากระบบ:', error.message);
+      // Handle logout failure
+      Alert.alert(
+        'การออกจากระบบล้มเหลว',
+        'เกิดข้อผิดพลาดขณะที่ทำการออกจากระบบ โปรดลองอีกครั้งในภายหลัง'
+      );
     }
   };
 

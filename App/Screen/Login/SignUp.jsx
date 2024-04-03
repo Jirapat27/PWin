@@ -27,19 +27,19 @@ export default function SignUp(){
 
       // Check if any field is empty
       if (!username || !email || !password || !confirmPassword) {
-        Alert.alert("Warning", "Please fill in all fields.");
+        Alert.alert("คำเตือน", "โปรดกรอกข้อมูลในฟิลด์ทั้งหมด");
         return;
       }
 
-      // Password match check
+      // ตรวจสอบความเท่าเทียมของรหัสผ่าน
       if (password !== confirmPassword) {
-        setError("Passwords do not match");
+        setError("รหัสผ่านไม่ตรงกัน");
         return;
       }
 
-      // Password length check
+      // ตรวจสอบความยาวของรหัสผ่าน
       if (password.length < 8 || password.length > 12) {
-        setError("Password must be 8-12 characters long");
+        setError("รหัสผ่านต้องมีความยาว 8-12 ตัวอักษร");
         return;
       }
 
@@ -59,7 +59,7 @@ export default function SignUp(){
 
       await set(userPath, additionalUserInfo);
 
-      console.log("Account created successfully!");
+      console.log("สร้างบัญชีเรียบร้อยแล้ว!");
 
       // Fetch username from database
       const snapshot = await get(userPath);
@@ -68,8 +68,8 @@ export default function SignUp(){
 
       navigation.navigate('AddPlaceScreen', { username: fetchedUsername });
     } catch (error) {
-      console.log("Failed to create account:", error.message);
-      setError(`Failed to create account: ${error.message}`);
+      console.log("ไม่สามารถสร้างบัญชีได้:", error.message);
+      setError(`ไม่สามารถสร้างบัญชีได้: ${error.message}`);
     } finally {
       setLoading(false);
     }

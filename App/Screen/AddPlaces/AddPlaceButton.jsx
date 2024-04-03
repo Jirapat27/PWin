@@ -54,7 +54,7 @@ export default function AddPlaceButton() {
   const showLoginPopup = () => {
     Alert.alert(
       "เข้าสู่ระบบ",
-      "คุณต้องเข้าสู่ระบบก่อนทำรายการ",
+      "คุณต้องเข้าสู่ระบบก่อนทำการเพิ่มจุดมาร์ค",
       [
         {
           text: "ยกเลิก",

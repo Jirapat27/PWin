@@ -18,7 +18,6 @@ export default function AddDetailScreen() {
   const route = useRoute(); // Use useRoute hook to access route params
 
   const { latitude, longitude, username } = route.params; // Destructure latitude and longitude from route params
-  console.log(username);
 
   useEffect(() => {
     (async () => {

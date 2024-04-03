@@ -1,6 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { onAuthStateChanged } from 'firebase/auth';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView, Alert } from "react-native";
+import Comment from './Comment';
+import { auth, db } from "../../firebaseConfig";
+import { ref, get } from "firebase/database";
 
 const { width: windowWidth } = Dimensions.get("window");
 const gap = 10;
@@ -8,10 +12,70 @@ const gap = 10;
 export default function BottomSheets({ sheetPlaces, onClose }) {
 
   const navigation = useNavigation();
-  const handleAddCommentPress = () => {
-    navigation.navigate('Comment');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
+  const handleAddCommentPress = async () => {
+    // Check if the user is logged in
+    if (user) {
+      try {
+        // Fetch user data from the database
+        const userPath = ref(db, 'users/' + user.uid);
+        const userSnapshot = await get(userPath);
+        
+        if (userSnapshot.exists()) {
+          // If user data exists, retrieve the username
+          const userData = userSnapshot.val();
+          const username = userData.username;
+  
+          // Get the name of the sheetPlace
+          const placeName = sheetPlaces?.name;
+  
+          // Navigate to the CommentForm screen and pass the username and placeName as params
+          navigation.navigate('CommentForm', { username, placeName });
+        } else {
+          // Handle the case where user data doesn't exist
+          console.log("User data does not exist");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        // Handle the error
+      }
+    } else {
+      // If not logged in, show a login prompt
+      showLoginPopup();
+    }
   };
 
+  const showLoginPopup = () => {
+    Alert.alert(
+      "เข้าสู่ระบบ",
+      "คุณต้องเข้าสู่ระบบก่อนทำการแสดงความคิดเห็น",
+      [
+        {
+          text: "ยกเลิก",
+          style: "cancel",
+        },
+        {
+          text: "เข้าสู่ระบบ",
+          onPress: () => {
+            // Navigate to LogInScreen
+            navigation.navigate("LogInScreen");
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{sheetPlaces?.name}</Text>
@@ -42,7 +106,7 @@ export default function BottomSheets({ sheetPlaces, onClose }) {
             </View>
           </ScrollView>
         </View>
-        <View style={styles.commentContainer}>
+        <View style={styles.commentHeader}>
           <Text style={styles.commentText}>Comment</Text>
           <TouchableOpacity style={styles.commentButton} onPress={handleAddCommentPress}>
             <Image
@@ -51,6 +115,7 @@ export default function BottomSheets({ sheetPlaces, onClose }) {
             />
           </TouchableOpacity>
         </View>
+        <Comment placeName={sheetPlaces?.name} /> 
       </View>
     </View>
   );
@@ -130,15 +195,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#D9D9D9",
   },
-  commentText: {
+  commentText: { 
     fontSize: 20,
-    fontFamily: "BaiJamjuree-Regular",
+    fontFamily: "BaiJamjuree-SemiBold", 
     marginRight: 10,
   },
   commentButton: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "gray",
+    backgroundColor: "#ff7c33",
     borderRadius: 5,
     padding: 5,
   },
@@ -146,7 +211,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-  commentContainer: {
+  commentHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 10,
