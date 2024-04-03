@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '../../../firebaseConfig';
-import { ref, set } from "firebase/database";
+import { ref, set, get } from "firebase/database";
 import { useNavigation } from "@react-navigation/native";
 import CloseImage from "../../../assets/images/Close.png";
 import Logo from "../../../assets/images/Logo.png";
@@ -20,34 +20,35 @@ export default function SignUp(){
   const handleLogInPress = () => {
     navigation.navigate('LogInScreen');
   };
+
   const signUp = async () => {
     try {
       setError(null); // Clear any previous error
-  
+
       // Check if any field is empty
       if (!username || !email || !password || !confirmPassword) {
         Alert.alert("Warning", "Please fill in all fields.");
         return;
       }
-  
+
       // Password match check
       if (password !== confirmPassword) {
         setError("Passwords do not match");
         return;
       }
-  
+
       // Password length check
       if (password.length < 8 || password.length > 12) {
         setError("Password must be 8-12 characters long");
         return;
       }
-  
+
       setLoading(true);
-  
+
       // Create a new user
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-  
+
       // Store additional user information in the database
       const userPath = ref(db, 'users/' + user.uid); // Use ref to specify the user-specific path
       const additionalUserInfo = {
@@ -55,12 +56,17 @@ export default function SignUp(){
         username: username,
         email: email,
       }
-  
+
       await set(userPath, additionalUserInfo);
-  
-      console.log("สร้างบัญชีผู้ใช้สำเร็จ!");
-  
-      navigation.navigate('AddPlaceScreen');
+
+      console.log("Account created successfully!");
+
+      // Fetch username from database
+      const snapshot = await get(userPath);
+      const userData = snapshot.val();
+      const fetchedUsername = userData.username;
+
+      navigation.navigate('AddPlaceScreen', { username: fetchedUsername });
     } catch (error) {
       console.log("Failed to create account:", error.message);
       setError(`Failed to create account: ${error.message}`);

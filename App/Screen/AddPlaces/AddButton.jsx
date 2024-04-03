@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export default function AddButton ({onPress, lat, long}) {
+export default function AddButton ({onPress, lat, long, username}) {
   const navigation = useNavigation();
 
   const handleAddDetailPress = () => {
@@ -11,6 +11,7 @@ export default function AddButton ({onPress, lat, long}) {
     navigation.navigate("AddDetailScreen", {
       latitude: lat,
       longitude: long,
+      username: username,
     });
   };
 

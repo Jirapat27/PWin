@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebaseConfig';
+import { auth, db, onValue } from '../../../firebaseConfig';
+import { ref } from "firebase/database";
 import CloseImage from "../../../assets/images/Close.png";
 import Logo from "../../../assets/images/Logo.png";
 
 export default function Login() {
-  const [userInput, setUserInput] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
@@ -22,32 +23,40 @@ export default function Login() {
   const handleLoginPress = async () => {
     try {
       // Check if username or email is empty
-      if (!userInput) {
+      if (!email) {
         Alert.alert('Error', 'จำเป็นต้องใส่ ที่อยู่อีเมล');
         return;
       }
-
+  
       // Check if password is empty
       if (!password) {
         Alert.alert('Error', 'ยังไม่ได้กรอก รหัสผ่าน');
         return;
       }
-        const authResult = await signInWithEmailAndPassword(auth,userInput, password);
-
-        // If authentication is successful, navigate to the main app screen
-        if (authResult.user) {
-          console.log('เข้าสู่ระบบสำเร็จ');
-          console.log(authResult.user)
-          navigation.navigate('AddPlaceScreen');
-        } else {
-          console.log('Authentication ไม่สำเร็จ');
-          // Handle authentication failure as needed
-        }
+  
+      const authResult = await signInWithEmailAndPassword(auth, email, password);
+  
+      // If authentication is successful, navigate to the main app screen
+      if (authResult.user) {
+        console.log('เข้าสู่ระบบสำเร็จ');
+        // Fetch user data including username
+        const userPath = ref(db, 'users/' + authResult.user.uid);
+        onValue(userPath, (snapshot) => {
+          const userData = snapshot.val();
+          const username = userData.username; // Assuming 'username' is stored in your database
+          console.log('Username:', username); // Log the username
+          // Now, navigate to the AddPlaceScreen and pass username as a param
+          navigation.navigate('AddPlaceScreen', { username: username });
+        });
+      } else {
+        console.log('Authentication ไม่สำเร็จ');
+        // Handle authentication failure as needed
+      }
     } catch (error) {
       console.error('เกิดข้อผิดพลาดระหว่างทำการเข้าสู่ระบบ:', error.message);
-      Alert.alert('เกิดข้อผิดพลาด', `เข้าสู่ระบบสำเร็จ: ${error.message}`);
+      Alert.alert('เกิดข้อผิดพลาด', `เข้าสู่ระบบไม่สำเร็จ: ${error.message}`);
     }
-  };
+  };  
 
   return (
   <View style={styles.container}>
@@ -62,7 +71,7 @@ export default function Login() {
       style={styles.inputContainer}
       placeholder="ที่อยู่อีเมล"
       placeholderTextColor="#B0B0B0"
-      onChangeText={(input) => setUserInput(input)}
+      onChangeText={(input) => setemail(input)}
     />
     <Text style={[styles.name, { textAlign: 'left' }]}>รหัสผ่าน</Text>
     <TextInput

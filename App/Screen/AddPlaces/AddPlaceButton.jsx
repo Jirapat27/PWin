@@ -2,6 +2,8 @@ import { TouchableOpacity, Image, StyleSheet, Alert } from "react-native";
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { onAuthStateChanged } from 'firebase/auth';
+import { db } from '../../../firebaseConfig';
+import { ref, get } from 'firebase/database';
 import { auth } from '../../../firebaseConfig';
 
 export default function AddPlaceButton() {
@@ -17,16 +19,37 @@ export default function AddPlaceButton() {
     return () => unsubscribe();
   }, []);
 
-  const handleAddPlaceScreenPress = () => {
+  const handleAddPlaceScreenPress = async () => {
     // Check if the user is logged in
     if (user) {
-      // If logged in, navigate to AddPlaceScreen
-      navigation.navigate("AddPlaceScreen");
+      try {
+        const userPath = ref(db, 'users/' + user.uid);
+        // Fetch the user information from the database
+        const userSnapshot = await get(userPath);
+        
+        if (userSnapshot.exists()) {
+          // If the user data exists, retrieve the username
+          const userData = userSnapshot.val();
+          const username = userData.username;
+  
+          // Navigate to AddPlaceScreen and pass the username as a parameter
+          navigation.navigate("AddPlaceScreen", {
+            username: username,
+          });
+        } else {
+          // Handle the case where user data doesn't exist
+          console.log("User data does not exist");
+          // Show a fallback or default behavior
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        // Handle the error
+      }
     } else {
       // If not logged in, show a popup to choose login or cancel
       showLoginPopup();
     }
-  };
+  };    
 
   const showLoginPopup = () => {
     Alert.alert(

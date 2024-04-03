@@ -3,12 +3,16 @@ import React, { useState, useEffect } from "react";
 import AppMapView from "../Home/AppMapView";
 import AddButton from "./AddButton";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const latitudeDelta = 0.04;
 const longitudeDelta = 0.05;
 
 export default function AddPlaceScreen() {
+
+  const route = useRoute();
+  const { username } = route.params;
+  console.log(username);
 
   const [region, setRegion] = useState({
     latitude: 13.651325176901599,
@@ -57,7 +61,7 @@ export default function AddPlaceScreen() {
         onRegionChangeComplete={onChangeValue}
       />
       <View style={styles.buttomContainer}>
-        <AddButton onPress={handlePress} lat={latitude} long = {longitude} />
+        <AddButton onPress={handlePress} lat={latitude} long = {longitude} username={username}/>
       </View>
       <View style={styles.pinposition}>
         <Image

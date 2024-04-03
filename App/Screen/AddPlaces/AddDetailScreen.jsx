@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, Image, Alert, View, StyleSheet, BackHandler } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { ref, push, set} from 'firebase/database';
+import { ref, push, set } from 'firebase/database';
 import { storageRef, uploadBytes, storage, getDownloadURL, db } from '../../../firebaseConfig';
+import { format } from 'date-fns';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
 
@@ -16,7 +17,8 @@ export default function AddDetailScreen() {
   const navigation = useNavigation();
   const route = useRoute(); // Use useRoute hook to access route params
 
-  const { latitude, longitude } = route.params; // Destructure latitude and longitude from route params
+  const { latitude, longitude, username } = route.params; // Destructure latitude and longitude from route params
+  console.log(username);
 
   useEffect(() => {
     (async () => {
@@ -29,7 +31,9 @@ export default function AddDetailScreen() {
 
   useEffect(() => {
     const backAction = () => {
-      navigation.navigate('AddPlaceScreen'); // changed 'HomeScreen' to 'AddPlaceScreen'
+      navigation.navigate('AddPlaceScreen', {
+        username: username, // Pass the username when navigating back to AddPlaceScreen
+      }); // changed 'HomeScreen' to 'AddPlaceScreen'
       return true; // Prevent default behavior
     };
 
@@ -70,13 +74,15 @@ export default function AddDetailScreen() {
         const placesRef = ref(db, 'MarkWin/');
         const newPlaceChildRef = push(placesRef);
         const newPlaceKey = newPlaceChildRef.key;
-  
+        const timestamp = format(new Date(), "HH:mm EEEE, dd MMMM yyyy (zzzz)");
         await set(newPlaceChildRef, {
           name: placeName,
           description: description || '',
           images: imageURLs, // Store the image URLs
           latitude: latitude,
           longitude: longitude,
+          username: username,
+          timestamp: timestamp, // Add timestamp here
         });
   
         console.log('เพิ่มสถานที่สำเร็จ');
@@ -194,7 +200,7 @@ export default function AddDetailScreen() {
             </TouchableOpacity>
           </View>
         ))}
-        {images.length <= 6 && (
+        {images.length < 6 && (
           <TouchableOpacity onPress={handleAddImage}>
             <Image
               source={require("./../../../assets/images/AddImage.png")}
