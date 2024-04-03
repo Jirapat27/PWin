@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import AppMapView from "./AppMapView";
 import { StatusBar } from "expo-status-bar";
 import Header from "./Header";
