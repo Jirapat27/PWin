@@ -7,8 +7,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useContext } from "react/cjs/react.development";
 import { UserLocationContext } from "../../Context/UserLocationContext";
-
 import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
+import AppMapView from "../Home/AppMapView";
+
 const ChooseWin = () => {
   const navigation = useNavigation();
 

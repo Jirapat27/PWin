@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, Image, View, StyleSheet } from "react-native";
-import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
 import { StatusBar } from "expo-status-bar";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,6 +7,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react/cjs/react.development";
 import { UserLocationContext } from "../../Context/UserLocationContext";
+
+import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
+import AppMapView from "../Home/AppMapView";
 
 const ChoosePlace = ({onMarkerPress }) => {
   const navigation = useNavigation();

@@ -35,21 +35,38 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
     
   }, []);
 
-  const defaultRegion = {
-    latitude: 13.651325176901599,
-    longitude: 100.49643743453701,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.02,
+  const defaultRegion = {  
+    latitude: 13.0, // Center latitude of Thailand
+    longitude: 101.0, // Center longitude of Thailand
+    latitudeDelta: 15.0, // Adjust this value to zoom level
+    longitudeDelta: 15.0, // Adjust this value to zoom level
   };
 
-  const region = location
+  const calculateDelta = (locations) => {
+    // Calculate the distance between the first and last location
+    const latitudes = locations.map((location) => location.latitude);
+    const longitudes = locations.map((location) => location.longitude);
+    const maxLat = Math.max(...latitudes);
+    const minLat = Math.min(...latitudes);
+    const maxLng = Math.max(...longitudes);
+    const minLng = Math.min(...longitudes);
+
+    const deltaLat = maxLat - minLat;
+    const deltaLng = maxLng - minLng;
+
+    return {
+      latitudeDelta: deltaLat + 0.015, // Add some padding
+      longitudeDelta: deltaLng + 0.015,
+    };
+  };
+
+  const initialRegionFromLocation = location
     ? {
         latitude: location.latitude,
         longitude: location.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.02,
+        ...calculateDelta([location]), // Pass an array containing only the user's location
       }
-    : initialRegion || defaultRegion;
+    : defaultRegion;
 
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const toggleBottomSheet = (place) => {
@@ -114,7 +131,7 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
           style={styles.map}
           provider={PROVIDER_GOOGLE}
           customMapStyle={MapViewStyle}
-          region={region}
+          region={initialRegionFromLocation}
           onRegionChangeComplete={onRegionChangeComplete}
           showsUserLocation
           followsUserLocation
