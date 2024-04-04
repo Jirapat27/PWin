@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useContext, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import AppMapView from "./AppMapView";
 import { StatusBar } from "expo-status-bar";
@@ -9,15 +9,28 @@ import CalculateButton from "../Calculate/CalculateButton";
 import AddPlaceButton from "../AddPlaces/AddPlaceButton";
 import LogOutButton from "../Login/LogOut";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { UserLocationContext } from "../../Context/UserLocationContext";
 
 export default function HomeScreen() {
+
+  const { location, setLocation } = useContext(UserLocationContext);
+  useEffect(() => {
+    location;
+  }, [location]);
 
   return (
     <View style={styles.container}>
       <SafeAreaProvider>
         <View style={styles.headerContainer}>
           <Header />
-          <SearchBar />
+          <SearchBar
+              searchedLocation={(location) =>
+                setLocation({
+                  latitude: location.lat,
+                  longitude: location.lng,
+                })
+              }
+            />
           <View style={styles.rightButton}>
             <CalculateButton onPress={() => console.log(">>กดปุ่ม คำนวณ<<")} />
             <AddPlaceButton onPress={() => console.log(">>กดปุ่ม เพิ่ม<<")} />

@@ -123,16 +123,10 @@ export default function CalculateScreen({ onMarkerPress }) {
         </TouchableOpacity>
         
       </View>
-
       <StatusBar style="auto" />
     </View>
   );
 }
-
-
-
-
-
 
 const styles = StyleSheet.create({
   subtitle: {
@@ -143,8 +137,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "BaiJamjuree-Bold",
   },
-  rightSide: {},
-  leftSide: {},
+  rightSide: {
+
+  },
+  leftSide: {
+    
+  },
   price: {
     fontSize: 20,
     fontFamily: "BaiJamjuree-Bold",
@@ -198,15 +196,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 30,
+    paddingBottom: 45,
   },
   containerConfirm: {
     flexDirection: "column",
     backgroundColor: "#FF9A62",
-    padding: 10,
+    padding: 15,
     borderRadius: 10,
-    alignItems: "center",
-    width: 320,
-    height: 55,
+    backgroundColor: "#FF8A48",
+    alignItems: "center", 
+    width:"80%",
+    height:55,
+    left: "50%",
+    bottom: 0,
+    transform: [{ translateX: -160 }],
   },
   text: {
     color: "#fff",

@@ -167,7 +167,7 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
           {...panResponder.panHandlers}
         >
           <View style={[styles.bottomSheetContent, { height: sheetHeight }]}>
-          <BottomSheets sheetPlaces={sheetPlaces} onClose={closeBottomSheet} />
+          <BottomSheets sheetPlaces={sheetPlaces} location={location} onClose={closeBottomSheet} />
           </View>
         </Animated.View>
       </View>

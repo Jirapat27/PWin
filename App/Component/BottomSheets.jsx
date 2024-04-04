@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from 'firebase/auth';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView, Alert } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView, Alert , Linking, Platform } from "react-native";
 import Comment from './Comment';
 import { auth, db } from "../../firebaseConfig";
 import { ref, get } from "firebase/database";
@@ -9,10 +9,38 @@ import { ref, get } from "firebase/database";
 const { width: windowWidth } = Dimensions.get("window");
 const gap = 10;
 
-export default function BottomSheets({ sheetPlaces, onClose }) {
+export default function BottomSheets({ sheetPlaces, location, onClose }) {
 
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
+
+  const handleStartJourney = () => {
+    const { latitude, longitude } = location;
+    const destination = sheetPlaces; 
+  
+    if (latitude && longitude && destination) {
+      const url = Platform.select({
+        ios: `maps://app?saddr=${latitude},${longitude}&daddr=${destination.latitude},${destination.longitude}`,
+        android: `google.navigation:q=${destination.latitude},${destination.longitude}`,
+      });
+  
+      Linking.canOpenURL(url).then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert("Error", "Google Maps is not installed on your device.");
+        }
+      });
+    } else {
+      Alert.alert("Error", "Unable to get your current location or destination.");
+    }
+  };
+  
+  useEffect(() => {
+    if(sheetPlaces){
+      console.log(sheetPlaces,"btt")
+    }
+  },[sheetPlaces])
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -83,7 +111,7 @@ export default function BottomSheets({ sheetPlaces, onClose }) {
       <View>
         <Text style={styles.normalText}>{sheetPlaces?.description}</Text>
         <View style={styles.rowButton}>
-          <TouchableOpacity style={styles.buttonDirec}>
+          <TouchableOpacity style={styles.buttonDirec} onPress={handleStartJourney}>
             <Text style={styles.buttonText}>เริ่มเส้นทาง</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonMore}>
@@ -97,11 +125,14 @@ export default function BottomSheets({ sheetPlaces, onClose }) {
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.rowImage}>
               {sheetPlaces?.images?.map((imageUrl, index) => (
-                <Image
-                  key={index}
-                  source={{ uri: imageUrl }}
-                  style={styles.horizontalImage}
-                />
+                <TouchableWithoutFeedback key={index} onPress={() => console.log("Image pressed")}>
+                  <View style={{ marginRight: gap }}>
+                    <Image
+                      source={{ uri: imageUrl }}
+                      style={styles.horizontalImage}
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
               ))}
             </View>
           </ScrollView>
@@ -123,6 +154,7 @@ export default function BottomSheets({ sheetPlaces, onClose }) {
 
 const styles = StyleSheet.create({
   container: {
+    top: 0, 
     flexDirection: "row",
     flexWrap: "wrap",
     gap: gap,
@@ -166,6 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF9A62",
     padding: 10,
     borderRadius: 10,
+    zIndex: 15,
     alignItems: "center",
     width: 255,
     height: 60,
