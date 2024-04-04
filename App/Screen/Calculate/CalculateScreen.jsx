@@ -66,7 +66,7 @@ export default function CalculateScreen({ onMarkerPress }) {
     <View style={styles.container}>
 
       <View style={styles.head}>
-        <Text style={styles.title}>คำนวณราคา</Text>
+        <Text style={styles.title1}>คำนวณราคา</Text>
         
 
         {place && (
@@ -139,7 +139,10 @@ const styles = StyleSheet.create({
     fontFamily: "BaiJamjuree-Bold",
   },
   rightSide: {},
-  leftSide: {},
+  leftSide: {
+    alignSelf: "flex-start",
+    marginLeft: -5,
+  },
   price: {
     fontSize: 20,
     fontFamily: "BaiJamjuree-Bold",
@@ -154,6 +157,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    marginLeft : 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    top: 50,
+    alignSelf: "flex-start",
+  },
+  title1: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
@@ -199,9 +212,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF9A62",
     padding: 10,
     borderRadius: 10,
-    alignItems: "center",
-    width: 320,
-    height: 55,
+    backgroundColor: "#FF8A48",
+    width:"80%",
+    height:55,
+    left: "50%",
+    bottom: 0,
+    transform: [{ translateX: -160 }],
   },
   text: {
     color: "#fff",
