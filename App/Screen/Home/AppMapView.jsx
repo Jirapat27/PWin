@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet, Dimensions, Animated, TouchableOpacity, PanResponder } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import MapViewStyle from './../../Utils/MapViewStyle.json';
+import MapViewStyle from '../../Utils/MapViewStyle.json';
 import { UserLocationContext } from '../../Context/UserLocationContext';
 import { ref, onValue } from 'firebase/database';
 import { db } from '../../../firebaseConfig';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import markerWin from './../../../assets/images/Win-Mark.png';
 import BottomSheets from '../../Component/BottomSheets';
 
@@ -18,7 +18,6 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
   const [animation] = useState(new Animated.Value(0));
   const [tempHeight, setTempHeight] = useState(Dimensions.get('window').height / 1.2);
   const [sheetPlaces,setSheetPlaces] = useState({})
-  
   useEffect(() => {
     const fetchData = async () => {
       const placesRef = ref(db, 'MarkWin/');
@@ -39,8 +38,8 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
   const defaultRegion = {  
     latitude: 13.0, // Center latitude of Thailand
     longitude: 101.0, // Center longitude of Thailand
-    latitudeDelta: 15.0, // Adjust this value to zoom level
-    longitudeDelta: 15.0, // Adjust this value to zoom level
+    latitudeDelta: 0.05, // Adjust this value to zoom level
+    longitudeDelta: 0.05, // Adjust this value to zoom level
   };
 
   const calculateDelta = (locations) => {
@@ -126,7 +125,9 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
   });
 
   return (
-    <SafeAreaProvider style={styles.container}>
+    <SafeAreaView style={styles.container}>
+
+    {/* <SafeAreaProvider style={styles.container}> */}
       <View style={styles.container}>
         <MapView
           style={styles.map}
@@ -139,10 +140,10 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
         >
           {places.map((place, index) => (
             <Marker
-              key={index}
-              coordinate={{ latitude: place.latitude, longitude: place.longitude }}
-              onPress={() => toggleBottomSheet(place)}
-              image={markerWin}
+            key={index}
+            coordinate={{ latitude: place.latitude, longitude: place.longitude }}
+            onPress={() => toggleBottomSheet(place)}
+            image={markerWin}
             />
           ))}
         </MapView>
@@ -166,11 +167,12 @@ export default function AppMapView({ initialRegion, onRegionChangeComplete, Shee
           {...panResponder.panHandlers}
         >
           <View style={[styles.bottomSheetContent, { height: sheetHeight }]}>
-            <BottomSheets sheetPlaces={sheetPlaces} onClose={closeBottomSheet} />
+          <BottomSheets sheetPlaces={sheetPlaces} onClose={closeBottomSheet} />
           </View>
         </Animated.View>
       </View>
-    </SafeAreaProvider>
+    {/* </SafeAreaProvider> */}
+    </SafeAreaView>
   );
 }
 

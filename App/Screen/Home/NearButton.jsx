@@ -1,7 +1,39 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import * as Location from 'expo-location'; // Import Location module
 
 export default function NearButton({ onPress }) {
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      try {
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        console.log("location :",location);
+        console.log("lat :", location.coords.latitude);
+        console.log("long :", location.coords.longitude);
+      } catch (error) {
+        setErrorMsg('Error getting location');
+        console.log("cant get locaation");
+      }
+    })();
+  }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`;
+  }
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.text}>ใกล้ที่สุด</Text>

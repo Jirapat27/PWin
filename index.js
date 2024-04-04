@@ -13,6 +13,8 @@ import ForgetPasswordScreen from "./App/Screen/Login/ForgetPasswordScreen";
 import AddDetailScreen from "./App/Screen/AddPlaces/AddDetailScreen";
 import CommentForm from "./App/Component/CommentForm";
 import Comment from "./App/Component/Comment";
+import ChoosePlace from "./App/Screen/Calculate/ChoosePlace";
+import ChooseWin from "./App/Screen/Calculate/ChooseWin";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +45,10 @@ export default function AppIndex() {
           component={CommentForm}/>
         <Stack.Screen name="Comment"
           component={Comment}/>
+        <Stack.Screen name="ChoosePlace"
+          component={ChoosePlace} />
+        <Stack.Screen name="ChooseWin"
+          component={ChooseWin} />
       </Stack.Navigator>
     </NavigationContainer>
   );

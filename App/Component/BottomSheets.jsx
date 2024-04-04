@@ -100,7 +100,7 @@ export default function BottomSheets({ sheetPlaces, onClose }) {
                 <Image
                   key={index}
                   source={{ uri: imageUrl }}
-                  style={styles.image}
+                  style={styles.horizontalImage}
                 />
               ))}
             </View>
@@ -134,13 +134,13 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: "column",
   },
-  image: {
-    height: 300,
-    width: 300,
-    //marginRight:15,
+  horizontalImage: {
+    height: 200, 
+    width: 300, 
   },
   rowImage: {
-    flexDirection: "column", // Changed to column
+    flexDirection: "row",
+    paddingVertical: 10,
   },
   rowButton: {
     flexDirection: "row",
