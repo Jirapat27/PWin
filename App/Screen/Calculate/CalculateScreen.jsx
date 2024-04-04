@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import MapViewDirections from "react-native-maps-directions";
@@ -37,10 +37,12 @@ export default function CalculateScreen({ onMarkerPress }) {
   const [price, setPrice] = useState(0);
 
   useEffect(() => {
-    // Calculate price 
+    
     if (distance !== null) {
-      if (distance <= 2) {
-        setPrice(15);
+      if (distance <= 1) {
+        setPrice(10);
+      } else if (distance <= 2) {
+        setPrice(20);
       } else if (distance <= 5) {
         setPrice(25 + (distance - 2) * 5);
       } else if (distance <= 15) {
@@ -86,11 +88,15 @@ export default function CalculateScreen({ onMarkerPress }) {
         initialRegion={{
           latitude: origin.latitude,
           longitude: destination.longitude,
-          latitudeDelta: 0.5,
-          longitudeDelta: 0.5,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
         }}
       >
-        {/* Render the MapViewDirections component */}
+        <Marker coordinate={origin} title={place.name}>
+          <Image source={require('./../../../assets/images/Win-Mark.png')} style={{ width: 40, height: 40 }} />
+        </Marker>
+        <Marker coordinate={destination} title="Destination" pinColor="red" />
+        
         <MapViewDirections
           origin={origin}
           destination={destination}
