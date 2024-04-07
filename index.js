@@ -18,6 +18,7 @@ import CommentForm from "./App/Component/CommentForm";
 import Comment from "./App/Component/Comment";
 import ChoosePlace from "./App/Screen/Calculate/ChoosePlace";
 import ChooseWin from "./App/Screen/Calculate/ChooseWin";
+import Report from "./App/Screen/Menu/Report";
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,8 @@ export default function AppIndex() {
           component={ChoosePlace} />
         <Stack.Screen name="ChooseWin"
           component={ChooseWin} />
+        <Stack.Screen name="Report"
+          component={Report}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

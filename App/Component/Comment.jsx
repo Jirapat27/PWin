@@ -28,7 +28,7 @@ import { db } from '../../firebaseConfig'; // Import the database reference
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.commentsContainer}>
+        <ScrollView style={styles.commentsContainer} horizontal={true} showsHorizontalScrollIndicator={false}>
           {comments.map((comment, index) => (
             <View key={index} style={styles.commentItem}>
               <Text>{comment.description}</Text>
@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 20,
-    paddingHorizontal: 10,
   },
   commentsContainer: {
-    flex: 1,
+    flexDirection: "column",
+     // Changed to column
   },
   commentItem: {
     marginBottom: 10,
@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
+    margin: 5,
   },
 });
