@@ -1,10 +1,10 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
-import SignUp from "./SignUp";
-export default function SignUpScreen() {
+import SignUp_cal from "./SignUp_cal";
+export default function SignUpScreen_cal() {
   return (
     <View style={styles.container}>
-      <SignUp/>
+      <SignUp_cal/>
     </View>
   );
 }

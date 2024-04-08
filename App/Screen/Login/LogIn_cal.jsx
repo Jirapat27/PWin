@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db, onValue } from '../../../firebaseConfig';
 import { ref } from "firebase/database";
@@ -11,9 +11,11 @@ export default function Login_cal() {
   const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const { placeName } = route.params; // Extracting placeName from route params
+  
   const handleSignUpPress = () => {
-    navigation.navigate('SignUpScreen');
+    navigation.navigate('SignUpScreen_cal', { placeName: placeName });
   };
 
   const handleForgetPasswordPress = () => {
@@ -45,8 +47,9 @@ export default function Login_cal() {
           const userData = snapshot.val();
           const username = userData.username; // Assuming 'username' is stored in your database
           console.log('Username:', username); // Log the username
-          // Now, navigate to the AddPlaceScreen and pass username as a param
-          navigation.navigate('CommentForm', { username: username, });
+          console.log('placeName:', placeName); // Log the username
+          // Now, navigate to the CommentForm screen and pass username and placeName as params
+          navigation.navigate('CommentForm', { username: username, placeName: placeName });
         });
       } else {
         console.log('Authentication ไม่สำเร็จ');

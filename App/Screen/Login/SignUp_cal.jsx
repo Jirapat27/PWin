@@ -1,24 +1,36 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView, BackHandler } from "react-native";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '../../../firebaseConfig';
 import { ref, set, get } from "firebase/database";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import CloseImage from "../../../assets/images/Close.png";
 import Logo from "../../../assets/images/Logo.png";
 
-export default function SignUp(){
+export default function SignUp_cal(){
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const { placeName } = route.params;
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      navigation.navigate("HomeScreen");
+      return true; // Prevent default behavior (exit app)
+    });
+
+    return () => backHandler.remove(); // Remove event listener on component unmount
+  }, [navigation]);
 
   const handleLogInPress = () => {
-    navigation.navigate('LogInScreen');
+    navigation.navigate('LogInScreen_cal', { placeName: placeName });
   };
 
   const signUp = async () => {
@@ -66,7 +78,7 @@ export default function SignUp(){
       const userData = snapshot.val();
       const fetchedUsername = userData.username;
 
-      navigation.navigate('AddPlaceScreen', { username: fetchedUsername });
+      navigation.navigate('CommentForm', { username: fetchedUsername, placeName: placeName });
     } catch (error) {
       console.log("ไม่สามารถสร้างบัญชีได้:", error.message);
       setError(`ไม่สามารถสร้างบัญชีได้: ${error.message}`);

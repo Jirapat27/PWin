@@ -96,7 +96,7 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
           text: "เข้าสู่ระบบ",
           onPress: () => {
             // Navigate to LogInScreen
-            navigation.navigate("LogInScreen");
+            navigation.navigate("LogInScreen_cal", { placeName: sheetPlaces?.name });
           },
         },
       ],

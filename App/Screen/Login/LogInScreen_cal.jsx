@@ -3,7 +3,7 @@ import React from "react";
 import Login_cal from "./LogIn_cal";
 import { TextInput } from "react-native-gesture-handler";
 //import 'Logo' from '../PWin-App/assets/images/Logo.jpg';
-export default function LoginScreen() {
+export default function LogInScreen_cal() {
   return (
     <View style={styles.container}>
       <Login_cal/>

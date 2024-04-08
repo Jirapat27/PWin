@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView, BackHandler } from "react-native";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db, auth } from '../../../firebaseConfig';
 import { ref, set, get } from "firebase/database";
@@ -16,6 +16,15 @@ export default function SignUp(){
   const [error, setError] = useState(null);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      navigation.navigate("HomeScreen");
+      return true; // Prevent default behavior (exit app)
+    });
+
+    return () => backHandler.remove(); // Remove event listener on component unmount
+  }, [navigation]);
 
   const handleLogInPress = () => {
     navigation.navigate('LogInScreen');
