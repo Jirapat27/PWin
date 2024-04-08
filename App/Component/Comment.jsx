@@ -3,42 +3,46 @@ import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { ref, orderByChild, onValue } from "firebase/database";
 import { db } from '../../firebaseConfig'; // Import the database reference
 
-  export default function Comment({ placeName }) {
-    const [comments, setComments] = useState([]);
+export default function Comment({ placeName }) {
+  const [comments, setComments] = useState([]);
 
-    useEffect(() => {
-      const commentsRef = ref(db, 'comments'); // Ensure that 'comments' is the correct path
+  useEffect(() => {
+    const commentsRef = ref(db, 'comments'); // Ensure that 'comments' is the correct path
 
-      const unsubscribe = onValue(commentsRef, (snapshot) => {
-        const commentsData = snapshot.val();
-        if (commentsData) {
-          const sortedComments = Object.values(commentsData)
-            .filter(comment => comment.placeName === placeName) // Filter comments by placeName
-            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort comments by timestamp, latest first
-          setComments(sortedComments.reverse()); // Reverse the order to display the latest comment first
-        } else {
-          setComments([]);
-        }
-      });
+    const unsubscribe = onValue(commentsRef, (snapshot) => {
+      const commentsData = snapshot.val();
+      if (commentsData) {
+        const sortedComments = Object.values(commentsData)
+          .filter(comment => comment.placeName === placeName) // Filter comments by placeName
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort comments by timestamp, latest first
+        setComments(sortedComments.reverse()); // Reverse the order to display the latest comment first
+      } else {
+        setComments([]);
+      }
+    });
 
-      return () => {
-        unsubscribe();
-      };
-    }, [placeName]);
+    return () => {
+      unsubscribe();
+    };
+  }, [placeName]);
 
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.commentsContainer}>
-          {comments.map((comment, index) => (
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.commentsContainer}>
+        {comments.length === 0 ? (
+          <Text style={styles.noDataText}>ยังไม่มีการแสดงความคิดเห็น</Text>
+        ) : (
+          comments.map((comment, index) => (
             <View key={index} style={styles.commentItem}>
               <Text>{comment.description}</Text>
-              <Text>Star Review: {comment.starReview}</Text>
+              <Text>คะแนนจากความคิดเห็น: {comment.starReview}</Text>
             </View>
-          ))}
-        </ScrollView>
-      </View>
-    );
-  }
+          ))
+        )}
+      </ScrollView>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -55,5 +59,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
+  },
+  noDataText: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginVertical: 20,
   },
 });
