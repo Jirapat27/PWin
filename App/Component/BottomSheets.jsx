@@ -14,6 +14,10 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
 
+  const handleReportPress = () => {
+    navigation.navigate('Report');
+  };
+
   const handleStartJourney = () => {
     const { latitude, longitude } = location;
     const destination = sheetPlaces; 
@@ -114,7 +118,7 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
           <TouchableOpacity style={styles.buttonDirec} onPress={handleStartJourney}>
             <Text style={styles.buttonText}>เริ่มเส้นทาง</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonMore}>
+          <TouchableOpacity style={styles.buttonMore} onPress={handleReportPress}>
             <Image
               source={require("../../assets/images/More.png")}
               style={styles.imageMore}
@@ -138,7 +142,7 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
           </ScrollView>
         </View>
         <View style={styles.commentHeader}>
-          <Text style={styles.commentText}>Comment</Text>
+          <Text style={styles.commentText}>รีวิว</Text>
           <TouchableOpacity style={styles.commentButton} onPress={handleAddCommentPress}>
             <Image
               source={require("../../assets/images/Plus.png")}
@@ -147,6 +151,15 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
           </TouchableOpacity>
         </View>
         <Comment placeName={sheetPlaces?.name} /> 
+        <View style={styles.Header}>
+        <TouchableOpacity style={styles.commentButton} onPress={handleAddCommentPress}>
+            <Image
+              source={require("../../assets/images/Plus.png")}
+              style={styles.plusIcon}
+            />
+            <Text> เพิ่มรีวิว </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -245,6 +258,11 @@ const styles = StyleSheet.create({
     height: 24,
   },
   commentHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  Header: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 10,
