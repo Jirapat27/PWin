@@ -1,4 +1,4 @@
-# update (4 Apr)
+# update (8 Apr)
 - เพิ่ม pin
 - แก้ปุ่ม back (BackHandler)
 - อ่านค่า lat-long จาก log ได้แล้ว
@@ -9,3 +9,4 @@
 - comment ได้ โชว์ได้แล้ว
 - calculate ได้
 - bottomsheet แสดงผลได้แต่ยัง set zIndex ไม่ได้
+- แก้ Login, Signup ในหน้า BottomSheets แล้ว
