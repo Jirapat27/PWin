@@ -260,7 +260,7 @@ const ChooseWin = () => {
               language: "th",
               components: "country:th",
             }}
-            //styles={styles}
+            styles={styles.SeachPlace}
             enablePoweredByContainer={false}
             searchedLocation={(location) =>
               setLocation({
@@ -373,6 +373,42 @@ const styles = StyleSheet.create({
   pin: {
     height: 50,
     width: 50,
+  },
+  SeachPlace:{
+
+    textInput: {
+      width: 300,
+      height: 55,
+      borderRadius: 10,
+      paddingStart: 50,
+      paddingEnd: 50,
+      //paddingHorizontal: 50,
+      backgroundColor: "white",
+      fontSize: 20,
+      fontFamily: "BaiJamjuree-Medium",
+    },
+    listView: {
+      width: "100%",
+      borderWidth: 1,
+      height: 200,
+      borderColor: "#ddd",
+      borderRadius: 10,
+      backgroundColor: "#fff",
+      zIndex: 2,
+    },
+    description: {
+      fontSize: 16,
+    },
+    row: {
+      padding: 10,
+    },
+    searchIcon: {
+      position: "absolute",
+      top: 10,
+      left: 10,
+      color: "#FF9A62",
+      alignItems: "flex-start",
+    },
   },
 });
 export default ChooseWin;

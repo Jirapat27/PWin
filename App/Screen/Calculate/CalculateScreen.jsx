@@ -5,7 +5,7 @@ import MapViewDirections from "react-native-maps-directions";
 import { StatusBar } from "expo-status-bar";
 import AppMapView_Calculate from "../Home/AppMapView_Calculate";
 import MapView, { Marker } from "react-native-maps";
-import { MapViewRoute } from "react-native-maps-routes";
+
 
  const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
 // //*--------------this code **********************----
