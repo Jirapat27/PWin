@@ -144,15 +144,15 @@ export default function SignUp(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:70,
+    marginTop:10,
     alignItems: "center",
     paddingHorizontal: 30,
     fontFamily: 'BaiJamjuree-Medium'
   },
   header: {
-    fontSize: 36,
+    fontSize: 24,
     color: "#FF8A48",
-    marginBottom: 30,
+    marginBottom: 10,
     fontFamily: 'BaiJamjuree-Bold',
   },
   inputContainer: {
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   name:{
     alignSelf: 'flex-start',
     fontFamily: 'BaiJamjuree-Regular',
-    fontSize:16,
+    fontSize:14,
     color: "#FF8A48",
     marginBottom:10
   },

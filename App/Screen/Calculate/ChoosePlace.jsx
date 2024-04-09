@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 750,
+    marginTop: 550,
     width: "100%",
   },
   textInput: {

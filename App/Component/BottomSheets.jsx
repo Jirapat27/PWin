@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from 'firebase/auth';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView, Alert , Linking, Platform } from "react-native";
+import { StyleSheet, Text, View, Image,Modal, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView, Alert , Linking, Platform } from "react-native";
 import Comment from './Comment';
 import { auth, db } from "../../firebaseConfig";
 import { ref, get } from "firebase/database";
+
 
 const { width: windowWidth } = Dimensions.get("window");
 const gap = 10;
@@ -14,9 +15,12 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   const handleReportPress = () => {
-    navigation.navigate('Report');
+    setModalVisible(true);
   };
+  
 
   const handleStartJourney = () => {
     const { latitude, longitude } = location;
@@ -86,6 +90,7 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
       showLoginPopup();
     }
   };
+  
 
   const showLoginPopup = () => {
     Alert.alert(
@@ -124,6 +129,38 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
               style={styles.imageMore}
             />
           </TouchableOpacity>
+
+          <Modal
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={() => setModalVisible(false)}
+>
+  <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+    <View style={styles.modalContainer}>
+      <TouchableOpacity style={styles.modalContent} activeOpacity={1}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={[styles.modalButton, styles.shareButton]} onPress={() => {
+            // เปิดหน้าที่คุณต้องการเมื่อกดแชร์
+            navigation.navigate('Share');
+            setModalVisible(false);
+          }}>
+            <Text style={[styles.buttonText, styles.blackText]}>แชร์</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.modalButton, styles.reportButton]} onPress={() => {
+            // เปิดหน้าที่คุณต้องการเมื่อกดรายงาน
+            navigation.navigate('Report');
+            setModalVisible(false);
+          }}>
+            <Text style={[styles.buttonText, styles.blackText]}>รายงาน</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    </View>
+  </TouchableWithoutFeedback>
+</Modal>
+
+
         </View>
         <View style={styles.imageContainer}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -271,4 +308,38 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  modalContainer: {
+    flex: 1,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 5,
+    borderRadius: 10,
+    width: '40%',
+    height: '20%',
+    alignItems: 'center',
+    
+  },
+  modalText: {
+    fontSize: 18,
+  },
+  buttonContainer: {
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 20,
+  },
+  modalButton: {
+    padding: 10,
+    borderRadius: 5,
+
+  },
+  blackText: {
+    color: '#000000',
+    fontSize: 20,
+  },
+
 });

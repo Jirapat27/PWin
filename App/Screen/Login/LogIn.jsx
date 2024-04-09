@@ -103,14 +103,14 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:70,
+    marginTop:50,
     alignItems: "center",
     paddingHorizontal: 30,
     fontFamily: 'BaiJamjuree-Medium'
   },
   forget:{
     color: '#7B7B7B',
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: 'BaiJamjuree-Bold',
     textDecorationLine: 'underline',
     alignSelf:'flex-end'
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     alignSelf:'flex-end',
   },
   header: {
-    fontSize: 36,
+    fontSize: 24,
     color: "#FF8A48",
     marginBottom: 30,
     fontFamily: 'BaiJamjuree-Bold',
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   logInButtonText: {
     color: 'white',
-    fontSize:22,
+    fontSize:20,
     textAlign: 'center',
     fontFamily: 'BaiJamjuree-Bold',
   },
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   signUpSentence: {
     marginTop: 20,
-    fontSize:16,
+    fontSize:14,
     color:'#B0B0B0',
     fontFamily: 'BaiJamjuree-Bold',
   },
