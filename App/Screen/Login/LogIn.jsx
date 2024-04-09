@@ -61,7 +61,7 @@ export default function Login() {
   return (
   <View style={styles.container}>
     <View style={styles.close}>
-      <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+      <TouchableOpacity onPress={() => navigation.navigate("AppMapView_HomeScreen")}>
         <Image source={CloseImage} />
       </TouchableOpacity>
     </View>

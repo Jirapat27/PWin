@@ -35,6 +35,10 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
       Alert.alert("Error", "Unable to get your current location or destination.");
     }
   };
+
+  const handleReportPress = () => {
+    navigation.navigate('Report');
+  };
   
   useEffect(() => {
     if(sheetPlaces){
@@ -114,7 +118,7 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
           <TouchableOpacity style={styles.buttonDirec} onPress={handleStartJourney}>
             <Text style={styles.buttonText}>เริ่มเส้นทาง</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonMore}>
+          <TouchableOpacity style={styles.buttonMore} onPress={handleReportPress}>
             <Image
               source={require("../../assets/images/More.png")}
               style={styles.imageMore}

@@ -21,7 +21,7 @@ export default function LogoutButton() {
       // Show success message using Alert
       Alert.alert('ออกจากระบบสำเร็จ', 'คุณได้ออกจากระบบเรียบร้อยแล้ว');
       // Navigate to the login screen or any other screen as needed
-      navigation.navigate('HomeScreen');
+      navigation.navigate('AppMapView_HomeScreen');
     } catch (error) {
       console.error('เกิดข้อผิดพลาดในขณะที่ออกจากระบบ:', error.message);
       // Handle logout failure

@@ -64,7 +64,7 @@ export default function Login_cal() {
   return (
   <View style={styles.container}>
     <View style={styles.close}>
-      <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+      <TouchableOpacity onPress={() => navigation.navigate("HomeScreen_cal")}>
         <Image source={CloseImage} />
       </TouchableOpacity>
     </View>

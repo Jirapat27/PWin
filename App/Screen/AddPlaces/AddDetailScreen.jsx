@@ -131,7 +131,7 @@ export default function AddDetailScreen() {
           setImages([]);
 
           // Navigate to HomeScreen.js
-          navigation.navigate('HomeScreen');
+          navigation.navigate('AppMapView_HomeScreen');
         },
       },
     ]);

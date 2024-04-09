@@ -22,7 +22,7 @@ export default function SignUp_cal(){
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
-      navigation.navigate("HomeScreen");
+      navigation.navigate("AppMapView_HomeScreen");
       return true; // Prevent default behavior (exit app)
     });
 
@@ -90,7 +90,7 @@ export default function SignUp_cal(){
   return (
     <View style={styles.container}>
       <View style={styles.close}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("AppMapView_HomeScreen")}>
           <Image source={CloseImage} />
         </TouchableOpacity>
       </View>

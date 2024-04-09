@@ -63,7 +63,7 @@ export default function CommentForm() {
               setStarReview("");
   
               // Navigate to the home screen
-              navigation.navigate('HomeScreen');
+              navigation.navigate('AppMapView_HomeScreen');
             }
           }
         ]

@@ -38,7 +38,7 @@ export default function AddPlaceScreen() {
 
   useEffect(() => {
     const backAction = () => {
-      navigation.navigate('HomeScreen');
+      navigation.navigate('AppMapView_HomeScreen');
       return true; // Prevent default behavior
     };
 

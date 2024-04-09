@@ -24,7 +24,7 @@ export default function CalculateScreen({ onMarkerPress }) {
   };
 
   const handlePress = () => {
-    navigation.navigate("HomeScreen");
+    navigation.navigate("AppMapView_HomeScreen");
   };
 
   const handleReady = (result) => {
