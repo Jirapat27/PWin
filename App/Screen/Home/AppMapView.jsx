@@ -6,21 +6,26 @@ import {
   Animated,
   TouchableOpacity,
   PanResponder,
+  Text,
+  StatusBar,
 } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapViewStyle from "../../Utils/MapViewStyle.json";
 import { UserLocationContext } from "../../Context/UserLocationContext";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../../firebaseConfig";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import markerWin from "./../../../assets/images/Win-Mark.png";
 import BottomSheets from "../../Component/BottomSheets";
 import * as Location from "expo-location";
+import MapViewDirections from "react-native-maps-directions";
+const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
 export default function AppMapView({
   initialRegion,
   onRegionChangeComplete,
   SheetHeight,
   bottomSheetHeight,
+  // receiveDataFromChild,
 }) {
   const { location } = useContext(UserLocationContext);
   const [closestMarker, setClosestMarker] = useState(null);
@@ -37,7 +42,20 @@ export default function AppMapView({
     Dimensions.get("window").height / 1.2
   );
   const [sheetPlaces, setSheetPlaces] = useState({});
+  const [showState, setShowState] = useState(false);
+  /*---------------------------------*/
+  const handleNearByClick = () => {
+    setShowState(!showState);
+    // console.log("MyLocation lat", myLocationNearByLat);
+    // console.log("MyLocation long", myLocationNearByLong);
+    // console.log(" closestMarker Lat : ", closestMarkerLat);
+    // console.log("closestMarkerDet long", closestMarkerLong);
 
+    getCurrentLocation();
+    if (myLocation && places.length > 0) {
+      findClosestMarker();
+    }
+  };
   /*------------ calculate distance between two coordinates------------------*/
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the Earth in kilometers
@@ -72,6 +90,8 @@ export default function AppMapView({
       }
     });
     setClosestMarker(closestMarker);
+    console.log("วินที่ใกล้ที่สุด: ", closestMarker.latitude);
+    console.log("วินที่ใกล้ที่สุด: ", closestMarker.longitude);
   };
 
   /*----------------- get the current location-----------------------*/
@@ -86,16 +106,15 @@ export default function AppMapView({
       try {
         let myLocation = await Location.getCurrentPositionAsync({});
         setMyLocation(myLocation);
-        //console.log("location :",myLocation);
-        console.log("my current lat :", myLocation.coords.latitude);
-        console.log("my current long :", myLocation.coords.longitude);
+        console.log("location :", myLocation);
+        // console.log("my current lat :", myLocation.coords.latitude);
+        // console.log("my current long :", myLocation.coords.longitude);
       } catch (error) {
         setErrorMsg("Error getting location");
         console.log("cant get locaation");
       }
     })();
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,18 +130,16 @@ export default function AppMapView({
       });
     };
     fetchData();
-    getCurrentLocation();
   }, []);
 
-  useEffect(() => {
-    if (myLocation && places.length > 0) {
-      findClosestMarker();
-      console.log("วินที่ใกล้ที่สุด: ", closestMarker);
-      //console.log("วินที่ใกล้ที่สุด: ", closestMarker.latitude);
-      //console.log("วินที่ใกล้ที่สุด: ", closestMarker.longitude);
-      //console.log("วินที่ใกล้ที่สุด: ", closestMarker.name);
-    }
-  }, [myLocation, places]);
+
+
+  // useEffect(() => {  ไม่ใช้
+  //   if (myLocation && closestMarker) {
+  //     // Call the function passed from the parent component
+  //     receiveDataFromChild(myLocation, closestMarker);
+  //   }
+  // }, [myLocation, closestMarker, receiveDataFromChild]);
 
   const defaultRegion = {
     latitude: 13.0, // Center latitude of Thailand
@@ -237,7 +254,27 @@ export default function AppMapView({
               image={markerWin}
             />
           ))}
+
+          {myLocation && (
+            <MapViewDirections
+              origin={{
+                latitude: myLocation.coords.latitude,
+                longitude: myLocation.coords.longitude,
+
+              }} //"latitude": 13.7068, "longitude": 100.3811
+              destination={{
+                latitude: closestMarker.latitude,
+                longitude: closestMarker.longitude,
+
+              }} //"latitude": 13.7132, "longitude": 100.4082
+              apikey={GOOGLE_MAPS_APIKEY}
+              strokeWidth={3}
+              strokeColor="hotpink"
+
+            />
+          )}
         </MapView>
+
         {showBottomSheet && (
           <TouchableOpacity
             style={styles.overlay}
@@ -269,6 +306,15 @@ export default function AppMapView({
           </View>
         </Animated.View>
       </View>
+      <View style={styles.buttomContainer}>
+        <TouchableOpacity
+          style={styles.nearButton.container}
+          onPress={handleNearByClick}
+        >
+          <Text style={styles.nearButton.text}>ใกล้ที่สุด</Text>
+        </TouchableOpacity>
+      </View>
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
@@ -296,7 +342,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 750,
+    paddingTop: 650,
+    //marginTop: 750,
     width: "100%",
   },
   rightButton: {
@@ -322,5 +369,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 100000000,
+  },
+  nearButton: {
+    container: {
+      flexDirection: "column",
+      backgroundColor: "#FF9A62",
+      padding: 10,
+      borderRadius: 20,
+      alignItems: "center",
+      width: 125,
+      height: 59,
+    },
+    text: {
+      color: "#fff",
+      fontSize: 24,
+      fontWeight: "600",
+      fontFamily: "BaiJamjuree-SemiBold",
+    },
   },
 });

@@ -13,10 +13,11 @@ import SearchBar from "./SearchBar"; // Import SearchBar component
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import MapViewDirections from "react-native-maps-directions";
+import MapView, { Marker } from "react-native-maps";
+const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
 
-export default function HomeScreen() {
-  
-
+export default function HomeScreen({}) {
   /********location seacrh **************/
   const { location, setLocation } = useContext(UserLocationContext);
   const [searchLocation, setSearchLocation] = useState(null);
@@ -30,7 +31,6 @@ export default function HomeScreen() {
       });
     }
   }, [searchLocation]);
-
 
   const initialRegion = {
     latitude: searchLocation?.latitude,
@@ -48,28 +48,20 @@ export default function HomeScreen() {
     // console.log("newRegion:", newRegion);
   };
 
-/*-------------------------Closets------------------*/
-    // const handleNearButtonPress = (myLocation, closestMarker) => {
-    //   console.log("Nearby button pressed");
-    //   console.log("My Location:", myLocation);
-    //   console.log("Closest Marker:", closestMarker);
-      
-    // };
-    
+ 
 
   return (
     <View style={styles.container}>
       <SafeAreaProvider>
         <View style={styles.headerContainer}>
           <Header />
-          <View style={styles.searchBarContainer}>
 
+          <View style={styles.searchBarContainer}>
             <GooglePlacesAutocomplete
               placeholder="ค้นหาสถานที่"
               fetchDetails={true}
               onPress={(data, details = null) => {
                 setSearchLocation(details?.geometry?.location);
-                
               }}
               query={{
                 key: "AIzaSyBNRNzLV-WydX3b96FZOe2rwi4Oe4W5kGg",
@@ -102,16 +94,11 @@ export default function HomeScreen() {
             onChangeValue(newRegion);
             setRegion(newRegion);
           }}
-          
-        />
-        <View style={styles.buttomContainer}>
-          <TouchableOpacity
-            style={styles.nearButton.container}
-            onPress={console.log("press")}
-          >
-            <Text style={styles.nearButton.text}>ใกล้ที่สุด</Text>
-          </TouchableOpacity>
-        </View>
+
+        >
+
+        </AppMapView>
+
         <StatusBar style="auto" />
       </SafeAreaProvider>
     </View>

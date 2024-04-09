@@ -84,6 +84,7 @@ export default function CalculateScreen({ onMarkerPress }) {
       </View>
 
       <MapView
+
         style={{ flex: 1 }}
         initialRegion={{
           latitude: origin.latitude,
@@ -103,9 +104,8 @@ export default function CalculateScreen({ onMarkerPress }) {
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="hotpink"
-          //mode="bicycling"
           onReady={handleReady}
-        />
+        ></MapViewDirections>
       </MapView> 
 
       <View style={styles.buttomContainer}>
