@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
 import HomeScreen from "./App/Screen/Home/HomeScreen";
+import AppMapView_HomeScreen from "./App/Screen/Home/AppMapView_HomeScreen";
 import HomeScreen_SBmerge from "./App/Screen/Home/HomeScreen_SBmerge";
 import LandingPage from "./App/Screen/LandingPage/LandingPage";
 import CalculateScreen from "./App/Screen/Calculate/CalculateScreen";
@@ -32,6 +33,8 @@ export default function AppIndex() {
           component={HomeScreen} />
         <Stack.Screen name="HomeScreen_SBmerge" 
           component={HomeScreen_SBmerge} />
+        <Stack.Screen name="AppMapView_HomeScreen" 
+          component={AppMapView_HomeScreen} />
         <Stack.Screen name="CalculateScreen"
           component={CalculateScreen} />
         <Stack.Screen name="AddDetailScreen" 

@@ -10,7 +10,7 @@ export default function LandingPage() {
   useEffect(() => {
     // Add a delay (e.g., 2000 milliseconds) for a visual effect before navigating to the main screen
     const timeout = setTimeout(() => {
-      navigation.replace('HomeScreen'); // Replace with the actual name of your main screen
+      navigation.replace('AppMapView_HomeScreen'); // Replace with the actual name of your main screen
     }, 2000);
 
     // Clean up the timeout when the component unmounts
