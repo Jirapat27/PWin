@@ -254,30 +254,34 @@ const ChooseWin = () => {
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <GooglePlacesAutocomplete
-            ref={inputRef}
-            placeholder="ค้นหาสถานที่"
-            fetchDetails={true}
-            onPress={(data, details = null) => {
-              setSearchLocation(details?.geometry?.location);
-            }}
-            query={{
-              key: "AIzaSyBNRNzLV-WydX3b96FZOe2rwi4Oe4W5kGg",
-              language: "th",
-              components: "country:th",
-            }}
-            //styles={styles}
-            enablePoweredByContainer={false}
-            searchedLocation={(location) =>
-              setLocation({
-                latitude: location.lat,
-                longitude: location.lng,
-              })
-            }
-          ></GooglePlacesAutocomplete>
-          <TouchableOpacity onPress={clearSearchInput} style={styles.clearButton}>
-            <Ionicons name="close" size={25} color="#FF9A62" />
-          </TouchableOpacity>
+          <View style={styles.searchBarContainer}>
+              <GooglePlacesAutocomplete
+                ref={inputRef}
+                placeholder="ค้นหาสถานที่"
+                fetchDetails={true}
+                onPress={(data, details = null) => {
+                  setSearchLocation(details?.geometry?.location);
+                }}
+                query={{
+                  key: "AIzaSyBNRNzLV-WydX3b96FZOe2rwi4Oe4W5kGg",
+                  language: "th",
+                  components: "country:th",
+                }}
+                styles={styles.SeachPlace}
+                enablePoweredByContainer={false}
+                searchedLocation={(location) =>
+                  setLocation({
+                    latitude: location.lat,
+                    longitude: location.lng,
+                  })
+                }
+              >
+                <Ionicons name="search" size={35} style={styles.searchIcon} />
+              </GooglePlacesAutocomplete>
+            <TouchableOpacity onPress={clearSearchInput} style={styles.clearButton}>
+              <Ionicons name="close" size={25} color="#A7A7A7" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <AppMapView_MarkSet onMarkerPress={handleMarkerPress}/>
@@ -375,11 +379,62 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
   },
+  listView: {
+    width: "100%",
+    borderWidth: 1,
+    height: 200,
+    borderColor: "#ddd",
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    zIndex: 2,
+  },
+  searchIcon: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    color: "#FF9A62",
+    alignItems: "flex-start",
+  },
+  SeachPlace: {
+    textInput: {
+      width: 300,
+      height: 55,
+      borderRadius: 10,
+      paddingStart: 50,
+      paddingEnd: 50,
+      //paddingHorizontal: 50,
+      backgroundColor: "white",
+      fontSize: 20,
+      fontFamily: "BaiJamjuree-Medium",
+    },
+    listView: {
+      width: "100%",
+      borderWidth: 1,
+      height: 200,
+      borderColor: "#ddd",
+      borderRadius: 10,
+      backgroundColor: "#fff",
+      zIndex: 2,
+    },
+    description: {
+      fontSize: 16,
+    },
+    row: {
+      padding: 10,
+    },
+    searchIcon: {
+      position: "absolute",
+      top: 10,
+      left: 10,
+      color: "#FF9A62",
+      alignItems: "flex-start",
+    },
+  },
   clearButton: {
     position: "absolute",
-    top: 48,
+    top: 52,
     right: 12,
-    zIndex: 1,
-  },  
+    zIndex: 20,
+  },
 });
 export default ChooseWin;

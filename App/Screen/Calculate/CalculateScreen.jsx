@@ -47,7 +47,6 @@ export default function CalculateScreen({ onMarkerPress }) {
       } else if (distance <= 15) {
         setPrice(25 + 15 + (distance - 5) * 10);
       }
-      
     }
   }, [distance]);
 
@@ -99,8 +98,8 @@ export default function CalculateScreen({ onMarkerPress }) {
           origin={origin}
           destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
-          strokeWidth={3}
-          strokeColor="hotpink"
+          strokeWidth={6}
+          strokeColor="#FF9A62"
           //mode="bicycling"
           onReady={handleReady}
         />
@@ -112,7 +111,7 @@ export default function CalculateScreen({ onMarkerPress }) {
           <Text style={styles.sub}>ระยะทาง</Text>
         </View>
         <View style={styles.rightSide}>
-          <Text style={styles.price}>{price.toFixed(2)} บาท</Text>
+          <Text style={styles.price}>{price} บาท</Text>
           <Text style={styles.distance}>{distance ? distance.toFixed(2) : 0} กิโลเมตร</Text>
         </View>
       </View>
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     width:"80%",
     height:55,
     left: "50%",
-    bottom: 0,
+    bottom: 10,
     transform: [{ translateX: -160 }],
   },
   text: {

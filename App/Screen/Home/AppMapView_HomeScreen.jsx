@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Text, View, StyleSheet, Dimensions, Animated, TouchableOpacity, PanResponder } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewStyle from '../../Utils/MapViewStyle.json';
@@ -10,13 +10,14 @@ import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 import markerWin from './../../../assets/images/Win-Mark.png';
 import Header from "./Header";
-import SearchBar from "./SearchBar";
 import CalculateButton from "../Calculate/CalculateButton";
 import AddPlaceButton from "../AddPlaces/AddPlaceButton";
 import LogOutButton from "../Login/LogOut";
 import BottomSheets from '../../Component/BottomSheets';
 import HamburgerMenu from '../Menu/HamburgerMenu';
 const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function AppMapView_HomeScreen() {
   const { location, setLocation } = useContext(UserLocationContext);
@@ -31,10 +32,28 @@ export default function AppMapView_HomeScreen() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showState, setShowState] = useState(false);
   const [myLocation, setMyLocation] = useState(null);
+  const [searchLocation, setSearchLocation] = useState(null);
   const [closestMarker, setClosestMarker] = useState(null);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  useEffect(() => {
+    if (searchLocation) {
+      setLocation({
+        latitude: searchLocation.lat,
+        longitude: searchLocation.lng,
+      });
+    }
+  }, [searchLocation]);
+
+  //*------------clear seach bar------------------*
+  const inputRef = useRef(null);
+  const clearSearchInput = () => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.clear(); // Clear the text input
+    }
   };
 
   const handleNearByClick = () => {
@@ -240,14 +259,34 @@ export default function AppMapView_HomeScreen() {
         )}
       <View style={styles.headerContainer}>
         <Header />
-        <SearchBar
-          searchedLocation={(location) =>
-            setLocation({
-              latitude: location.lat,
-              longitude: location.lng,
-            })
-          }
-        />
+        <View style={styles.searchBarContainer}>
+            <GooglePlacesAutocomplete
+              ref={inputRef}
+              placeholder="ค้นหาสถานที่"
+              fetchDetails={true}
+              onPress={(data, details = null) => {
+                setSearchLocation(details?.geometry?.location);
+              }}
+              query={{
+                key: "AIzaSyBNRNzLV-WydX3b96FZOe2rwi4Oe4W5kGg",
+                language: "th",
+                components: "country:th",
+              }}
+              styles={styles.SeachPlace}
+              enablePoweredByContainer={false}
+              searchedLocation={(location) =>
+                setLocation({
+                  latitude: location.lat,
+                  longitude: location.lng,
+                })
+              }
+            >
+              <Ionicons name="search" size={35} style={styles.searchIcon} />
+            </GooglePlacesAutocomplete>
+          <TouchableOpacity onPress={clearSearchInput} style={styles.clearButton}>
+            <Ionicons name="close" size={25} color="#A7A7A7" />
+          </TouchableOpacity>
+          </View>
         <View style={styles.rightButton}>
           <CalculateButton onPress={() => console.log(">>กดปุ่ม คำนวณ<<")} />
           <AddPlaceButton onPress={() => console.log(">>กดปุ่ม เพิ่ม<<")} />
@@ -286,8 +325,8 @@ export default function AppMapView_HomeScreen() {
                 // longitude: 100.4082,
               }} //"latitude": 13.7132, "longitude": 100.4082
               apikey={GOOGLE_MAPS_APIKEY}
-              strokeWidth={3}
-              strokeColor="hotpink"
+              strokeWidth={6}
+              strokeColor="#FF9A62"
             />
         )}
       </MapView>
@@ -375,12 +414,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '100%',
     height: '100%',
-    position: 'relative', // Make the container relative
   },
   map: {
     ...StyleSheet.absoluteFillObject, // Fill up the entire parent container
@@ -407,7 +442,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end", // Align items to the end of the container
     top: 145, // Adjust top spacing as needed
     right: 10, // Adjust right spacing as needed
-    zIndex: 10,
+    zIndex: -1,
   },
   sheet: {
     backgroundColor: 'white',
@@ -445,5 +480,62 @@ const styles = StyleSheet.create({
       fontWeight: "600",
       fontFamily: "BaiJamjuree-SemiBold",
     },
+  },
+  listView: {
+    width: "100%",
+    borderWidth: 1,
+    height: 200,
+    borderColor: "#ddd",
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    zIndex: 2,
+  },
+  searchIcon: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    color: "#FF9A62",
+    alignItems: "flex-start",
+  },
+  SeachPlace: {
+    textInput: {
+      width: 300,
+      height: 55,
+      borderRadius: 10,
+      paddingStart: 50,
+      paddingEnd: 50,
+      //paddingHorizontal: 50,
+      backgroundColor: "white",
+      fontSize: 20,
+      fontFamily: "BaiJamjuree-Medium",
+    },
+    listView: {
+      width: "100%",
+      borderWidth: 1,
+      height: 200,
+      borderColor: "#ddd",
+      borderRadius: 10,
+      backgroundColor: "#fff",
+      zIndex: 2,
+    },
+    description: {
+      fontSize: 16,
+    },
+    row: {
+      padding: 10,
+    },
+    searchIcon: {
+      position: "absolute",
+      top: 10,
+      left: 10,
+      color: "#FF9A62",
+      alignItems: "flex-start",
+    },
+  },
+  clearButton: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    zIndex: 20,
   },
 });
