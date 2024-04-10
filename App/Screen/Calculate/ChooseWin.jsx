@@ -267,7 +267,7 @@ const ChooseWin = () => {
                   language: "th",
                   components: "country:th",
                 }}
-                styles={styles.SeachPlace}
+                styles={styles.SearchPlace}
                 enablePoweredByContainer={false}
                 searchedLocation={(location) =>
                   setLocation({
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     color: "#FF9A62",
     alignItems: "flex-start",
   },
-  SeachPlace: {
+  SearchPlace: {
     textInput: {
       width: 300,
       height: 55,

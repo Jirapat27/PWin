@@ -18,6 +18,8 @@ import Comment from "./App/Component/Comment";
 import ChoosePlace from "./App/Screen/Calculate/ChoosePlace";
 import ChooseWin from "./App/Screen/Calculate/ChooseWin";
 import Report from "./App/Screen/Menu/Report";
+import Howto from "./App/Screen/Menu/Howto";
+import RateService from "./App/Screen/Menu/RateService";
 
 const Stack = createStackNavigator();
 
@@ -58,6 +60,10 @@ export default function AppIndex() {
           component={ChooseWin} />
         <Stack.Screen name="Report"
           component={Report}/>
+        <Stack.Screen name="RateService"
+          component={RateService}/>
+        <Stack.Screen name="Howto"
+          component={Howto}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

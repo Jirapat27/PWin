@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Text, View, StyleSheet, Dimensions, Animated, TouchableOpacity, PanResponder } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { useNavigation } from "@react-navigation/native";
 import MapViewStyle from '../../Utils/MapViewStyle.json';
 import { UserLocationContext } from '../../Context/UserLocationContext';
 import { ref, onValue } from 'firebase/database';
@@ -15,9 +16,9 @@ import AddPlaceButton from "../AddPlaces/AddPlaceButton";
 import LogOutButton from "../Login/LogOut";
 import BottomSheets from '../../Component/BottomSheets';
 import HamburgerMenu from '../Menu/HamburgerMenu';
-const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
+const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
 
 export default function AppMapView_HomeScreen() {
   const { location, setLocation } = useContext(UserLocationContext);
@@ -34,6 +35,7 @@ export default function AppMapView_HomeScreen() {
   const [myLocation, setMyLocation] = useState(null);
   const [searchLocation, setSearchLocation] = useState(null);
   const [closestMarker, setClosestMarker] = useState(null);
+  const navigation = useNavigation();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -272,7 +274,7 @@ export default function AppMapView_HomeScreen() {
                 language: "th",
                 components: "country:th",
               }}
-              styles={styles.SeachPlace}
+              styles={styles.SearchPlace}
               enablePoweredByContainer={false}
               searchedLocation={(location) =>
                 setLocation({
@@ -497,7 +499,7 @@ const styles = StyleSheet.create({
     color: "#FF9A62",
     alignItems: "flex-start",
   },
-  SeachPlace: {
+  SearchPlace: {
     textInput: {
       width: 300,
       height: 55,

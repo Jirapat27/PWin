@@ -22,6 +22,8 @@ export default function Comment({ placeName }) {
         if (commentsData && usersData) {
           const commentsArray = Object.values(commentsData)
             .filter(comment => comment.placeName === placeName);
+
+            console.log(commentsArray);
   
           const commentsWithUserInfo = commentsArray.map(comment => {
             const user = Object.values(usersData).find(user => user.username === comment.username);

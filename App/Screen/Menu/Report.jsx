@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   title1: {
     fontSize: 20,
     marginBottom: 20,
-    fontFamily: 'BaiJamjuree',
+    fontFamily: 'BaiJamjuree-Regular',
   },
   checkboxContainer: {
     flexDirection: 'row',
