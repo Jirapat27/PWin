@@ -6,7 +6,7 @@ import { ref, push, set } from "firebase/database";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CloseImage from "../../assets/images/Close.png";
 import Logo from "../../assets/images/Logo.png";
-import StarRating from 'react-native-star-rating'; // Import StarRating component
+import Stars from 'react-native-stars'; // Import Stars component from react-native-stars
 
 export default function CommentForm() {
   const navigation = useNavigation();
@@ -71,7 +71,7 @@ export default function CommentForm() {
   return (
     <View style={styles.container}>
       <View style={styles.close}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("AppMapView_HomeScreen")}>
           <Image source={CloseImage} />
         </TouchableOpacity>
       </View>
@@ -84,13 +84,18 @@ export default function CommentForm() {
         onChangeText={setDescription}
       />
       <Text style={[styles.name, { textAlign: 'left' }]}>Star Review</Text>
-      <StarRating
-        disabled={false}
-        maxStars={5}
-        rating={starReview}
-        selectedStar={(rating) => setStarReview(rating)}
+      <Stars
+        default={starReview}
+        count={5}
+        half={true}
+        fullStar={require('../../assets/images/starFilled.png')}
+        emptyStar={require('../../assets/images/starEmpty.png')}
+        halfStar={require('../../assets/images/starHalf.png')}
+        starSize={30} // Adjust the size of the stars
+        update={(val) => setStarReview(val)} // Update starReview state
         fullStarColor="#FF8A48"
-        halfStarEnabled={true} // Enable half-filled stars
+        halfStarColor="#FF8A48"
+        starStyle={{ padding: 2 }} // Adjust the padding of the stars
       />
       {error && <Text style={styles.errorMessage}>{error}</Text>}
       {loading ? (
