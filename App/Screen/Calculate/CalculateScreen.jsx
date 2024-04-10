@@ -42,12 +42,20 @@ export default function CalculateScreen({ onMarkerPress }) {
         setPrice(10);
       } else if (distance <= 2) {
         setPrice(20);
-      } else if (distance <= 5) {
+      } 
+      else if (distance <= 15) {
         setPrice(25 + (distance - 2) * 5);
-      } else if (distance <= 15) {
+      } else {
         setPrice(25 + 15 + (distance - 5) * 10);
       }
     }
+    console.log("price : " ,price);
+    //ปรับราคาให้เป็นเลข 5 หรือ 0 ในหลักหน่วย
+    const unitDigit = price % 10;
+    if (unitDigit !== 0) {
+    setPrice( unitDigit <= 5 ? price - unitDigit : price + (10 - unitDigit));
+    }
+
   }, [distance]);
 
   const [selectedMarker, setSelectedMarker] = useState(null);

@@ -261,7 +261,7 @@ const ChoosePlace = ({onMarkerPress}) => {
           <View style={styles.searchBarContainer}>
               <GooglePlacesAutocomplete
                 ref={inputRef}
-                placeholder="ค้นหาสถานที่"
+                placeholder="ค้นหาจุดหมายปลายทาง"
                 fetchDetails={true}
                 onPress={(data, details = null) => {
                   setSearchLocation(details?.geometry?.location);
