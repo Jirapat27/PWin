@@ -114,7 +114,7 @@ export default function CalculateScreen({ onMarkerPress }) {
           <Text style={styles.sub}>ระยะทาง</Text>
         </View>
         <View style={styles.rightSide}>
-          <Text style={styles.price}>{price.toFixed(2)} บาท</Text>
+          <Text style={styles.price}>{price.toFixed()} บาท</Text>
           <Text style={styles.distance}>{distance ? distance.toFixed(2) : 0} กิโลเมตร</Text>
         </View>
       </View>

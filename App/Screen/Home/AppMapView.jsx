@@ -46,15 +46,19 @@ export default function AppMapView({
   /*---------------------------------*/
   const handleNearByClick = () => {
     setShowState(!showState);
-    // console.log("MyLocation lat", myLocationNearByLat);
-    // console.log("MyLocation long", myLocationNearByLong);
+    //console.log("MyLocation lat", myLocationNearByLat);
+    //console.log("MyLocation long", myLocationNearByLong);
     // console.log(" closestMarker Lat : ", closestMarkerLat);
     // console.log("closestMarkerDet long", closestMarkerLong);
 
     getCurrentLocation();
     if (myLocation && places.length > 0) {
       findClosestMarker();
+      console.log("Have MyLocati0on" , myLocation)
+      console.log("can find Closest", closestMarker)
     }
+    
+   // findClosestMarker();
   };
   /*------------ calculate distance between two coordinates------------------*/
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -87,11 +91,12 @@ export default function AppMapView({
       if (distance < minDistance) {
         minDistance = distance;
         closestMarker = place;
+        console.log("วินที่ใกล้: ", closestMarker);
       }
     });
     setClosestMarker(closestMarker);
-    console.log("วินที่ใกล้ที่สุด: ", closestMarker.latitude);
-    console.log("วินที่ใกล้ที่สุด: ", closestMarker.longitude);
+    // console.log("วินที่ใกล้ที่สุด: ", closestMarker.latitude);
+    // console.log("วินที่ใกล้ที่สุด: ", closestMarker.longitude);
   };
 
   /*----------------- get the current location-----------------------*/
@@ -106,16 +111,15 @@ export default function AppMapView({
       try {
         let myLocation = await Location.getCurrentPositionAsync({});
         setMyLocation(myLocation);
-        console.log("location :", myLocation);
-        // console.log("my current lat :", myLocation.coords.latitude);
-        // console.log("my current long :", myLocation.coords.longitude);
+        console.log("location >>>>> ");
+
       } catch (error) {
         setErrorMsg("Error getting location");
-        console.log("cant get locaation");
+        console.log("-------cant get locaation-----------");
       }
-    })();
+    })( [myLocation]);
   };
-
+  /*---------------------- fetch from database-----------------*/
   useEffect(() => {
     const fetchData = async () => {
       const placesRef = ref(db, "MarkWin/");
@@ -131,8 +135,6 @@ export default function AppMapView({
     };
     fetchData();
   }, []);
-
-
 
   // useEffect(() => {  ไม่ใช้
   //   if (myLocation && closestMarker) {
@@ -255,22 +257,23 @@ export default function AppMapView({
             />
           ))}
 
-          {myLocation && (
+          {myLocation && closestMarker &&  (
             <MapViewDirections
               origin={{
                 latitude: myLocation.coords.latitude,
                 longitude: myLocation.coords.longitude,
-
+                // latitude: 13.7068,
+                // longitude: 100.3811,
               }} //"latitude": 13.7068, "longitude": 100.3811
               destination={{
                 latitude: closestMarker.latitude,
                 longitude: closestMarker.longitude,
-
+                // latitude: 13.7132,
+                // longitude: 100.4082,
               }} //"latitude": 13.7132, "longitude": 100.4082
               apikey={GOOGLE_MAPS_APIKEY}
               strokeWidth={3}
               strokeColor="hotpink"
-
             />
           )}
         </MapView>
