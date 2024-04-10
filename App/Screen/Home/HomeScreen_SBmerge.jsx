@@ -1,7 +1,6 @@
 
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import AppMapView from "./AppMapView";
 import { StatusBar } from "expo-status-bar";
 import Header from "./Header";
 import NearButton from "./NearButton";
@@ -92,7 +91,7 @@ export default function HomeScreen_SBmerge() {
             />
           </View>
         </View>
-        <AppMapView
+        <AppMapView_HomeScreen
           initialRegion={region}
           onRegionChangeComplete={(newRegion) => {
             onChangeValue(newRegion);

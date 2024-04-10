@@ -58,7 +58,6 @@ export default function CalculateScreen({ onMarkerPress }) {
   console.log("Confirmed P'Win Latitude:", placeLat);
   console.log("Confirmed P'Win Longitude:", placeLong);
 
-
   const handleMarkerPress = (data) => {
     setSelectedMarker(data);
   };

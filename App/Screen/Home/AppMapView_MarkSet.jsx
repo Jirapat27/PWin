@@ -8,7 +8,7 @@ import { db } from '../../../firebaseConfig';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import markerWin from './../../../assets/images/Win-Mark.png';
 
-export default function AppMapView_MarkOnly({ initialRegion, onRegionChangeComplete, onMarkerPress }) {
+export default function AppMapView_MarkSet({ initialRegion, onRegionChangeComplete, onMarkerPress }) {
   const { location } = useContext(UserLocationContext);
   const [places, setPlaces] = useState([]);
 
@@ -77,7 +77,9 @@ export default function AppMapView_MarkOnly({ initialRegion, onRegionChangeCompl
             <Marker
               key={index}
               coordinate={{ latitude: place.latitude, longitude: place.longitude }}
+              title={place.name}
               image={markerWin}
+              onPress={() => onMarkerPress(place)}
             />
           ))}
         </MapView>

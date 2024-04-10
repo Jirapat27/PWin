@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { ref, orderByChild, onValue } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import { db } from '../../firebaseConfig'; // Import the database reference
+import Stars from 'react-native-stars';
 
 export default function Comment({ placeName }) {
   const [comments, setComments] = useState([]);
@@ -35,7 +36,21 @@ export default function Comment({ placeName }) {
           comments.map((comment, index) => (
             <View key={index} style={styles.commentItem}>
               <Text>{comment.description}</Text>
-              <Text>คะแนนจากความคิดเห็น: {comment.starReview}</Text>
+              <View style={styles.starsContainer}>
+                <Stars
+                  default={parseFloat(comment.starReview)}
+                  count={5}
+                  half={true}
+                  fullStar={require('../../assets/images/starFilled.png')}
+                  emptyStar={require('../../assets/images/starEmpty.png')}
+                  halfStar={require('../../assets/images/starHalf.png')}
+                  starSize={30} // Adjust the size of the stars
+                  disabled={true}
+                  fullStarColor="#FF8A48"
+                  halfStarColor="#FF8A48"
+                  starStyle={{ padding: 2 }} // Adjust the padding of the stars
+                />
+              </View>
             </View>
           ))
         )}
@@ -64,5 +79,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginVertical: 20,
+  },
+  starsContainer: {
+    marginTop: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

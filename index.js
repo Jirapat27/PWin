@@ -2,13 +2,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
-import HomeScreen from "./App/Screen/Home/HomeScreen";
 import AppMapView_HomeScreen from "./App/Screen/Home/AppMapView_HomeScreen";
 import HomeScreen_SBmerge from "./App/Screen/Home/HomeScreen_SBmerge";
 import LandingPage from "./App/Screen/LandingPage/LandingPage";
 import CalculateScreen from "./App/Screen/Calculate/CalculateScreen";
 import AddPlaceScreen from "./App/Screen/AddPlaces/AddPlaceScreen";
-import AddPics from "./App/Screen/AddPlaces/AddPics";
 import LogInScreen from "./App/Screen/Login/LogInScreen";
 import SignUpScreen from "./App/Screen/Login/SignUpScreen";
 import LogInScreen_cal from "./App/Screen/Login/LogInScreen_cal";
@@ -30,8 +28,6 @@ export default function AppIndex() {
         screenOptions={{headerShown: false,}}>
         <Stack.Screen name="LandingPage" 
           component={LandingPage} />
-        <Stack.Screen name="HomeScreen" 
-          component={HomeScreen} />
         <Stack.Screen name="HomeScreen_SBmerge" 
           component={HomeScreen_SBmerge} />
         <Stack.Screen name="AppMapView_HomeScreen" 
@@ -42,8 +38,6 @@ export default function AppIndex() {
           component={AddDetailScreen} />
         <Stack.Screen name="AddPlaceScreen"
           component={AddPlaceScreen} />
-        <Stack.Screen name="AddPics"
-          component={AddPics} />
         <Stack.Screen name="LogInScreen"
           component={LogInScreen}/> 
         <Stack.Screen name="SignUpScreen" 

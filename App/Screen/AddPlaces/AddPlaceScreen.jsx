@@ -1,6 +1,6 @@
 import { View, Text, BackHandler, StyleSheet, handlePress, Image } from "react-native";
 import React, { useState, useEffect } from "react";
-import AppMapView from "../Home/AppMapView";
+import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
 import AddButton from "./AddButton";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -56,7 +56,7 @@ export default function AddPlaceScreen() {
         <Text style={styles.title}>เพิ่มสถานที่ตั้ง</Text>
       </View>
       <View style={styles.headerContainer}></View>
-      <AppMapView
+      <AppMapView_MarkOnly
         initialRegion={region}
         onRegionChangeComplete={onChangeValue}
       />

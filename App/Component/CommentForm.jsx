@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { format } from 'date-fns';
 import { db } from '../../firebaseConfig';
-import { ref, push, set } from "firebase/database"; // Import 'set' function and serverTimestamp
+import { ref, push, set } from "firebase/database";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CloseImage from "../../assets/images/Close.png";
 import Logo from "../../assets/images/Logo.png";
+import StarRating from 'react-native-star-rating'; // Import StarRating component
 
 export default function CommentForm() {
   const navigation = useNavigation();
   const route = useRoute();
   const [description, setDescription] = useState("");
-  const [starReview, setStarReview] = useState("");
+  const [starReview, setStarReview] = useState(0); // Initialize starReview state to 0
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { username, placeName } = route.params;
@@ -24,15 +25,6 @@ export default function CommentForm() {
       // Check if any field is empty
       if (!description || !starReview) {
         Alert.alert("Warning", "Please fill in all fields.");
-        return;
-      }
-
-      // Convert starReview to a number
-      const starReviewNum = parseFloat(starReview);
-  
-      // Check if starReview is within the range of 0 to 5 and is a multiple of 0.5
-      if (starReviewNum < 0 || starReviewNum > 5 || starReviewNum % 0.5 !== 0) {
-        Alert.alert("Warning", "Star Review must be a value between 0 and 5 and a multiple of 0.5.");
         return;
       }
   
@@ -54,13 +46,13 @@ export default function CommentForm() {
               const commentRef = ref(db, 'comments');
               const newCommentRef = push(commentRef);
               const timestamp = format(new Date(), "HH:mm EEEE, dd MMMM yyyy (zzzz)"); // Format the timestamp
-              await set(newCommentRef, { description, starReview: starReviewNum, timestamp, username, placeName });
+              await set(newCommentRef, { description, starReview, timestamp, username, placeName });
   
               console.log("Comment submitted successfully!");
   
               // Clear input fields
               setDescription("");
-              setStarReview("");
+              setStarReview(0); // Reset starReview to 0
   
               // Navigate to the home screen
               navigation.navigate('AppMapView_HomeScreen');
@@ -92,12 +84,13 @@ export default function CommentForm() {
         onChangeText={setDescription}
       />
       <Text style={[styles.name, { textAlign: 'left' }]}>Star Review</Text>
-      <TextInput
-        style={styles.inputContainer}
-        value={starReview}
-        placeholder="Enter Star Review (out of 5)"
-        onChangeText={setStarReview}
-        keyboardType="numeric"
+      <StarRating
+        disabled={false}
+        maxStars={5}
+        rating={starReview}
+        selectedStar={(rating) => setStarReview(rating)}
+        fullStarColor="#FF8A48"
+        halfStarEnabled={true} // Enable half-filled stars
       />
       {error && <Text style={styles.errorMessage}>{error}</Text>}
       {loading ? (

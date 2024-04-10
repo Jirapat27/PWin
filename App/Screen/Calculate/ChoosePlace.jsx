@@ -205,7 +205,6 @@ import { useNavigation } from "@react-navigation/native";
 import { UserLocationContext } from "../../Context/UserLocationContext";
 
 import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
-import AppMapView from "../Home/AppMapView";
 
 const ChoosePlace = ({onMarkerPress}) => {
   const navigation = useNavigation();

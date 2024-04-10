@@ -195,8 +195,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { UserLocationContext } from "../../Context/UserLocationContext";
-import AppMapView_MarkOnly from "../Home/AppMapView_MarkOnly";
-import AppMapView from "../Home/AppMapView";
+import AppMapView_MarkSet from "../Home/AppMapView_MarkSet";
 
 const ChooseWin = () => {
   const navigation = useNavigation();
@@ -281,7 +280,7 @@ const ChooseWin = () => {
           </TouchableOpacity>
         </View>
 
-        <AppMapView_MarkOnly onMarkerPress={handleMarkerPress}/>
+        <AppMapView_MarkSet onMarkerPress={handleMarkerPress}/>
 
         <View style={styles.buttomContainer}>
           <TouchableOpacity
