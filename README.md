@@ -1,5 +1,4 @@
-# ตัวล่าสุดที่นำขึ้นเสนอใน sprint 3
-# update (10 Apr)
+# ตัวล่าสุดที่นำขึ้นเสนอใน sprint 3 (update 10 Apr)
 - เพิ่ม pin
 - แก้ปุ่ม back (BackHandler)
 - อ่านค่า lat-long จาก log ได้แล้ว
