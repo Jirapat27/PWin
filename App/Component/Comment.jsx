@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { ref, onValue } from "firebase/database";
+import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
+import { ref, get } from "firebase/database";
 import { db } from '../../firebaseConfig'; // Import the database reference
 import Stars from 'react-native-stars';
 
@@ -8,34 +8,70 @@ export default function Comment({ placeName }) {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    const commentsRef = ref(db, 'comments'); // Ensure that 'comments' is the correct path
-
-    const unsubscribe = onValue(commentsRef, (snapshot) => {
-      const commentsData = snapshot.val();
-      if (commentsData) {
-        const sortedComments = Object.values(commentsData)
-          .filter(comment => comment.placeName === placeName) // Filter comments by placeName
-          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort comments by timestamp, latest first
-        setComments(sortedComments.reverse()); // Reverse the order to display the latest comment first
-      } else {
-        setComments([]);
+    const fetchComments = async () => {
+      const commentsRef = ref(db, 'comments');
+      const usersRef = ref(db, 'users');
+  
+      try {
+        const commentsSnapshot = await get(commentsRef);
+        const usersSnapshot = await get(usersRef);
+  
+        const commentsData = commentsSnapshot.val();
+        const usersData = usersSnapshot.val();
+  
+        if (commentsData && usersData) {
+          const commentsArray = Object.values(commentsData)
+            .filter(comment => comment.placeName === placeName);
+  
+          console.log('Comments Array (Before Sorting):', commentsArray);
+  
+          // Sort comments by timestamp, latest first
+          const sortedCommentsArray = commentsArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  
+          console.log('Comments Array (After Sorting):', sortedCommentsArray);
+  
+          const commentsWithUserInfo = sortedCommentsArray.map(comment => {
+            const user = Object.values(usersData).find(user => user.username === comment.username);
+            const userData = user ? { username: user.username, profilePic: user.profilePic } : null;
+            return { ...comment, userData };
+          });
+  
+          setComments(commentsWithUserInfo);
+        } else {
+          setComments([]);
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
       }
-    });
-
-    return () => {
-      unsubscribe();
     };
+  
+    fetchComments();
+  
+    return () => {}; // Cleanup function
   }, [placeName]);
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.commentsContainer}>
+      <ScrollView 
+        style={styles.commentsContainer}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      >
         {comments.length === 0 ? (
           <Text style={styles.noDataText}>ยังไม่มีการแสดงความคิดเห็น</Text>
         ) : (
           comments.map((comment, index) => (
             <View key={index} style={styles.commentItem}>
-              <Text>{comment.description}</Text>
+              <View style={styles.userInfo}>
+                {comment.userData && comment.userData.profilePic && (
+                  <Image
+                    source={{ uri: comment.userData.profilePic }}
+                    style={styles.profilePic}
+                  />
+                )}
+                <Text style={styles.username}>{comment.userData && comment.userData.username}</Text>
+              </View>
+              <Text style={styles.descriptionText}>{comment.description}</Text>
               <View style={styles.starsContainer}>
                 <Stars
                   default={parseFloat(comment.starReview)}
@@ -47,8 +83,7 @@ export default function Comment({ placeName }) {
                   starSize={30} // Adjust the size of the stars
                   disabled={true}
                   fullStarColor="#FF8A48"
-                  halfStarColor="#FF8A48"
-                  starStyle={{ padding: 2 }} // Adjust the padding of the stars
+                  halfStarColor="#FF8A48"// Adjust the padding of the stars
                 />
               </View>
             </View>
@@ -66,23 +101,54 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   commentsContainer: {
+    marginTop: 20,
+    paddingBottom: 20,
     flex: 1,
   },
   commentItem: {
+    flexDirection: 'row',
     marginBottom: 10,
     padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
+    borderRadius: 10,
+    margin: 3,
+    height: 100, 
+    width: 250, 
+    backgroundColor: "#DDDDDD",
+  },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 35,
+  },
+  profilePic: {
+    width: 40,
+    height: 40,
+    borderRadius: 25,
+    marginRight: 10,
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    bottom: 15,
+  },
+  starsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 27,
+    left: 55,
+  },
+  descriptionText: {
+    fontSize: 20,
+    position: 'absolute',
+    top: 60,
+    left: 12,
   },
   noDataText: {
     fontSize: 20,
     textAlign: 'center',
     marginVertical: 20,
-  },
-  starsContainer: {
-    marginTop: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
   },
 });

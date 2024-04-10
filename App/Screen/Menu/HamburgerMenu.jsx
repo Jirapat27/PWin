@@ -1,19 +1,35 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const [drawerOpen, setDrawerOpen] = React.useState(false);
-const handleDrawerToggle = () => {
-  setDrawerOpen(!drawerOpen);
- };
-const Stack = createStackNavigator();
-
-export default function HamburgerMenu() {
+const HamburgerMenu = ({ isOpen, onPress }) => {
   return (
-      <View>
-        <Text>Hamburger</Text>
-      </View>
-   );
-}
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      {isOpen ? (
+        <Icon name="chevron-left" size={36} color="#FF9A62" />
+      ) : (
+        <>
+          <View style={styles.bar}></View>
+          <View style={styles.bar}></View>
+          <View style={styles.bar}></View>
+        </>
+      )}
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    top: 38,
+    padding: 10,
+  },
+  bar: {
+    width: 30,
+    height: 3,
+    backgroundColor: "#FF9A62",
+    marginVertical: 3,
+  },
+});
+
+export default HamburgerMenu;

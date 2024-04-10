@@ -67,8 +67,8 @@ export default function SignUp_cal(){
         uid: user.uid,
         username: username,
         email: email,
-        profilePic: 'https://firebasestorage.googleapis.com/v0/b/pwin-da6c3.appspot.com/o/profile%2FProfile.png?alt=media&token=68e3fbb6-1033-4eac-9337-c343584880df',
-      }
+        profilePic: 'https://firebasestorage.googleapis.com/v0/b/pwin-da6c3.appspot.com/o/profile%2FProfile.png?alt=media&token=68e3fbb6-1033-4eac-9337-c343584880df'
+      }      
 
       await set(userPath, additionalUserInfo);
 
