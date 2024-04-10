@@ -175,15 +175,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 30, 
   },
-  // buttomContainer: {
-  //   backgroundColor: "#EFEFEF",
-  //   position: "absolute",
-  //   flexDirection: "column",
-  //   top: 700,
-  //   width: "100%",
-  //   height: "25%",
-  //   alignItems: "center",
-  // },
   buttomContainer: {
     backgroundColor: "#EFEFEF",
     position: "absolute",
@@ -215,59 +206,3 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
-
-
-//**---------------direction--------------------------------------- */
-// import React from "react";
-// import { View } from "react-native";
-// import MapViewDirections from "react-native-maps-directions";
-// import { useNavigation, useRoute } from "@react-navigation/native";
-// import MapView from "react-native-maps"; // Import MapView from react-native-maps
-// import AppMapView_Calculate from "../Home/AppMapView_Calculate";
-
-// const CalculateScreen = ({}) => {
-//   // Define your origin and destination coordinates
-//   const GOOGLE_MAPS_APIKEY = "AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY";
-
-//   const route = useRoute();
-//   const { destinationLat, destinationLong, placeLat, placeLong, place } =
-//     route.params;
-
-//   const origin = {
-//     latitude: placeLat,
-//     longitude: placeLong,
-//   };
-//   const destination = {
-//     latitude: destinationLat,
-//     longitude: destinationLong,
-//   };
-
-  
-//   // const origin = { latitude: 13.7563, longitude: 100.5018 };
-//   // const destination = { latitude: 12.9276, longitude: 100.8777 };
-
-//   return (
-//     <View style={{ flex: 1 }}>
-//       <MapView
-//         style={{ flex: 1 }}
-//         initialRegion={{
-//           latitude: origin.latitude,
-//           longitude: destination.longitude,
-//           latitudeDelta: 0.5,
-//           longitudeDelta: 0.5,
-//         }}
-//       >
-//         {/* Render the MapViewDirections component */}
-//         <MapViewDirections
-//           origin={origin}
-//           destination={destination}
-//           apikey={GOOGLE_MAPS_APIKEY}
-//           strokeWidth={3}
-//           strokeColor="hotpink"
-//         />
-//       </MapView>
-//     </View>
-//   );
-// };
-
-//export default CalculateScreen;
