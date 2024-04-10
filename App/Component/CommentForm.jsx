@@ -75,15 +75,15 @@ export default function CommentForm() {
           <Image source={CloseImage} />
         </TouchableOpacity>
       </View>
-      <Text h4 style={styles.header}>Add Comment</Text>
-      <Text style={[styles.name, { textAlign: 'left' }]}>Description</Text>
+      <Text h4 style={styles.header}>เพิ่มความคิดเห็น</Text>
+      <Text style={[styles.name, { textAlign: 'left' }]}>รายละเอียดความคิดเห็น</Text>
       <TextInput
         style={styles.inputContainer}
         value={description}
-        placeholder="Enter Description"
+        placeholder="พิมพ์รายละเอียดความคิดเห็นที่นี้"
         onChangeText={setDescription}
       />
-      <Text style={[styles.name, { textAlign: 'left' }]}>Star Review</Text>
+      <Text style={[styles.name, { textAlign: 'left' }]}>คะแนนความคิดเห็น</Text>
       <Stars
         default={starReview}
         count={5}
@@ -102,7 +102,7 @@ export default function CommentForm() {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <TouchableOpacity style={styles.submitButton} onPress={submitComment}>
-          <Text style={styles.submitButtonText}>Submit</Text>
+          <Text style={styles.submitButtonText}>บันทึก</Text>
         </TouchableOpacity>
       )}
       <KeyboardAvoidingView

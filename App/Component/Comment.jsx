@@ -23,20 +23,16 @@ export default function Comment({ placeName }) {
           const commentsArray = Object.values(commentsData)
             .filter(comment => comment.placeName === placeName);
   
-          console.log('Comments Array (Before Sorting):', commentsArray);
-  
-          // Sort comments by timestamp, latest first
-          const sortedCommentsArray = commentsArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-  
-          console.log('Comments Array (After Sorting):', sortedCommentsArray);
-  
-          const commentsWithUserInfo = sortedCommentsArray.map(comment => {
+          const commentsWithUserInfo = commentsArray.map(comment => {
             const user = Object.values(usersData).find(user => user.username === comment.username);
             const userData = user ? { username: user.username, profilePic: user.profilePic } : null;
             return { ...comment, userData };
           });
   
-          setComments(commentsWithUserInfo);
+          // Sort comments by timestamp, latest first
+          const sortedCommentsArray = commentsWithUserInfo.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  
+          setComments(sortedCommentsArray);
         } else {
           setComments([]);
         }
@@ -114,7 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 3,
     height: 100, 
-    width: 250, 
+    width: 250, // Adjust the width of each comment item
     backgroundColor: "#DDDDDD",
   },
   userInfo: {
