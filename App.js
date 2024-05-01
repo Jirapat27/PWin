@@ -1,8 +1,8 @@
-import { StatusBar } from "expo-status-bar";
+import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useEffect, useState } from "react";
 
 import * as Location from "expo-location";
 import { UserLocationContext } from "./App/Context/UserLocationContext";
