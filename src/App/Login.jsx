@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Config";
-import { useHistory } from "react-router-dom"; // Import useHistory hook
+import { withRouter } from 'react-router-dom';
 
-const Login = () => {
-  const history = useHistory(); // Initialize useHistory hook
+const Login = ({ history }) => {
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,22 +14,24 @@ const Login = () => {
     setVisible((prev) => !prev);
   };
 
-  const handleSubmit = async (e) => {
+  const signIn = (e) => {
     e.preventDefault();
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      // Redirect the user after successful login
-      history.push("/home"); // Redirect to the homepage
-    } catch (error) {
-      setError(error.message);
-    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("Successfully logged in:", userCredential.user.email);
+        // Redirect to homepage upon successful login
+        history.push("/home");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-orange-500">
-          LOGIN
+          PWin Dashboard
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -92,7 +94,7 @@ const Login = () => {
               <button
                 type="submit"
                 className="group relative w-full h-[50px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-orange-500 hover:bg-orange-700"
-                onClick={handleSubmit}
+                onClick={signIn}
               >
                 LOGIN
               </button>
@@ -104,4 +106,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
