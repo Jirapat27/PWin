@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView, Alert, Linking, Platform, Modal } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ScrollView, Alert, Linking, Platform, Modal, Clipboard  } from "react-native";
 import Comment from './Comment';
 import { auth, db } from "../../firebaseConfig";
 import { ref, get } from "firebase/database";
@@ -15,14 +15,24 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
   const [user, setUser] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const handleShareLocation = () => {
+    const destination = sheetPlaces;
+    const coordinates = `${destination.latitude},${destination.longitude}`
+    const googleMapUrl = `https://www.google.com/maps/dir/?api=1&destination=${coordinates}`;
+
+    Clipboard.setString(googleMapUrl);
+    alert('Link copied to clipboard!');
+  };
+
   const handleStartJourney = () => {
     const { latitude, longitude } = location;
     const destination = sheetPlaces;
 
     if (latitude && longitude && destination) {
       const url = Platform.select({
-        ios: `maps://app?saddr=${latitude},${longitude}&daddr=${destination.latitude},${destination.longitude}`,
-        android: `google.navigation:q=${destination.latitude},${destination.longitude}`,
+        ios: `maps://app?saddr=${latitude},${longitude}&daddr=${destination.latitude},${destination.longitude}&dirflg=w`,
+        android: `google.navigation:mode=w&q=${destination.latitude},${destination.longitude}`
+
       });
 
       Linking.canOpenURL(url).then((supported) => {
@@ -154,11 +164,8 @@ export default function BottomSheets({ sheetPlaces, location, onClose }) {
           <View style={styles.modalContainer}>
             <TouchableOpacity style={styles.modalContent} activeOpacity={1}>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={[styles.modalButton, styles.shareButton]} onPress={() => {
-                  navigation.navigate('Share');
-                  setModalVisible(false);
-                }}>
-                  <Text style={[styles.buttonText, styles.blackText]}>Share</Text>
+              <TouchableOpacity style={[styles.modalButton, styles.shareButton]} onPress={handleShareLocation}>
+                  <Text style={[styles.buttonText, styles.blackText]}>Copy Link</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.modalButton, styles.reportButton]} onPress={() => {
                   navigation.navigate('Report');
