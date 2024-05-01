@@ -1,26 +1,34 @@
-import { React, useState  } from "react";
+import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Navigate } from "react-router-dom/dist";
+import { auth } from "../Config";
+//import { useHistory } from "react-router-dom"; // Import useHistory hook
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { withRouter } from 'react-router-dom'; // Import withRouter
+const Login = ({ history }) => {
 
-const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  
   const [visible, setVisible] = useState(false);
-
-
-
+  //const [error, setError] = useState(null);
 
   const handleVisible = () => {
-    setVisible((preve) => !preve);
+    setVisible((prev) => !prev);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-            Navigate("/Homepage")
-            //redirect("./AdminPage.js")
-
-        // console.log("userData", userData);
-      }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("Successfully logged in:", userCredential.user.email);
+        // Redirect to homepage upon successful login
+        history.push("/home");
+      })
+      .catch((error) => {
+        console.log("Error logging in:", error.message);
+      });
+  };
 
 
 
@@ -33,71 +41,69 @@ const Login = () => {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" >
+          <form className="space-y-6">
             <div>
               <label
                 htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
-                Username:
+                Email:
               </label>
               <div className="mt-1">
                 <input
-                  type={"text"}
-                  id="username"
-                  name="username"
-                  //value={data.username}
-                  //required
-                  className="appearance-none block w-full px-3 py-2 mt-4 rounded-md   bg-gray-200  sm:text-sm"
-                  //onChange={handleOnChange}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 mt-4 rounded-md bg-gray-200 sm:text-sm"
                 />
               </div>
             </div>
 
             <div>
               <label
-                htmlFor="password:"
+                htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-                Password
+                Password:
               </label>
               <div className="mt-1 relative">
                 <input
                   type={visible ? "text" : "password"}
                   id="password"
                   name="password"
-                  //value={data.password}
-                  //required
-                  className="appearance-none block w-full px-3 py-2 mt-4 rounded-md   bg-gray-200  sm:text-sm"
-                  //onChange={handleOnChange}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 mt-4 rounded-md bg-gray-200 sm:text-sm"
                 />
                 {visible ? (
                   <AiOutlineEye
-                    className=" absolute right-2 top-2 cursor-pointer"
+                    className="absolute right-2 top-2 cursor-pointer"
                     size={25}
-                    onClick={() => setVisible(false)}
+                    onClick={handleVisible}
                   />
                 ) : (
                   <AiOutlineEyeInvisible
-                    className=" absolute right-2 top-2 cursor-pointer"
+                    className="absolute right-2 top-2 cursor-pointer"
                     size={25}
-                    onClick={() => setVisible(true)}
+                    onClick={handleVisible}
                   />
                 )}
               </div>
             </div>
 
+            {/* {error && <p className="text-red-500">{error}</p>} */}
+
             <div>
               <button
                 type="submit"
                 className="group relative w-full h-[50px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-orange-500 hover:bg-orange-700"
-               onClick={handleSubmit}
+                onClick={handleSubmit}
               >
                 LOGIN
               </button>
             </div>
-
-
           </form>
         </div>
       </div>
@@ -105,4 +111,4 @@ const Login = () => {
   );
 };
 
-export default Login
+export default withRouter(Login);

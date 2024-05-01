@@ -1,7 +1,7 @@
 // Config.js
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref as databaseRef, onValue } from "firebase/database";
-import { initializeAuth } from 'firebase/auth'; // Remove getReactNativePersistence import
+import { getAuth } from 'firebase/auth'; // Remove getReactNativePersistence import
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage'; // Remove ref import, it's not needed here
 
@@ -17,7 +17,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = initializeAuth(app); // Remove getReactNativePersistence call
+const auth = getAuth(app); // Remove getReactNativePersistence call
 const db = getDatabase(app);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
