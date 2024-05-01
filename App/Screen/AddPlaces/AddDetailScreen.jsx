@@ -72,9 +72,10 @@ export default function AddDetailScreen() {
         // After successfully uploading images to Storage, store imageURLs in the database
         const placesRef = ref(db, 'MarkWin/');
         const newPlaceChildRef = push(placesRef);
-        const newPlaceKey = newPlaceChildRef.key;
+        const mid = newPlaceChildRef.key;
         const timestamp = format(new Date(), "HH:mm EEEE, dd MMMM yyyy (zzzz)");
         await set(newPlaceChildRef, {
+          mid: mid,
           name: placeName,
           description: description || '',
           images: imageURLs, // Store the image URLs

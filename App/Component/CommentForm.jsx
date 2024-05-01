@@ -43,10 +43,11 @@ export default function CommentForm() {
               setLoading(true);
   
               // Push comment data to the database along with timestamp
-              const commentRef = ref(db, 'comments');
+              const commentRef = ref(db, 'comments' );
               const newCommentRef = push(commentRef);
+              const cid = newCommentRef.key; // Generate unique comment ID
               const timestamp = format(new Date(), "HH:mm EEEE, dd MMMM yyyy (zzzz)"); // Format the timestamp
-              await set(newCommentRef, { description, starReview, timestamp, username, placeName });
+              await set(newCommentRef, { cid, description, starReview, timestamp, username, placeName });
   
               console.log("Comment submitted successfully!");
   
