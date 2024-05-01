@@ -20,10 +20,10 @@ ReactDOM.render(
     <React.StrictMode>
     <Route exact path="/" component={Login} />
       <HeaderAdmin/>
-      <div className="flex">
+      <div className="flex ">
       <SideBar/>
       <Switch>
-        
+      
         <Route path="/home" component={Homepage} />
         <Route path="/markwin" component={MarkWin} />
         <Route path="/user" component={Userpage} />

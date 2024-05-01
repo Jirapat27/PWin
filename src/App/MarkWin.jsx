@@ -34,7 +34,7 @@ function MarkTest() {
 
   return (
     <div
-      className="m-auto items-center text-center  mt-10 mb-10"
+      className=" items-center text-center mt-10 mb-10"
 
     >
 

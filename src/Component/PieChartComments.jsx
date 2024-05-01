@@ -11,8 +11,8 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
   const chartConfig = {
     type: "pie",
-    width: 500,
-    height: 300,
+    width: 550,
+    height: 350,
     series: [44, 55, 13, 43, 22],
     options: {
       chart: {
@@ -36,7 +36,7 @@ export default function PieChartComments() {
 
     
   return (
-    <Card>
+    <Card className='rounded-3xl'>
       <Link to={"comment"}>
       <CardHeader
         floated={false}
@@ -63,7 +63,7 @@ export default function PieChartComments() {
         </div>
       </CardHeader>
       </Link>
-      <CardBody className="mt-4 grid place-items-center px-2">
+      <CardBody className="mt-4 grid place-items-center px-2 pb-8">
         <Chart {...chartConfig} />
       </CardBody>
       <Link to={"comment"}></Link>

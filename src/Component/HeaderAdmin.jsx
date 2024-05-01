@@ -7,8 +7,6 @@ import Logo from "./../assest/Logo.png"
 
 const HeaderAdmin = () => {
 
-
-
   return (
     <header className=" shadow-md w-full h-20 px-2 md:px-4 z-50 bg-blue-gray-900">
 

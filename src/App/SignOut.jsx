@@ -25,7 +25,9 @@ const SignOut = () => {
     signOut(auth)
       .then(() => {
         console.log("sign out successful");
-        history.push("/"); // Redirect to login page after sign out
+        
+        history.push("/");
+         // Redirect to login page after sign out
       })
       .catch((error) => console.log(error));
   };

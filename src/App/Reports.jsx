@@ -6,7 +6,7 @@ const Reports = () => {
   const [placeProblems, setplaceProblems] = useState([]);
 
   return (
-    <div className="m-auto items-center text-center  mt-10 mb-10">
+    <div className="m-auto items-center text-center    mt-10 mb-10">
 
       <Card className="h-full w-full overflow-scroll">
         <table className="w-full min-w-max table-auto text-left ">

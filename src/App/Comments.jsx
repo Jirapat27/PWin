@@ -38,9 +38,9 @@ const Comments = () => {
   );
 
   return (
-    <div className="m-auto items-center text-center  mt-10 mb-10">
+    <div className=" items-center text-center  p-20 ml-180  mb-5">
       
-      <div className="m-4 justify-end ">
+      <div className="mb-4 justify-end ">
         <input
           type="text"
           placeholder="Filter by place name"
