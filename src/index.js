@@ -22,15 +22,16 @@ ReactDOM.render(
       <HeaderAdmin/>
       <div className="flex">
       <SideBar/>
-
       <Switch>
         
         <Route path="/home" component={Homepage} />
-        {/* <Route path="/home"  element={<Homepage layout={HeaderAdmin} />} /> */}
         <Route path="/markwin" component={MarkWin} />
         <Route path="/user" component={Userpage} />
         <Route path="/comment" component={Comments} />
         <Route path="/reports" component={Reports}/>
+
+
+
 
       </Switch>
       </div>

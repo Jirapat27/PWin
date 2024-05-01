@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { databaseRef, onValue, db } from '../Config';
+import { TrashIcon } from "@heroicons/react/24/solid";
+import { Card } from "@material-tailwind/react";
 
 const Comments = () => {
   const [placeComments, setPlaceComments] = useState([]);
@@ -36,50 +38,56 @@ const Comments = () => {
   );
 
   return (
-    <div className="m-auto items-center text-center">
-      <h1 className="justify-center mt-10 mb-10 font-bold text-3xl">Comments List</h1>
-      <div className="m-4">
+    <div className="m-auto items-center text-center  mt-10 mb-10">
+      
+      <div className="m-4 justify-end ">
         <input
           type="text"
-          placeholder="Filter by place name..."
+          placeholder="Filter by place name"
           value={filteredPlaceName}
           onChange={handleFilter}
-          className="p-2 border rounded"
+          className=" flex-auto p-2 border rounded"
         />
       </div>
-      <table className="w-full m-auto bg-slate-50 bg-h-200 rounded-xl">
-        <thead className="">
-          <tr className="bg-orange-500">
-            <th className="w-auto h-12 text-white">PlaceName</th>
-            <th className="w-auto h-12 text-white">Comments</th>
-            <th className="w-auto h-12 text-white">StarReview</th>
-            <th className="w-auto h-12 text-white">Time</th>
-            <th className="w-auto h-12 text-white">Username</th>
-            <th className="w-auto h-12 text-white">Actions</th>
+      <Card className="h-full w-full overflow-scroll">
+      <table className="w-full min-w-max table-auto text-left">
+        <thead >
+          <tr className=" p-4 bg-slate-100">
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">PlaceName</th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Comments</th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">StarReview</th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Time</th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Username</th>
+            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Actions</th>
           </tr>
         </thead>
         <tbody>
           {filteredComments.map((comment) => (
             <tr key={comment.cid}>
-              <td>{comment.placeName}</td>
-              <td>{comment.description}</td>
-              <td>{comment.starReview}</td>
-              <td>{comment.timestamp}</td>
-              <td>{comment.username}</td>
+              <td className="p-4">{comment.placeName}</td>
+              <td className="p-4">{comment.description}</td>
+              <td className="p-4">{comment.starReview}</td>
+              <td className="p-4">{comment.timestamp}</td>
+              <td className="p-4">{comment.username}</td>
               <td>
-                <div className=" mt-5 pad-2">
-                  <button
-                    className="bg-orange-500 px-3 py-1 rounded-xl text-white"
-                    // onClick={() => handleOnDelete(comment.cid)}
-                  >
-                    Delete
-                  </button>
+                <div className="p-7 m-5 items-center text-center">
+                <button className="justify-center bg-orange-400  rounded-lg w-10 h-10 ">
+                        
+                        <TrashIcon className="h-7 w-8 pl-2 text-white " 
+                        //onClick={() => handleOnDelete(user.uid)}
+                        />
+
+
+                    </button>
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      </Card>
+      
     </div>
   );
 };
