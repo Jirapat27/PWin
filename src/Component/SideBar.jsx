@@ -60,7 +60,7 @@ export function SideBar() {
             </ListItem>
           </Link>
 
-          <Link to={"logout"}>
+          <Link to={"/"}>
             <ListItem>
               <ListItemPrefix className="p-5">
                 <PowerIcon className="h-7 w-7" />

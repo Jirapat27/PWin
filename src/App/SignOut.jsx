@@ -36,7 +36,7 @@ const SignOut = () => {
     <div>
       {authUser ? (
         <>
-          <p>{`Signed In as ${authUser.email}`}</p>
+          <p>{`เข้าสู่ระบบในนาม ${authUser.email}`}</p>
           <button onClick={userSignOut}>Sign Out</button>
         </>
       ) : (
