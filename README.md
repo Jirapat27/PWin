@@ -1,4 +1,4 @@
-# ตัวล่าสุดที่นำขึ้นเสนอใน sprint 3 (update 10 Apr)
+# ตัวล่าสุดที่นำขึ้นเสนอใน sprint 4 (update 2 May)
 - เพิ่ม pin
 - แก้ปุ่ม back (BackHandler)
 - อ่านค่า lat-long จาก log ได้แล้ว
@@ -12,3 +12,5 @@
 - แก้ Login, Signup ในหน้า BottomSheets แล้ว
 - มี รูป+ชื่อ คนเม้นแล้ว
 - มี Hamburger แล้ว
+- มี report
+- แก้ bug "ViewProps"
