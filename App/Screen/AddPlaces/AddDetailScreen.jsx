@@ -86,7 +86,7 @@ export default function AddDetailScreen() {
         });
   
         console.log('เพิ่มสถานที่สำเร็จ');
-        console.log('Newly added place key:', newPlaceKey);
+        console.log('Newly added place key:', mid);
   
         // Show success popup
         showSuccessPopup();
