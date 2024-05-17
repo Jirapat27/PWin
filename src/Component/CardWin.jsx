@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-import { onValue } from "firebase/database";
-import { databaseRef, db } from "../Config";
+import { databaseRef, db, onValue} from "../Config";
 
 import {
   Card,

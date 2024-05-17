@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { databaseRef, onValue, db } from '../Config';
+import { databaseRef, db } from '../Config';
+import { onValue } from 'firebase/database';
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { Card } from "@material-tailwind/react";
 
