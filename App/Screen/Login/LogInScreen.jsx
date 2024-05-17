@@ -1,12 +1,12 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
-import Login from "./LogIn";
+import LogIn from "./LogIn";
 import { TextInput } from "react-native-gesture-handler";
 //import 'Logo' from '../PWin-App/assets/images/Logo.jpg';
-export default function LoginScreen() {
+export default function LogInScreen() {
   return (
     <View style={styles.container}>
-      <Login/>
+      <LogIn/>
     </View>
   );
 }

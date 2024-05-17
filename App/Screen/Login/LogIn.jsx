@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView, BackHandler, ScrollView, Platform, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db, onValue } from '../../../firebaseConfig';
@@ -7,9 +7,11 @@ import { ref } from "firebase/database";
 import CloseImage from "../../../assets/images/Close.png";
 import Logo from "../../../assets/images/Logo.png";
 
-export default function Login() {
-  const [email, setemail] = useState('');
+export default function LogIn() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigation = useNavigation();
 
   const handleSignUpPress = () => {
@@ -24,15 +26,17 @@ export default function Login() {
     try {
       // Check if username or email is empty
       if (!email) {
-        Alert.alert('Error', 'จำเป็นต้องใส่ ที่อยู่อีเมล');
+        Alert.alert('เกิดข้อผิดพลาด', 'จำเป็นต้องใส่ อีเมล');
         return;
       }
   
       // Check if password is empty
       if (!password) {
-        Alert.alert('Error', 'ยังไม่ได้กรอก รหัสผ่าน');
+        Alert.alert('เกิดข้อผิดพลาด', 'ยังไม่ได้กรอก รหัสผ่าน');
         return;
       }
+  
+      setLoading(true);
   
       const authResult = await signInWithEmailAndPassword(auth, email, password);
   
@@ -56,67 +60,81 @@ export default function Login() {
       console.error('เกิดข้อผิดพลาดระหว่างทำการเข้าสู่ระบบ:', error.message);
       Alert.alert('เกิดข้อผิดพลาด', `เข้าสู่ระบบไม่สำเร็จ: ${error.message}`);
     }
-  };  
+  };
 
   return (
-  <View style={styles.container}>
-    <View style={styles.close}>
-      <TouchableOpacity onPress={() => navigation.navigate("AppMapView_HomeScreen")}>
-        <Image source={CloseImage} />
-      </TouchableOpacity>
-    </View>
-    <Text style={styles.header}>ลงชื่อเข้าใช้</Text>
-    <Text style={[styles.name, { textAlign: 'left' }]}>ที่อยู่อีเมล</Text>
-    <TextInput
-      style={styles.inputContainer}
-      placeholder="ที่อยู่อีเมล"
-      placeholderTextColor="#B0B0B0"
-      onChangeText={(input) => setemail(input)}
-    />
-    <Text style={[styles.name, { textAlign: 'left' }]}>รหัสผ่าน</Text>
-    <TextInput
-      style={styles.inputContainer}
-      placeholder="รหัสผ่าน"
-      secureTextEntry
-      placeholderTextColor="#B0B0B0"
-      onChangeText={(pass) => setPassword(pass)}
-    />
-    <Text style={styles.forget} onPress={handleForgetPasswordPress}>ลืมรหัสผ่าน ?</Text>
-    <TouchableOpacity style={styles.logInButton} onPress={handleLoginPress}>
-      <Text style={styles.logInButtonText}>เข้าสู่ระบบ</Text>
-    </TouchableOpacity>
-
-    <Text style={styles.signUpSentence}>
-      ยังไม่มีบัญชี PWin ? {' '}
-      <Text style={styles.signUpText} onPress={handleSignUpPress}>
-      ลงทะเบียน
-      </Text>
-    </Text>
-    <KeyboardAvoidingView
-      style={{ flex: 1, marginTop: 70, alignItems: 'center', paddingHorizontal: 30, fontFamily: 'BaiJamjuree-Medium' }}
-      behavior={Platform.OS === 'android' ? 'padding' : 'height'} >
-      <Image source={Logo} style={styles.logo} />
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          <View style={styles.close}>
+            <TouchableOpacity onPress={() => navigation.navigate("AppMapView_HomeScreen")}>
+              <Image source={CloseImage} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.header}>ลงชื่อเข้าใช้</Text>
+          <Text style={[styles.name, { textAlign: 'left' }]}>    อีเมล</Text>
+          <TextInput
+            style={styles.inputContainer}
+            placeholderTextColor="#B0B0B0"
+            onChangeText={(input) => setEmail(input)}
+          />
+          <Text style={[styles.name, { textAlign: 'left' }]}>    รหัสผ่าน</Text>
+          <TextInput
+            style={styles.inputContainer}
+            secureTextEntry
+            placeholderTextColor="#B0B0B0"
+            onChangeText={(pass) => setPassword(pass)}
+          />
+           <Text style={styles.forget} onPress={handleForgetPasswordPress}>ลืมรหัสผ่าน ?</Text>
+          {error && <Text style={styles.errorMessage}>{error}</Text>}
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <TouchableOpacity style={styles.logInButton} onPress={handleLoginPress}>
+              <Text style={styles.logInButtonText}>เข้าสู่ระบบ</Text>
+            </TouchableOpacity>
+          )}
+  
+          <Text style={styles.signUpSentence}>
+            ยังไม่มีบัญชี? {' '}
+            <Text style={styles.signUpText} onPress={handleSignUpPress}>
+              ลงทะเบียน
+            </Text>
+          </Text>
+        </View>
+      </ScrollView>
+      <View style={styles.logoContainer}>
+        <Image source={Logo} style={styles.logo} />
+      </View>
     </KeyboardAvoidingView>
-  </View>
   );
 };
+
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
-    marginTop:70,
     alignItems: "center",
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
+    paddingTop: screenHeight * 0.05,
     fontFamily: 'BaiJamjuree-Medium'
+  },
+  close: {
+    alignSelf: 'flex-end',
   },
   forget:{
     color: '#7B7B7B',
     fontSize: 16,
     fontFamily: 'BaiJamjuree-Bold',
     textDecorationLine: 'underline',
-    alignSelf:'flex-end'
-  },
-  close:{
     alignSelf:'flex-end',
+    marginRight: "5%",
   },
   header: {
     fontSize: 36,
@@ -126,8 +144,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     height: 40,
-    width:"100%",
-    height:54,
+    width: "90%",
+    height: 54,
     borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 20,
@@ -137,17 +155,17 @@ const styles = StyleSheet.create({
   },
   logInButton: {
     backgroundColor: "#FF8A48",
-    width:"100%",
-    height:54,
-    textAlign:'center',
-    alignItems:'center',
-    justifyContent:'center',
+    width: "90%",
+    height: 54,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 12,
     marginTop: 10,
   },
   logInButtonText: {
     color: 'white',
-    fontSize:22,
+    fontSize: 22,
     textAlign: 'center',
     fontFamily: 'BaiJamjuree-Bold',
   },
@@ -158,23 +176,28 @@ const styles = StyleSheet.create({
   },
   signUpSentence: {
     marginTop: 20,
-    fontSize:16,
-    color:'#B0B0B0',
+    fontSize: 16,
+    color: '#B0B0B0',
     fontFamily: 'BaiJamjuree-Bold',
   },
-  name:{
+  name: {
     alignSelf: 'flex-start',
     fontFamily: 'BaiJamjuree-Regular',
-    fontSize:16,
+    fontSize: 16,
     color: "#FF8A48",
-    marginBottom:10
+    marginBottom: 10
   },
   logo: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
+    width: screenWidth * 0.8,
     height: 31,
-    marginBottom:30,
     resizeMode: 'contain',
+  },
+  errorMessage: {
+    color: 'red',
+    marginBottom: 10,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
   }
 });

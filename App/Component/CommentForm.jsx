@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, Image, Text, TextInput, ActivityIndicator, Alert, TouchableOpacity, KeyboardAvoidingView, Dimensions, ScrollView } from "react-native";
 import { format } from 'date-fns';
 import { db } from '../../firebaseConfig';
 import { ref, push, set } from "firebase/database";
@@ -24,21 +24,21 @@ export default function CommentForm() {
   
       // Check if any field is empty
       if (!description || !starReview) {
-        Alert.alert("Warning", "Please fill in all fields.");
+        Alert.alert("คำเตือน", "กรุณากรอกข้อมูลให้ครบทุกช่อง");
         return;
       }
   
       // Show confirmation prompt
       Alert.alert(
-        "Confirmation",
-        "Are you sure you want to submit this comment?",
+        "ยืนยันการส่งความคิดเห็น",
+        "คุณแน่ใจหรือไม่ว่าต้องการจะส่งความคิดเห็นนี้",
         [
           {
-            text: "Cancel",
+            text: "ยกเลิก",
             style: "cancel"
           },
           {
-            text: "Submit",
+            text: "ยืนยัน",
             onPress: async () => {
               setLoading(true);
   
@@ -46,10 +46,10 @@ export default function CommentForm() {
               const commentRef = ref(db, 'comments' );
               const newCommentRef = push(commentRef);
               const cid = newCommentRef.key; // Generate unique comment ID
-              const timestamp = format(new Date(), "HH:mm EEEE, dd MMMM yyyy (zzzz)"); // Format the timestamp
+              const timestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss"); // Format the timestamp
               await set(newCommentRef, { cid, description, starReview, timestamp, username, placeName });
   
-              console.log("Comment submitted successfully!");
+              console.log("ส่งความคิดเห็นเรียบร้อยแล้ว!");
   
               // Clear input fields
               setDescription("");
@@ -62,67 +62,85 @@ export default function CommentForm() {
         ]
       );
     } catch (error) {
-      console.log("Failed to submit comment:", error.message);
-      setError(`Failed to submit comment: ${error.message}`);
+      console.log("ไม่สามารถส่งความคิดเห็นได้:", error.message);
+      setError(`ไม่สามารถส่งความคิดเห็นได้: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.close}>
-        <TouchableOpacity onPress={() => navigation.navigate("AppMapView_HomeScreen")}>
-          <Image source={CloseImage} />
-        </TouchableOpacity>
-      </View>
-      <Text h4 style={styles.header}>เพิ่มความคิดเห็น</Text>
-      <Text style={[styles.name, { textAlign: 'left' }]}>รายละเอียดความคิดเห็น</Text>
-      <TextInput
-        style={styles.inputContainer}
-        value={description}
-        placeholder="พิมพ์รายละเอียดความคิดเห็นที่นี้"
-        onChangeText={setDescription}
-      />
-      <Text style={[styles.name, { textAlign: 'left' }]}>คะแนนความคิดเห็น</Text>
-      <Stars
-        default={starReview}
-        count={5}
-        half={true}
-        fullStar={require('../../assets/images/starFilled.png')}
-        emptyStar={require('../../assets/images/starEmpty.png')}
-        halfStar={require('../../assets/images/starHalf.png')}
-        starSize={30} // Adjust the size of the stars
-        update={(val) => setStarReview(val)} // Update starReview state
-        fullStarColor="#FF8A48"
-        halfStarColor="#FF8A48"
-        starStyle={{ padding: 2 }} // Adjust the padding of the stars
-      />
-      {error && <Text style={styles.errorMessage}>{error}</Text>}
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <TouchableOpacity style={styles.submitButton} onPress={submitComment}>
-          <Text style={styles.submitButtonText}>บันทึก</Text>
-        </TouchableOpacity>
-      )}
-      <KeyboardAvoidingView
-        style={{ flex: 1, marginTop: 70, alignItems: 'center', paddingHorizontal: 30, fontFamily: 'BaiJamjuree-Medium' }}
-        behavior={Platform.OS === 'android' ? 'padding' : 'height'} >
-        <Image source={Logo} style={styles.logo} />
-      </KeyboardAvoidingView>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 70,
-    alignItems: "center",
-    paddingHorizontal: 30,
-    fontFamily: 'BaiJamjuree-Medium'
-  },
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          <View style={styles.close}>
+            <TouchableOpacity onPress={() => navigation.navigate("AppMapView_HomeScreen")}>
+              <Image source={CloseImage} />
+            </TouchableOpacity>
+          </View>
+          <Text h4 style={styles.header}>เพิ่มความคิดเห็น</Text>
+          <Text style={[styles.name, { textAlign: 'left' }]}>รายละเอียดความคิดเห็น</Text>
+          <TextInput
+            style={styles.inputContainer}
+            value={description}
+            placeholder="พิมพ์รายละเอียดความคิดเห็นที่นี้"
+            onChangeText={setDescription}
+          />
+          <Text style={[styles.name, { textAlign: 'left' }]}>คะแนนความคิดเห็น</Text>
+          <Stars
+            default={starReview}
+            count={5}
+            half={true}
+            fullStar={require('../../assets/images/starFilled.png')}
+            emptyStar={require('../../assets/images/starEmpty.png')}
+            halfStar={require('../../assets/images/starHalf.png')}
+            starSize={30} // Adjust the size of the stars
+            update={(val) => setStarReview(val)} // Update starReview state
+            fullStarColor="#FF8A48"
+            halfStarColor="#FF8A48"
+            starStyle={{ padding: 2 }} // Adjust the padding of the stars
+          />
+          {error && <Text style={styles.errorMessage}>{error}</Text>}
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <TouchableOpacity style={styles.submitButton} onPress={submitComment}>
+              <Text style={styles.submitButtonText}>บันทึก</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+       </ScrollView>
+       <View style={styles.logoContainer}>
+         <Image source={Logo} style={styles.logo} />
+       </View>
+     </KeyboardAvoidingView>
+   );
+ };
+ 
+ const screenWidth = Dimensions.get("window").width;
+ const screenHeight = Dimensions.get("window").height;
+ 
+ const styles = StyleSheet.create({
+   scrollContainer: {
+     flexGrow: 1,
+     justifyContent: 'center',
+   },
+   logoContainer: {
+     alignItems: 'center',
+     marginBottom: 20,
+   },
+   container: {
+     flex: 1,
+     alignItems: "center",
+     paddingHorizontal: 20,
+     paddingTop: screenHeight * 0.05,
+     fontFamily: 'BaiJamjuree-Medium'
+   },
+   logo: {
+     width: screenWidth * 0.8,
+     height: 31,
+     resizeMode: 'contain',
+   },
   header: {
     fontSize: 36,
     color: "#FF8A48",
@@ -166,14 +184,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center',
     fontFamily: 'BaiJamjuree-Bold',
-  },
-  logo: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 31,
-    marginBottom: 30,
-    resizeMode: 'contain',
   },
   close: {
     alignSelf: 'flex-end',

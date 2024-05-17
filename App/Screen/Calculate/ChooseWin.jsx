@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     position: "absolute",
-    top: 52,
+    top: 12,
     right: 12,
     zIndex: 20,
   },

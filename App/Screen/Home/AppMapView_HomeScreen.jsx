@@ -68,7 +68,7 @@ export default function AppMapView_HomeScreen() {
     getCurrentLocation();
     if (myLocation && places.length > 0) {
       findClosestMarker();
-      console.log("Have MyLocati0on" , myLocation)
+      console.log("Have MyLocation" , myLocation)
       console.log("can find Closest", closestMarker)
     }
     
@@ -239,13 +239,13 @@ export default function AppMapView_HomeScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.menuContainer}>
         <HamburgerMenu isOpen={menuOpen} onPress={toggleMenu} />
       </View>
         {menuOpen && (
           <View style={styles.menu}>
-            <TouchableOpacity onPress={() => navigation.navigate('LogInScreen')}>
+            <TouchableOpacity onPress={() => navigation.navigate('LogInScreen_HamMenu')}>
               <Text style={styles.loginText}>เข้าสู่ระบบ</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Howto')}>
@@ -254,7 +254,7 @@ export default function AppMapView_HomeScreen() {
             <TouchableOpacity onPress={() => navigation.navigate('RateService')}>
               <Text style={styles.RateServiceText}>อัตราการคิดค่าบริการ</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Report')}>
+            <TouchableOpacity onPress={() => navigation.navigate('ReportApp')}>
               <Text style={styles.ReportText}>รายงาน</Text>
             </TouchableOpacity>
           </View>
@@ -363,7 +363,7 @@ export default function AppMapView_HomeScreen() {
           <Text style={styles.nearButton.text}>ใกล้ที่สุด</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -432,11 +432,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   buttomContainer: {
-    position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    bottom: 20, // Display at the bottom of the screen
-    width: '100%',
+    position: "absolute",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 750,
+    width: "100%",
   },
   rightButton: {
     position: "absolute",
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     bottom: 1.1,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    zIndex: 9999,
+    zIndex: 999,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
