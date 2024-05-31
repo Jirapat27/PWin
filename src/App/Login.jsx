@@ -20,13 +20,15 @@ const Login = ({ history }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log('Successfully logged in:', userCredential.user.email);
-
+  
         const userRef = databaseRef(db, `users/${userCredential.user.uid}`);
         onValue(userRef, (snapshot) => {
           const userData = snapshot.val();
           if (userData && userData.status === 'admin') {
             setEmail(userCredential.user.email); // Set the email in context
             history.push('/home');
+            // Show success message
+            window.alert('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับ');
           } else {
             alert('คุณไม่ใช่ admin');
           }
@@ -34,7 +36,7 @@ const Login = ({ history }) => {
           console.error('Error reading user data:', error);
           alert('เกิดข้อผิดพลาดในการตรวจสอบสถานะผู้ใช้');
         });
-
+  
         // Cleanup the onValue listener
         return () => {
           off(userRef);
@@ -42,7 +44,11 @@ const Login = ({ history }) => {
       })
       .catch((error) => {
         console.log('Error logging in:', error.message);
-        alert('เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
+        if (error.code === 'auth/user-not-found') { // Check if user not found
+          window.alert('ไม่พบบัญชีของคุณ'); // Show error message
+        } else {
+          alert('เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
+        }
       });
   };
 

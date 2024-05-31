@@ -25,9 +25,9 @@ const SignOut = () => {
     signOut(auth)
       .then(() => {
         console.log("sign out successful");
-        
         history.push("/");
-         // Redirect to login page after sign out
+        // Redirect to login page after sign out
+        window.alert("ออกจากระบบสำเร็จแล้ว"); // Show success message
       })
       .catch((error) => console.log(error));
   };
