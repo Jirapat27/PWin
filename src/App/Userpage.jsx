@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { databaseRef, onValue, db } from '../Config';
-
+import { Card } from "@material-tailwind/react";
+import { databaseRef, db, onValue, off } from "../Config";
+import { TrashIcon } from "@heroicons/react/24/solid";
 const Userpage = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
+    const usersRef = databaseRef(db, 'users');
     const fetchUserData = () => {
-      const usersRef = databaseRef(db, 'users');
       onValue(usersRef, (snapshot) => {
         const userData = snapshot.val();
         if (userData) {
           // Convert object to array for easier mapping
           const userArray = Object.values(userData);
           setUsers(userArray);
+        } else {
+          setUsers([]);
         }
       });
     };
@@ -21,51 +24,40 @@ const Userpage = () => {
 
     // Cleanup function
     return () => {
-      const usersRef = databaseRef(db, 'users');
-      onValue(usersRef, null);
+      off(usersRef); // Stop listening to changes
     };
   }, []);
 
   return (
-    <div className="m-auto items-center text-center">
-      <h1 className="justify-center mt-3 mb-3 font-bold text-3xl">Users List</h1>
-      <table className="w-3/4 m-auto bg-slate-300 bg-h-200 rounded-xl">
-        <thead className="">
-          <tr className="bg-orange-500">
-            <th className="w-auto h-12 text-white">Image</th>
-            <th className="w-auto h-12 text-white">ID</th>
-            <th className="w-auto h-12 text-white">Email</th>
-            <th className="w-auto h-12 text-white">UserName</th>
-            <th className="w-auto h-12 text-white">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.uid}>
-              <td className="py-1">
-                <img
-                  className="h-20 w-20 m-auto rounded-md"
-                  src={user.profilePic}
-                  alt={user.username}
-                />
-              </td>
-              <td>{user.uid}</td>
-              <td>{user.email}</td>
-              <td>{user.username}</td>
-              <td>
-                <div className="pad-2">
-                  <button
-                    className="bg-orange-500 px-3 py-1 rounded-xl text-white"
-                    //onClick={() => handleOnDelete(user.uid)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
+    <div className="m-auto items-center text-center mt-10 mb-10">
+      <Card className="h-full w-full overflow-scroll">
+        <table className="w-full min-w-max table-auto text-left">
+          <thead>
+            <tr className="p-4 bg-slate-100">
+              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">ID</th>
+              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Email</th>
+              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">UserName</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.uid}>
+                <td className="p-4">{user.uid}</td>
+                <td className="p-4">{user.email}</td>
+                <td className="p-4">{user.username}</td>
+                <td>
+                  <div className="p-7 m-5 items-center text-center">
+                    <button className="justify-center bg-orange-400 rounded-lg w-10 h-10">
+                      <TrashIcon className="h-7 w-8 pl-2 text-white" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Card>
     </div>
   );
 };

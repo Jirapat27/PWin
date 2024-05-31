@@ -25,7 +25,9 @@ const SignOut = () => {
     signOut(auth)
       .then(() => {
         console.log("sign out successful");
-        history.push("/"); // Redirect to login page after sign out
+        
+        history.push("/");
+         // Redirect to login page after sign out
       })
       .catch((error) => console.log(error));
   };
@@ -34,7 +36,7 @@ const SignOut = () => {
     <div>
       {authUser ? (
         <>
-          <p>{`Signed In as ${authUser.email}`}</p>
+          <p>{`เข้าสู่ระบบในนาม ${authUser.email}`}</p>
           <button onClick={userSignOut}>Sign Out</button>
         </>
       ) : (

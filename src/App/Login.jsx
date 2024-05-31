@@ -1,29 +1,48 @@
-import React, { useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../Config";
+import { useState, useContext } from 'react';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { auth, db, databaseRef, onValue, off } from '../Config';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { withRouter } from 'react-router-dom';
+import { EmailContext } from '../EmailContext'; // Import the EmailContext
 
 const Login = ({ history }) => {
+  const { setEmail } = useContext(EmailContext); // Use the EmailContext
+  const [email, setEmailInput] = useState('');
+  const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
 
   const handleVisible = () => {
     setVisible((prev) => !prev);
   };
 
-  const signIn = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log("Successfully logged in:", userCredential.user.email);
-        // Redirect to homepage upon successful login
-        history.push("/home");
+        console.log('Successfully logged in:', userCredential.user.email);
+
+        const userRef = databaseRef(db, `users/${userCredential.user.uid}`);
+        onValue(userRef, (snapshot) => {
+          const userData = snapshot.val();
+          if (userData && userData.status === 'admin') {
+            setEmail(userCredential.user.email); // Set the email in context
+            history.push('/home');
+          } else {
+            alert('คุณไม่ใช่ admin');
+          }
+        }, (error) => {
+          console.error('Error reading user data:', error);
+          alert('เกิดข้อผิดพลาดในการตรวจสอบสถานะผู้ใช้');
+        });
+
+        // Cleanup the onValue listener
+        return () => {
+          off(userRef);
+        };
       })
       .catch((error) => {
-        setError(error.message);
+        console.log('Error logging in:', error.message);
+        alert('เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
       });
   };
 
@@ -31,7 +50,7 @@ const Login = ({ history }) => {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-orange-500">
-          PWin Dashboard
+          LOGIN
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -39,7 +58,7 @@ const Login = ({ history }) => {
           <form className="space-y-6">
             <div>
               <label
-                htmlFor="username"
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
                 Email:
@@ -50,7 +69,7 @@ const Login = ({ history }) => {
                   id="email"
                   name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmailInput(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 mt-4 rounded-md bg-gray-200 sm:text-sm"
                 />
               </div>
@@ -65,7 +84,7 @@ const Login = ({ history }) => {
               </label>
               <div className="mt-1 relative">
                 <input
-                  type={visible ? "text" : "password"}
+                  type={visible ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={password}
@@ -88,13 +107,11 @@ const Login = ({ history }) => {
               </div>
             </div>
 
-            {error && <p className="text-red-500">{error}</p>}
-
             <div>
               <button
                 type="submit"
                 className="group relative w-full h-[50px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-orange-500 hover:bg-orange-700"
-                onClick={signIn}
+                onClick={handleSubmit}
               >
                 LOGIN
               </button>
