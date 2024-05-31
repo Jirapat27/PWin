@@ -1,6 +1,6 @@
 // Config.js
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref as databaseRef, onValue } from "firebase/database";
+import { getDatabase, ref as databaseRef, onValue, off } from "firebase/database";
 import { getAuth } from 'firebase/auth'; // Remove getReactNativePersistence import
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage'; // Remove ref import, it's not needed here
@@ -22,4 +22,4 @@ const db = getDatabase(app);
 const firestore = getFirestore(app);
 const storage = getStorage(app);
 
-export { auth, db, firestore, databaseRef, onValue, storage }; // Remove uploadBytes, storageRef, getDownloadURL exports
+export { auth, db, firestore, databaseRef, onValue, storage, off }; // Remove uploadBytes, storageRef, getDownloadURL exports

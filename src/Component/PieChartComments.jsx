@@ -1,12 +1,7 @@
 import React from 'react'
-import {
-    Card,
-    CardBody,
-    CardHeader,
-    Typography,
-  } from "@material-tailwind/react";
-  import Chart from "react-apexcharts";
-  import { StarIcon } from "@heroicons/react/24/outline";
+import { Card, CardBody, CardHeader, Typography, } from "@material-tailwind/react";
+import Chart from "react-apexcharts";
+import { StarIcon } from "@heroicons/react/24/outline";
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
   const chartConfig = {
@@ -33,8 +28,6 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
     },
   };
 export default function PieChartComments() {
-
-    
   return (
     <Card className='rounded-3xl'>
       <Link to={"comment"}>
@@ -58,8 +51,6 @@ export default function PieChartComments() {
           >
             แสดงระดับความพึงพอใจในจุดบริการวิน
           </Typography>
-
-
         </div>
       </CardHeader>
       </Link>

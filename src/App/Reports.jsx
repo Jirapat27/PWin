@@ -1,40 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { databaseRef, onValue, db } from '../Config';
+import { databaseRef, db, onValue, off } from "../Config";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { Card } from "@material-tailwind/react";
 
 const Reports = () => {
   const [reports, setReports] = useState([]);
-  const [filteredPlaceName, setFilteredPlaceName] = useState('');
-
-  useEffect(() => {
-    const fetchReportsData = () => {
-      const reportsRef = databaseRef(db, 'Reports');
-      onValue(reportsRef, (snapshot) => {
-        const reportsData = snapshot.val();
-        if (reportsData) {
-          const reportsArray = Object.values(reportsData);
-          setReports(reportsArray);
-        }
-      });
-    };
-
-    fetchReportsData();
-
-    return () => {
-      const reportsRef = databaseRef(db, 'Reports');
-      onValue(reportsRef, null);
-    };
-  }, []);
-
-  const handleFilter = (event) => {
-    setFilteredPlaceName(event.target.value);
-  };
-
-  const filteredReports = reports.filter(
-    (report) =>
-      report.placename.toLowerCase().includes(filteredPlaceName.toLowerCase())
-  );
+  const [filteredType, setFilteredType] = useState('');
 
   const getTypeText = (types) => {
     const typeMap = {
@@ -50,13 +21,43 @@ const Reports = () => {
       .join(", ");
   };
 
+  useEffect(() => {
+    const reportsRef = databaseRef(db, 'Reports');
+    const fetchReportsData = () => {
+      onValue(reportsRef, (snapshot) => {
+        const reportsData = snapshot.val();
+        if (reportsData) {
+          const reportsArray = Object.values(reportsData);
+          setReports(reportsArray);
+        } else {
+          setReports([]);
+        }
+      });
+    };
+
+    fetchReportsData();
+
+    return () => {
+      off(reportsRef); // Stop listening to changes
+    };
+  }, []);
+
+  const handleFilter = (event) => {
+    setFilteredType(event.target.value);
+  };
+
+  const filteredReports = reports.filter(
+    (report) =>
+      getTypeText(report.types).toLowerCase().includes(filteredType.toLowerCase())
+  );
+
   return (
-    <div className=" items-center text-center p-20 ml-180 mb-5">
-      <div className="mb-4 justify-end">
+    <div className="items-center text-center p-20 ml-180 mb-5">
+      <div className="mb-4 flex justify-end">
         <input
           type="text"
-          placeholder="Filter by place name"
-          value={filteredPlaceName}
+          placeholder="Filter by type"
+          value={filteredType}
           onChange={handleFilter}
           className="flex-auto p-2 border rounded"
         />

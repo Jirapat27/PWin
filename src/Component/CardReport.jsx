@@ -1,40 +1,31 @@
 import { FlagIcon } from "@heroicons/react/24/outline";
-
-import {
-  Card,
-  CardBody,
-  Typography,
-  CardHeader,
-} from "@material-tailwind/react";
+import { Card, CardBody, Typography, CardHeader } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { databaseRef, db, onValue } from "../Config";
+import { databaseRef, db, onValue, off } from "../Config";
 
-export function CardReport() {
-  const [totalReport, settotalReport] = useState(0); // Initialize totalWin state with 0
+export function CardReport(){
+  const [totalReport, settotalReport] = useState(0); // Initialize totalReport state with 0
 
   useEffect(() => {
-    const fetchWins = () => {
-      const reportRef = databaseRef(db, "Reports"); // Reference to the "MarkWin" collection
+    const reportRef = databaseRef(db, "Reports");
+
+    const fetchReports = () => {
       onValue(reportRef, (snapshot) => {
-        const reportsData = snapshot.val(); // Data from the "MarkWin" collection
+        const reportsData = snapshot.val();
         if (reportsData) {
-          // If there is data, get the number of wins and update the state
           const numberReport = Object.values(reportsData).length;
           settotalReport(numberReport);
-
-          // Log the total number of wins to the console
           console.log("Total number of reports:", numberReport);
         }
       });
     };
 
-    fetchWins();
+    fetchReports();
 
     // Cleanup function
     return () => {
-      const winsRef = databaseRef(db, "Reports");
-      onValue(winsRef, null);
+      off(reportRef);
     };
   }, []);
 
@@ -60,7 +51,7 @@ export function CardReport() {
           </div>
         </CardHeader>
         <CardBody className=" flex flex-col md:items-center p-2">
-          {/* Display the number of wins */}
+          {/* Display the number of reports */}
           <Typography className="font-bold text-7xl text-gray-">{totalReport}</Typography>
         </CardBody>
       </Card>

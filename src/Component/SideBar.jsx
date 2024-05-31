@@ -1,14 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
-import {
-  PresentationChartBarIcon,
-  UsersIcon,
-  FlagIcon,
-  MapPinIcon,
-  PowerIcon,
-  ChatBubbleBottomCenterTextIcon,
-} from "@heroicons/react/24/solid";
+import { PresentationChartBarIcon, UsersIcon, FlagIcon, MapPinIcon, PowerIcon, ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/solid";
 
 export function SideBar() {
   return (

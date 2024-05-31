@@ -14,34 +14,38 @@ import HeaderAdmin from './Component/HeaderAdmin';
 import { SideBar } from './Component/SideBar';
 import Reports from './App/Reports';
 
+import { EmailProvider } from './EmailContext'; // Import EmailProvider
+
 const App = () => {
   const location = useLocation();
 
   return (
     <React.StrictMode>
-      <Route exact path="/" component={Login} />
-      {location.pathname !== '/' && (
-        <>
-          <HeaderAdmin />
-          <div className="flex">
-            <SideBar />
-            <Switch>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        {location.pathname !== '/' && (
+          <>
+            <HeaderAdmin />
+            <div className="flex">
+              <SideBar />
               <Route path="/home" component={Homepage} />
               <Route path="/markwin" component={MarkWin} />
               <Route path="/user" component={Userpage} />
               <Route path="/comment" component={Comments} />
               <Route path="/reports" component={Reports} />
-            </Switch>
-          </div>
-        </>
-      )}
+            </div>
+          </>
+        )}
+      </Switch>
     </React.StrictMode>
   );
 };
 
 ReactDOM.render(
   <Router>
-    <App />
+    <EmailProvider> {/* Wrap App with EmailProvider */}
+      <App />
+    </EmailProvider>
   </Router>,
   document.getElementById('root')
 );

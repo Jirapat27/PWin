@@ -1,29 +1,22 @@
 import { useEffect, useState } from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-import { databaseRef, db, onValue} from "../Config";
-
-import {
-  Card,
-  CardBody,
-  Typography,
-  CardHeader,
-} from "@material-tailwind/react";
+import { databaseRef, db, onValue, off } from "../Config";
+import { Card, CardBody, Typography, CardHeader, } from "@material-tailwind/react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 export function CardWin() {
   const [totalWin, setTotalWin] = useState(0); // Initialize totalWin state with 0
 
   useEffect(() => {
+    const winsRef = databaseRef(db, "MarkWin"); // Reference to the "MarkWin" collection
+
     const fetchWins = () => {
-      const winsRef = databaseRef(db, "MarkWin"); // Reference to the "MarkWin" collection
       onValue(winsRef, (snapshot) => {
         const winsData = snapshot.val(); // Data from the "MarkWin" collection
         if (winsData) {
           // If there is data, get the number of wins and update the state
           const numberWin = Object.values(winsData).length;
           setTotalWin(numberWin);
-
-          // Log the total number of wins to the console
           console.log("Total number of wins:", numberWin);
         }
       });
@@ -33,8 +26,7 @@ export function CardWin() {
 
     // Cleanup function
     return () => {
-      const winsRef = databaseRef(db, "MarkWin");
-      onValue(winsRef, null);
+      off(winsRef);
     };
   }, []);
 
