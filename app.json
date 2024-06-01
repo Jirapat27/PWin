@@ -4,11 +4,10 @@
     "slug": "PWin-App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/Win-Mark.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/Logo.png",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -19,15 +18,20 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/Logo.png",
         "backgroundColor": "#ffffff"
       },
-      "config":{
-        "googleMaps":{
-          "apiKey":"AIzaSyAO1Ne2CHMLgMd6bncyGiHMA8SrZtqxA9c"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAO1Ne2CHMLgMd6bncyGiHMA8SrZtqxA9c"
         }
-      }
-          
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ],
+      "package": "com.nawnnnn1.PWinApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,7 +42,13 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow P'Win App to use your location."
         }
-      ]
-    ]
+      ],
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "affcfb41-627a-4722-827a-cede9847d912"
+      }
+    }
   }
 }
