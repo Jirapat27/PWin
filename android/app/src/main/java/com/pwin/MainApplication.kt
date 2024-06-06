@@ -1,4 +1,4 @@
-package com.pwin
+package com.CodInf.PWin
 
 import android.app.Application
 import com.facebook.react.PackageList
