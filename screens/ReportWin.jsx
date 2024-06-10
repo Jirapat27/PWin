@@ -65,7 +65,7 @@ const ReportWin = ({ navigation, route }) => {
   
       // Check if the problem type is selected
       if (formData.selectedCategory === '---') {
-        Alert.alert('คำเตือน', 'กรุณาเลือกหัวข้อปัญหาก่อนทำการส่งงายงาน');
+        Alert.alert('คำเตือน', 'กรุณาเลือกหัวข้อปัญหาก่อนทำการส่งรายงาน');
         return;
       }
   
