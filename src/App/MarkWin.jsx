@@ -29,9 +29,9 @@ const MarkWins = () => {
   }, []);
 
   return (
-    <div className="items-center text-center mt-10 mb-10">
+    <div className="m-auto items-center text-center mt-10 mb-10">
       <Card className="h-full w-full overflow-scroll">
-        <table className="w-full min-w-max table-auto text-left">
+        <table className="w-full min-w-max table-auto text-center">
           <thead>
             <tr className="p-4 bg-slate-100">
               <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Image</th>
@@ -39,6 +39,7 @@ const MarkWins = () => {
               <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Description</th>
               <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Latitude</th>
               <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Longitude</th>
+              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Username</th>
               <th className=""></th>
             </tr>
           </thead>
@@ -49,6 +50,7 @@ const MarkWins = () => {
                   {win.images && win.images.length > 0 && (
                     <img
                       className="h-20 w-20 m-auto rounded-md"
+                      style={{ width: '300px', height: '300px' }} // Custom width and height
                       src={win.images[0]}
                       alt={win.name}
                     />
@@ -58,6 +60,7 @@ const MarkWins = () => {
                 <td className="p-7">{win.description}</td>
                 <td className="p-7">{win.latitude}</td>
                 <td className="p-7">{win.longitude}</td>
+                <td className="p-7">{win.username}</td>
                 <td>
                   <div className="p-7 mt-5">
                     <button className="bg-orange-400 px-3 py-1 rounded-lg w-10 h-10">

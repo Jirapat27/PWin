@@ -42,7 +42,7 @@ const Comments = () => {
   const sortedComments = [...filteredComments].sort((a, b) => b.timestamp - a.timestamp);
 
   return (
-    <div className="items-center text-center p-20 ml-180 mb-5">
+    <div className="m-auto items-center text-center mt-10 mb-10">
       <div className="mb-4 flex justify-end">
         <input
           type="text"
