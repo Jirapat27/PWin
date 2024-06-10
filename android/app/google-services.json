@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1082162021754",
+    "firebase_url": "https://pwin-da6c3-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "pwin-da6c3",
+    "storage_bucket": "pwin-da6c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082162021754:android:7d13ce52fa560b5a6482c3",
+        "android_client_info": {
+          "package_name": "com.CodInf.PWin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082162021754-hpt6g6k5vompdo33njadv1n3sfsu10bc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-1cFpTJm9vPVRfC-Al8oH8WNAwbd8uTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082162021754-hpt6g6k5vompdo33njadv1n3sfsu10bc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
