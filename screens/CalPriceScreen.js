@@ -7,6 +7,7 @@ import MapViewStyle from '../MapViewStyle.json';
 
 import MarkWin from '../images/Win-Mark.png'; // Import the image for the origin marker
 import myCurrentLocation from '../images/myCurrentLocation.png';
+import backButton from '../images/backButton.png';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyC2PzPPkZ7--zDeI8azWxX4jHkJfQBahFY';
 const windowHeight = Dimensions.get('window').height;
@@ -91,6 +92,9 @@ const CalPriceScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+    <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <Image source={backButton} style={[styles.icon]} />
+    </TouchableOpacity>
       <View style={styles.head}>
         <Text style={styles.title}>คำนวณราคา</Text>
         <Text style={styles.title}>จาก: {winData.name}</Text>
@@ -151,6 +155,16 @@ const CalPriceScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1,
+  },
+  icon:{
+    width: 40,
+    height: 40,
   },
   head: {
     flexDirection: 'column',
