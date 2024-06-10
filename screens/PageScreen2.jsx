@@ -5,18 +5,6 @@ import backButton from '../images/backButton.png';
 
 const { width } = Dimensions.get('window');
 
-const SlideItem = ({ item }) => {
-  return (
-    <View style={styles.slide}>
-      <Text style={styles.slideText}>{item.text}</Text>
-      <Image 
-        source={item.image} 
-        style={styles.image}
-      />
-    </View>
-  );
-};
-
 const PageScreen2 = ({ navigation, size }) => {
   const data = [
     { text: 'หากต้องการคำนวณราคาบริการวินมอเตอร์ไซค์บนแผนที่ ให้ทำการกดปุ่มรูปเหรียญ ด้านขวามือที่เราได้วงเอาไว้ ', image: require('../images/แนะนำคำนวณราคา.png') },

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Image, PermissionsAndroid, Platform, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView, Dimensions, TextInput, Alert, Linking, BackHandler } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { createMapLink } from 'react-native-open-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import MapViewStyle from '../MapViewStyle.json';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
